@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using System.Linq;
-using System.Text;
 
 namespace Data
 {
@@ -12,23 +10,28 @@ namespace Data
     {
         public static void Initialize(BookContext context)
         {
+            context.Database.EnsureCreated();
+            
             if (!context.Books.Any())
             {
                 context.Books.AddRange(
                     new Book
                     {
                         Title = "first book",
-                        Description = "first Description"
+                        DescriptionShort = "first Description",
+                        DescriptionLong = "first long description this fucking book"
                     },
                     new Book
                     {
                         Title = "second book",
-                        Description = "second Description"
+                        DescriptionShort = "second Description",
+                        DescriptionLong = "second long description this fucking book"
                     },
                     new Book
                     {
                         Title = "third book",
-                        Description = "third Description"
+                        DescriptionShort = "third Description",
+                        DescriptionLong = "third long description this fucking book"
                     }
                 );
                 context.SaveChanges();

@@ -6,6 +6,7 @@ namespace Data
     {
         public int Id { set; get; }
         public string Title { set; get; }
-        public string Description { set; get; }
+        public string DescriptionShort { set; get; }
+        public string DescriptionLong { set; get; }
     }
 }

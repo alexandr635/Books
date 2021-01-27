@@ -1,0 +1,23 @@
+﻿@model Data.Book
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Книги</title>
+</head>
+<body>
+    <h3>Книги</h3>
+    <table>
+        <tr>
+            <td>Заголовок</td>
+            <td>Описание</td>
+        </tr>
+        <tr>
+            <td>@Model.Title</td>
+            <td>@Model.DescriptionLong</td>
+        </tr>
+    </table>
+</body>
+</html>

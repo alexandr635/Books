@@ -1,7 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Data
 {
@@ -10,8 +7,7 @@ namespace Data
         public BookContext(DbContextOptions<BookContext> options)
             : base(options)
         {
-            //исключение
-            Database.EnsureCreated();
+            
         }
 
         public DbSet<Book> Books { set; get; }
