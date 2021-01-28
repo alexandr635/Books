@@ -1,0 +1,30 @@
+﻿@model Data.Book
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Книги</title>
+</head>
+<body>
+    <h3>Изменение книги</h3>
+    <form method="post">
+        <input type="hidden" value="@Model.Id" name="Id"/>
+        <p>
+            <label>Title</label>
+            <input type="text" value="@Model.Title" name="Title" required/>
+        </p>
+        <p>
+            <label>Short description</label>
+            <input type="text" value="@Model.DescriptionShort" name="DescriptionShort" required/>
+        </p>
+        <p>
+            <label>Long description</label>
+            <input type="text" value="@Model.DescriptionLong" name="DescriptionLong" required/>
+        </p>
+        <br /><br />
+        <button>Изменить книгу</button>
+    </form>
+</body>
+</html>

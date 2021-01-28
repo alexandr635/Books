@@ -9,21 +9,26 @@
 </head>
 <body>
     <h3>Книги</h3>
-    <table>
-        <tr>
-            <td>Id</td>
-            <td>Заголовок</td>
-            <td>Описание</td>
-            <td></td>
-        </tr>
-        @foreach (var book in Model)
+    <form method="get" action="~/AddBook">
+        <table>
+            <tr>
+                <td>Id</td>
+                <td>Заголовок</td>
+                <td>Описание</td>
+                <td></td>
+            </tr>
+            @foreach (var book in Model)
             {
                 <tr>
                     <td>@book.Id</td>
                     <td><a href="~/Home/Book/@book.Id">@book.Title</a></td>
                     <td>@book.DescriptionShort</td>
+                    <td><a href="~/Home/Change/@book.Id">Изменить</a></td>
                 </tr>
             }
-    </table>
+        </table>
+        <br />
+        <button>Добавить книгу</button>
+    </form>
 </body>
 </html>
