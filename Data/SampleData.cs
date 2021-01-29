@@ -1,4 +1,4 @@
-﻿
+﻿using Microsoft.EntityFrameworkCore;
 using System.Linq;
 
 namespace Data
@@ -10,6 +10,7 @@ namespace Data
     {
         public static void Initialize(BookContext context)
         {
+            context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
             
             if (!context.Books.Any())

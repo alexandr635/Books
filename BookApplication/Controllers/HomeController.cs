@@ -1,22 +1,32 @@
 ﻿using Data;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq;
+using Application;
+using System;
 
 namespace WebAPI.Controllers
 {
     // new controller
     public class HomeController : Controller
     {
-        BookContext db;
+        public BookContext db;
 
         public HomeController(BookContext context)
         {
             db = context;
+            DBQuery.InitDB(context);
         }
 
         public IActionResult Index()
         {
-            return View(db.Books.ToList());
+            try
+            {
+                var listOfBook = DBQuery.GetListOfBook();
+                return View(listOfBook);
+            }
+            catch (Exception ex)
+            {
+                return View(ex.Message);
+            }
         }
 
         [Route("Home/Book/{Id?}")]
@@ -26,7 +36,15 @@ namespace WebAPI.Controllers
             if (id == null)
                 return RedirectToAction("Index");
             ViewBag.BookId = id;
-            return View(db.Books.FirstOrDefault(b => b.Id == id));
+            try
+            {
+                Book book = DBQuery.GetBook(id);
+                return View(book);
+            }
+            catch (Exception ex)
+            {
+                return View(ex.Message);
+            }
         }
 
         [Route("AddBook")]
@@ -40,9 +58,16 @@ namespace WebAPI.Controllers
         [HttpPost]
         public string AddBook(Book book)
         {
-            db.Books.Add(book);
-            db.SaveChanges();
-            return "Книга добавлена";
+            try
+            {
+                DBQuery.AddBook(book);
+                return "Книга добавлена";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+            
         }
 
 
@@ -53,19 +78,30 @@ namespace WebAPI.Controllers
             if (id == null)
                 return RedirectToAction("Index");
             ViewBag.BookId = id;
-            return View(db.Books.FirstOrDefault(b => b.Id == id));
+            try
+            {
+                Book book = DBQuery.GetBook(id);
+                return View(book);
+            }
+            catch (Exception ex)
+            {
+                return View(ex.Message);
+            }
         }
 
         [Route("Home/Change/{Id?}")]
         [HttpPost]
         public IActionResult Change(Book book)
         {
-            Book currentBook = db.Books.FirstOrDefault(b => b.Id == book.Id);
-            currentBook.Title = book.Title;
-            currentBook.DescriptionLong = book.DescriptionLong;
-            currentBook.DescriptionShort = book.DescriptionShort;
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                DBQuery.ChangeBook(book);
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return View(ex.Message);
+            }
         }
 
     }

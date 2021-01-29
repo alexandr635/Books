@@ -6,9 +6,7 @@ namespace Data
     {
         public BookContext(DbContextOptions<BookContext> options)
             : base(options)
-        {
-            
-        }
+        {}
 
         public DbSet<Book> Books { set; get; }
     }
