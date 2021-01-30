@@ -5,7 +5,6 @@ using System;
 
 namespace WebAPI.Controllers
 {
-    // new controller
     public class HomeController : Controller
     {
         public BookContext db;
@@ -13,6 +12,8 @@ namespace WebAPI.Controllers
         public HomeController(BookContext context)
         {
             db = context;
+
+            //change
             DBQuery.InitDB(context);
         }
 
@@ -20,7 +21,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                var listOfBook = DBQuery.GetListOfBook();
+                var listOfBook = DBQuery.GetBook();
                 return View(listOfBook);
             }
             catch (Exception ex)

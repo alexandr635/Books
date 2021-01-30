@@ -13,9 +13,8 @@ namespace BookApplication
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-
                 var context = services.GetRequiredService<BookContext>();
-                SampleData.Initialize(context);
+                context.Database.EnsureCreated();
             }
             host.Run();
         }
