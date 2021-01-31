@@ -1,27 +1,24 @@
-﻿using Data;
-using Microsoft.AspNetCore.Mvc;
-using Application;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using Application.Logic;
+using Application.DTO;
 
 namespace WebAPI.Controllers
 {
-    public class HomeController : Controller
+    public class BookController : Controller
     {
-        public BookContext db;
+        IDBQuery iDBQuery;
 
-        public HomeController(BookContext context)
+        public BookController(IDBQuery dBQuery)
         {
-            db = context;
-
-            //change
-            DBQuery.InitDB(context);
+            iDBQuery = dBQuery;
         }
 
         public IActionResult Index()
         {
             try
             {
-                var listOfBook = DBQuery.GetBook();
+                var listOfBook = iDBQuery.GetBook();
                 return View(listOfBook);
             }
             catch (Exception ex)
@@ -39,7 +36,7 @@ namespace WebAPI.Controllers
             ViewBag.BookId = id;
             try
             {
-                Book book = DBQuery.GetBook(id);
+                BookDTO book = iDBQuery.GetBook(id);
                 return View(book);
             }
             catch (Exception ex)
@@ -57,18 +54,17 @@ namespace WebAPI.Controllers
 
         [Route("AddBook")]
         [HttpPost]
-        public string AddBook(Book book)
+        public string AddBook(BookDTO book)
         {
             try
             {
-                DBQuery.AddBook(book);
+                iDBQuery.AddBook(book);
                 return "Книга добавлена";
             }
             catch (Exception ex)
             {
                 return ex.Message;
             }
-            
         }
 
 
@@ -81,7 +77,7 @@ namespace WebAPI.Controllers
             ViewBag.BookId = id;
             try
             {
-                Book book = DBQuery.GetBook(id);
+                BookDTO book = iDBQuery.GetBook(id);
                 return View(book);
             }
             catch (Exception ex)
@@ -92,11 +88,11 @@ namespace WebAPI.Controllers
 
         [Route("Home/Change/{Id?}")]
         [HttpPost]
-        public IActionResult Change(Book book)
+        public IActionResult Change(BookDTO book)
         {
             try
             {
-                DBQuery.ChangeBook(book);
+                iDBQuery.ChangeBook(book);
                 return RedirectToAction("Index");
             }
             catch (Exception ex)

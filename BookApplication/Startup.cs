@@ -5,6 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Data;
 using Microsoft.EntityFrameworkCore;
+using Application.Logic;
+using Application;
+using Data.Logic;
 
 namespace BookApplication
 {
@@ -21,6 +24,10 @@ namespace BookApplication
 {
             string connection = configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<BookContext>(options => options.UseSqlServer(connection));
+
+            services.AddScoped<IDBQuery, DBQuery>();
+            services.AddScoped<IWorkWithBook, WorkWithBook>();
+
             services.AddControllersWithViews();
         }
 
@@ -38,7 +45,7 @@ namespace BookApplication
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Book}/{action=Index}/{id?}");
             });
         }
     }
