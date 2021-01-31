@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Data.Logic
 {
     public interface IWorkWithBook
     {
-        List<Book> GetBook();
-        Book GetBook(int? id);
-        void AddBook(Book book);
-        void ChangeBook(Book book);
+        Task<List<Book>> GetBook();
+        Task<Book> GetBook(int? id);
+        Task AddBook(Book book);
+        Task ChangeBook(Book book);
     }
 }

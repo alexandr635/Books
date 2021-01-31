@@ -25,7 +25,7 @@ namespace BookApplication
             string connection = configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<BookContext>(options => options.UseSqlServer(connection));
 
-            services.AddScoped<IDBQuery, DBQuery>();
+            services.AddScoped<IBookQuery, BookQuery>();
             services.AddScoped<IWorkWithBook, WorkWithBook>();
 
             services.AddControllersWithViews();

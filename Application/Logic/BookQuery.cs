@@ -3,28 +3,29 @@ using Application.Logic;
 using Data;
 using Data.Logic;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Application
 {
-    public class DBQuery : IDBQuery
+    public class BookQuery : IBookQuery
     {
         IWorkWithBook iWorkWithBook;
 
-        public DBQuery(IWorkWithBook workWithBook)
+        public BookQuery(IWorkWithBook workWithBook)
         {
             iWorkWithBook = workWithBook;
         }
 
-        public BookDTO GetBook(int? id)
+        public async Task<BookDTO> GetBook(int? id)
         {
-            var book = iWorkWithBook.GetBook(id);
+            Book book = await iWorkWithBook.GetBook(id);
             BookDTO bookDTO = ConvertTo.BookDTO(book);
             return bookDTO;
         }
 
-        public List<BookDTO> GetBook()
+        public async Task<List<BookDTO>> GetBook()
         {
-            var listOfBook = iWorkWithBook.GetBook();
+            var listOfBook = await iWorkWithBook.GetBook();
             List<BookDTO> list = new List<BookDTO>();
             foreach (Book book in listOfBook)
                 list.Add(ConvertTo.BookDTO(book));
@@ -32,16 +33,16 @@ namespace Application
             return list;
         }
 
-        public void AddBook(BookDTO book)
+        public async Task AddBook(BookDTO book)
         {
             Book newBook = ConvertTo.Book(book);
-            iWorkWithBook.AddBook(newBook);
+            await iWorkWithBook.AddBook(newBook);
         }
 
-        public void ChangeBook(BookDTO book)
+        public async Task ChangeBook(BookDTO book)
         {
             Book changeBook = ConvertTo.Book(book);
-            iWorkWithBook.ChangeBook(changeBook);
+            await iWorkWithBook.ChangeBook(changeBook);
         }
     }
 }

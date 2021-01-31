@@ -2,23 +2,24 @@
 using System;
 using Application.Logic;
 using Application.DTO;
+using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
     public class BookController : Controller
     {
-        IDBQuery iDBQuery;
+        IBookQuery iDBQuery;
 
-        public BookController(IDBQuery dBQuery)
+        public BookController(IBookQuery dBQuery)
         {
             iDBQuery = dBQuery;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             try
             {
-                var listOfBook = iDBQuery.GetBook();
+                var listOfBook = await iDBQuery.GetBook();
                 return View(listOfBook);
             }
             catch (Exception ex)
@@ -29,14 +30,14 @@ namespace WebAPI.Controllers
 
         [Route("Home/Book/{Id?}")]
         [HttpGet]
-        public IActionResult Book(int? id)
+        public async Task<IActionResult> Book(int? id)
         {
             if (id == null)
                 return RedirectToAction("Index");
             ViewBag.BookId = id;
             try
             {
-                BookDTO book = iDBQuery.GetBook(id);
+                BookDTO book = await iDBQuery.GetBook(id);
                 return View(book);
             }
             catch (Exception ex)
@@ -54,11 +55,11 @@ namespace WebAPI.Controllers
 
         [Route("AddBook")]
         [HttpPost]
-        public string AddBook(BookDTO book)
+        public async Task<string> AddBook(BookDTO book)
         {
             try
             {
-                iDBQuery.AddBook(book);
+                await iDBQuery.AddBook(book);
                 return "Книга добавлена";
             }
             catch (Exception ex)
@@ -70,14 +71,14 @@ namespace WebAPI.Controllers
 
         [Route("Home/Change/{Id?}")]
         [HttpGet]
-        public IActionResult Change(int? id)
+        public async Task<IActionResult> Change(int? id)
         {
             if (id == null)
                 return RedirectToAction("Index");
             ViewBag.BookId = id;
             try
             {
-                BookDTO book = iDBQuery.GetBook(id);
+                BookDTO book = await iDBQuery.GetBook(id);
                 return View(book);
             }
             catch (Exception ex)
@@ -88,11 +89,11 @@ namespace WebAPI.Controllers
 
         [Route("Home/Change/{Id?}")]
         [HttpPost]
-        public IActionResult Change(BookDTO book)
+        public async Task<IActionResult> Change(BookDTO book)
         {
             try
             {
-                iDBQuery.ChangeBook(book);
+                await iDBQuery.ChangeBook(book);
                 return RedirectToAction("Index");
             }
             catch (Exception ex)

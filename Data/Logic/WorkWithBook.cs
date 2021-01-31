@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Data.Logic
 {
@@ -12,32 +13,36 @@ namespace Data.Logic
             this.bookContext = bookContext;
         }
 
-        public List<Book> GetBook()
+        public async Task<List<Book>> GetBook()
         {
-            var books = bookContext.Books.ToList();
+            var res = Task.Run( () => bookContext.Books.ToList());
+            List<Book> books = await res;
             return books;
         }
 
-        public Book GetBook(int? id)
+        public async Task<Book> GetBook(int? id)
         {
-            var book = bookContext.Books.FirstOrDefault(b => b.Id == id);
+            var res = Task.Run( () => bookContext.Books.FirstOrDefault(b => b.Id == id));
+            Book book = await res;
             return book;
         }
 
-        public void AddBook(Book book)
+        public async Task AddBook(Book book)
         {
-            bookContext.Books.Add(book);
-            bookContext.SaveChanges();
+            await Task.Run(() =>
+            {
+               bookContext.Books.Add(book);
+               bookContext.SaveChanges();
+            });
         }
 
-        public void ChangeBook(Book book)
+        public async Task ChangeBook(Book book)
         {
-            Book currentBook = bookContext.Books.FirstOrDefault(b => b.Id == book.Id);
-            currentBook.Title = book.Title;
-            currentBook.DescriptionLong = book.DescriptionLong;
-            currentBook.DescriptionShort = book.DescriptionShort;
-
-            bookContext.SaveChanges();
+            await Task.Run(() =>
+            {
+                bookContext.Entry(book).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                bookContext.SaveChanges();
+            });
         }
     }
 }
