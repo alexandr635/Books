@@ -27,6 +27,10 @@ namespace BookApplication
 
             services.AddScoped<IBookQuery, BookQuery>();
             services.AddScoped<IWorkWithBook, WorkWithBook>();
+            services.AddScoped<IAuthorQuery, AuthorQuery>();
+            services.AddScoped<IWorkWithAuthor, WorkWithAuthor>();
+            services.AddScoped<IWorkWithGenre, WorkWithGenre>();
+            services.AddScoped<IGenreQuery, GenreQuery>();
 
             services.AddControllersWithViews();
         }

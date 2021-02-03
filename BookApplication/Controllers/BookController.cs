@@ -69,7 +69,7 @@ namespace WebAPI.Controllers
         }
 
 
-        [Route("Home/Change/{Id?}")]
+        [Route("Home/ChangeBook/{Id?}")]
         [HttpGet]
         public async Task<IActionResult> Change(int? id)
         {
@@ -87,7 +87,7 @@ namespace WebAPI.Controllers
             }
         }
 
-        [Route("Home/Change/{Id?}")]
+        [Route("Home/ChangeBook/{Id?}")]
         [HttpPost]
         public async Task<IActionResult> Change(BookDTO book)
         {

@@ -1,0 +1,30 @@
+﻿@model IEnumerable<Application.DTO.GenreDTO>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Жанры</title>
+</head>
+<body>
+    <h3>Жанры</h3>
+    <form method="get" action="~/addGenre">
+        <table>
+            <tr>
+                <td>Id</td>
+                <td>Заголовок</td>
+                <td>Описание</td>
+                <td></td>
+            </tr>
+            @foreach (var genre in Model)
+            {
+                <tr>
+                    <td>@genre.Id</td>
+                    <td>@genre.GenreName</td>
+                    <td><a href="~/Change/@genre.Id">Изменить</a></td>
+                </tr>
+            }
+        </table>
+        <br />
+        <button>Добавить жанр</button>
+    </form>
+</body>
+</html>
