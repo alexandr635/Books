@@ -10,10 +10,10 @@ namespace Application.DTO
         public string DescriptionShort { get; set; }
         public string DescriptionLong { get; set; }
 
-        public Author Author { get; set; }
-        public Genre Genre { get; set; }
-        public List<Tag> Tags { get; set; }
-        public BookStatus BookStatus { get; set; }
+        public AuthorDTO AuthorDTO { get; set; }
+        public GenreDTO GenreDTO { get; set; }
+        public List<TagDTO> TagsDTO { get; set; }
+        public BookStatusDTO BookStatusDTO { get; set; }
         public BookSeries BookSeries { get; set; }
     }
 }

@@ -26,6 +26,15 @@ namespace Application.Logic
             return listOfAuthorDTO;
         }
 
+        public async Task<List<AuthorDTO>> GetAuthor(string pattern)
+        {
+            var listOfAuthor = await iWorkWithAuthor.GetAuthor(pattern);
+            List<AuthorDTO> listOfAuthorDTO = new List<AuthorDTO>();
+            foreach (Author author in listOfAuthor)
+                listOfAuthorDTO.Add(ConvertTo.AuthorDTO(author));
+            return listOfAuthorDTO;
+        }
+
         public async Task<AuthorDTO> GetAuthor(int? id)
         {
             Author author = await iWorkWithAuthor.GetAuthor(id);

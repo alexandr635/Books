@@ -6,14 +6,13 @@
 </head>
 <body>
     <h3>Авторы</h3>
-    <form method="get" action="~/AddAuthor">
+    <form method="get">
         <table>
             <tr>
                 <td>Id</td>
                 <td>Имя</td>
                 <td>Фамилия</td>
                 <td>Отчество</td>
-                <td>Изменить</td>
             </tr>
             @foreach (var author in Model)
             {
@@ -22,15 +21,9 @@
                     <td>@author.Name</td>
                     <td>@author.LastName</td>
                     <td>@author.Patronymic</td>
-                    <td><a href="~/author/Change/@author.Id">Изменить</a></td>
                 </tr>
             }
         </table>
-        <br />
-        <a href="SearchAuthor">Найти автора</a>
-        <br />
-        <br />
-        <button>Добавить Автора</button>
     </form>
 </body>
 </html>

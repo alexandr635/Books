@@ -31,6 +31,12 @@ namespace BookApplication
             services.AddScoped<IWorkWithAuthor, WorkWithAuthor>();
             services.AddScoped<IWorkWithGenre, WorkWithGenre>();
             services.AddScoped<IGenreQuery, GenreQuery>();
+            services.AddScoped<IWorkWithTag, WorkWithTag>();
+            services.AddScoped<ITagQuery, TagQuery>();
+            services.AddScoped<IWorkWithSeries, WorkWithSeries>();
+            services.AddScoped<ISeriesQuery, SeriesQuery>();
+            services.AddScoped<IWorkWithReview, WorkWithReview>();
+            services.AddScoped<IReviewQuery, ReviewQuery>();
 
             services.AddControllersWithViews();
         }

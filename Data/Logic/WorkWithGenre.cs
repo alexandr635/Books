@@ -1,4 +1,5 @@
 ﻿using Data.Entities;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,7 +23,7 @@ namespace Data.Logic
 
         public async Task<Genre> GetGenre(int? id)
         {
-            var res = await Task.Run(() => context.Genres.FirstOrDefault(g => g.Id == id));
+            var res = await Task.Run(() => context.Genres.AsNoTracking().FirstOrDefault(g => g.Id == id));
             return res;
         }
 

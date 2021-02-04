@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace Data.Logic
 
         public async Task<Book> GetBook(int? id)
         {
-            var res = Task.Run( () => bookContext.Books.FirstOrDefault(b => b.Id == id));
+            var res = Task.Run( () => bookContext.Books.AsNoTracking().FirstOrDefault(b => b.Id == id));
             Book book = await res;
             return book;
         }
@@ -32,8 +33,8 @@ namespace Data.Logic
         {
             await Task.Run(() =>
             {
-               bookContext.Books.Add(book);
-               bookContext.SaveChanges();
+                bookContext.Books.Add(book);
+                bookContext.SaveChanges();
             });
         }
 

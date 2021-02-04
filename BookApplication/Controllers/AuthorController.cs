@@ -83,5 +83,20 @@ namespace WebAPI.Controllers
                 return ex.Message;
             }
         }
+
+        [HttpGet]
+        [Route("SearchAuthor")]
+        public IActionResult SearchAuthor()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Route("Result")]
+        public async Task<IActionResult> Result(string pattern)
+        {
+            var result = await authorQuery.GetAuthor(pattern);
+            return View(result);
+        }
     }
 }

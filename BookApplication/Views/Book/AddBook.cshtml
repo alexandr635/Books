@@ -1,6 +1,4 @@
-﻿@{
-    Layout = null;
-}
+﻿@model Application.DTO.ListDTO
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,22 +7,35 @@
 <body>
     <h3>Добавление книги</h3>
     <form method="post">
-        <input type="hidden" name="Id"/>
+        <input type="hidden" name="Id" />
         <p>
             <label>Title</label>
-            <input type="text" name="Title" required/>
+            <input type="text" name="Title" required />
         </p>
         <p>
             <label>Short description</label>
-            <input type="text" name="DescriptionShort" required/>
+            <input type="text" name="DescriptionShort" required />
         </p>
         <p>
             <label>Long description</label>
-            <input type="text" name="DescriptionLong" required/>
+            <input type="text" name="DescriptionLong" required />
         </p>
         <p>
-            <select>
-                <option></option>
+            <label>Genre</label>
+            <select name="GenreDTO">
+                @foreach (var genre in Model.GenreDTO)
+                {
+                    <option value="@genre.Id">@genre.GenreName</option>
+                }
+            </select>
+        </p>
+        <p>
+            <label>Author</label>
+            <select name="AuthorDTO">
+                @foreach (var author in Model.AuthorDTO)
+                {
+                    <option value="@author.Id">@author.LastName</option>
+                }
             </select>
         </p>
         <br /><br />

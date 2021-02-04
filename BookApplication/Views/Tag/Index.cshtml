@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Application.DTO.TagDTO>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Тэги</title>
+</head>
+<body>
+    <h3>Тэги</h3>
+    <form method="get" action="~/AddTag">
+        <table>
+            <tr>
+                <td>Id</td>
+                <td>Имя тэга</td>
+            </tr>
+            @foreach (var tagDTO in Model)
+            {
+                <tr>
+                    <td>@tagDTO.Id</td>
+                    <td>@tagDTO.TagName</td>
+                    <td><a href="~/Tag/ChangeTag/@tagDTO.Id">Изменить</a></td>
+                </tr>
+            }
+        </table>
+        <br />
+        <button>Добавить тэг</button>
+    </form>
+</body>
+</html>

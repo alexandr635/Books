@@ -13,11 +13,11 @@ namespace Application.Logic
             bookDTO.Title = book.Title;
             bookDTO.DescriptionLong = book.DescriptionLong;
             bookDTO.DescriptionShort = book.DescriptionShort;
-            bookDTO.Author = book.Author;
-            bookDTO.Genre = book.Genre;
-            bookDTO.Tags = book.Tags;
-            bookDTO.BookSeries = book.BookSeries;
-            bookDTO.BookStatus = book.BookStatus;
+            bookDTO.AuthorDTO = AuthorDTO(book.Author);
+            bookDTO.GenreDTO = GenreDTO(book.Genre);
+            //bookDTO.TagsDTO = TagDTO(book.Tags);
+            //bookDTO.BookSeries = book.BookSeries;
+            //bookDTO.BookStatusDTO = book.BookStatus;
 
             return bookDTO;
         }
@@ -29,11 +29,11 @@ namespace Application.Logic
             book.Title = bookDTO.Title;
             book.DescriptionLong = bookDTO.DescriptionLong;
             book.DescriptionShort = bookDTO.DescriptionShort;
-            book.Author = bookDTO.Author;
-            book.Genre = bookDTO.Genre;
-            book.Tags = bookDTO.Tags;
-            book.BookSeries = bookDTO.BookSeries;
-            book.BookStatus = bookDTO.BookStatus;
+            book.Author = Author(bookDTO.AuthorDTO);
+            book.Genre = Genre(bookDTO.GenreDTO);
+            //book.Tags = bookDTO.Tags;
+            //book.BookSeries = bookDTO.BookSeries;
+            //book.BookStatus = bookDTO.BookStatus;
 
             return book;
         }
@@ -80,6 +80,56 @@ namespace Application.Logic
             author.Biography = authorDTO.Biography;
 
             return author;
+        }
+
+        public static TagDTO TagDTO(Tag tag)
+        {
+            TagDTO tagDTO = new TagDTO();
+            tagDTO.Id = tag.Id;
+            tagDTO.TagName = tag.TagName;
+            return tagDTO;
+        }
+
+        public static Tag Tag(TagDTO tagDTO)
+        {
+            Tag tag = new Tag();
+            tag.Id = tagDTO.Id;
+            tag.TagName = tagDTO.TagName;
+            return tag;
+        }
+
+        public static BookSeriesDTO BookSeriesDTO(BookSeries bookSeries)
+        {
+            BookSeriesDTO bookSeriesDTO = new BookSeriesDTO();
+            bookSeriesDTO.Id = bookSeries.Id;
+            bookSeriesDTO.SeriesName = bookSeries.SeriesName;
+            foreach (var book in bookSeries.Books)
+                bookSeriesDTO.BooksDTO.Add(ConvertTo.BookDTO(book));
+
+            return bookSeriesDTO;
+        }
+
+        public static BookSeries BookSeries(BookSeriesDTO bookSeriesDTO)
+        {
+            BookSeries bookSeries = new BookSeries();
+            bookSeries.Id = bookSeriesDTO.Id;
+            bookSeries.SeriesName = bookSeriesDTO.SeriesName;
+            foreach (var book in bookSeriesDTO.BooksDTO)
+                bookSeries.Books.Add(ConvertTo.Book(book));
+
+            return bookSeries;
+        }
+
+        public static Review Review(ReviewDTO reviewDTO)
+        {
+            Review review = new Review();
+            review.Id = reviewDTO.Id;
+            review.Pseudonim = reviewDTO.Pseudonim;
+            review.ReviewString = reviewDTO.ReviewString;
+            review.Rating = reviewDTO.Rating;
+            review.Book = reviewDTO.Book;
+
+            return review;
         }
     }
 }

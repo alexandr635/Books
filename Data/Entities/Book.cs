@@ -18,10 +18,12 @@ namespace Data
         public List<Tag> Tags { get; set; }
         public BookStatus BookStatus { get; set; }
         public BookSeries BookSeries { get; set; }
+        public List<Review> Reviews { get; set; }
 
         public Book()
         {
             Tags = new List<Tag>();
+            Reviews = new List<Review>();
         }
     }
 }

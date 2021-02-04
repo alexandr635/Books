@@ -1,4 +1,5 @@
 ﻿using Data.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,9 +23,17 @@ namespace Data.Logic
             return res;
         }
 
+        public async Task<IQueryable<Author>> GetAuthor(string pattern)
+        {
+            var res = await Task.Run(() => context.Authors.Where(u => u.Name.Contains(pattern) || 
+                                                                      u.LastName.Contains(pattern) ||
+                                                                      u.Patronymic.Contains(pattern)));
+            return res;
+        }
+
         public async Task<Author> GetAuthor(int? id)
         {
-            var result = await Task.Run( () => context.Authors.FirstOrDefault(a => a.Id == id));
+            var result = await Task.Run( () => context.Authors.AsNoTracking().FirstOrDefault(a => a.Id == id));
             return result;
         }
 

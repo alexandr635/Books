@@ -8,11 +8,17 @@ namespace WebAPI.Controllers
 {
     public class BookController : Controller
     {
-        IBookQuery iDBQuery;
+        IBookQuery iDBQuery { get; set; }
+        IGenreQuery genreQuery { get; set; }
+        IAuthorQuery authorQuery { get; set; }
+        IReviewQuery reviewQuery { get; set; }
 
-        public BookController(IBookQuery dBQuery)
+        public BookController(IBookQuery dBQuery, IGenreQuery genreQuery, IAuthorQuery authorQuery, IReviewQuery reviewQuery)
         {
             iDBQuery = dBQuery;
+            this.genreQuery = genreQuery;
+            this.authorQuery = authorQuery;
+            this.reviewQuery = reviewQuery;
         }
 
         public async Task<IActionResult> Index()
@@ -34,7 +40,6 @@ namespace WebAPI.Controllers
         {
             if (id == null)
                 return RedirectToAction("Index");
-            ViewBag.BookId = id;
             try
             {
                 BookDTO book = await iDBQuery.GetBook(id);
@@ -46,11 +51,44 @@ namespace WebAPI.Controllers
             }
         }
 
+        [Route("Home/AddReview/{Id?}")]
+        [HttpGet]
+        public IActionResult AddReview()
+        {
+            try
+            {
+                return View();
+            }
+            catch (Exception ex)
+            {
+                return View(ex.Message);
+            }
+        }
+
+        [Route("Home/AddReview/{Id?}")]
+        [HttpPost]
+        public async Task<string> AddReview(ReviewDTO reviewDTO, int? id)
+        {
+            try
+            {
+                BookDTO book = await iDBQuery.GetBook(id);
+                await reviewQuery.AddReview(reviewDTO);
+                return "Отзыв добавлен";
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+        }
+
         [Route("AddBook")]
         [HttpGet]
-        public IActionResult AddBook()
+        public async Task<IActionResult> AddBook()
         {
-            return View();
+            ListDTO listDTO = new ListDTO();
+            listDTO.GenreDTO = await genreQuery.GetGenre();
+            listDTO.AuthorDTO = await authorQuery.GetAuthor();
+            return View(listDTO);
         }
 
         [Route("AddBook")]
@@ -59,6 +97,12 @@ namespace WebAPI.Controllers
         {
             try
             {
+                var genre = Convert.ToInt32(Request.Form["GenreDTO"]);
+                var author = Convert.ToInt32(Request.Form["AuthorDTO"]);
+
+                book.GenreDTO = await genreQuery.GetGenre(genre);
+                book.AuthorDTO = await authorQuery.GetAuthor(author);
+
                 await iDBQuery.AddBook(book);
                 return "Книга добавлена";
             }
@@ -75,7 +119,6 @@ namespace WebAPI.Controllers
         {
             if (id == null)
                 return RedirectToAction("Index");
-            ViewBag.BookId = id;
             try
             {
                 BookDTO book = await iDBQuery.GetBook(id);

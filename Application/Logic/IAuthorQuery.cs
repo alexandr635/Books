@@ -9,6 +9,7 @@ namespace Application.Logic
     public interface IAuthorQuery
     {
         Task<List<AuthorDTO>> GetAuthor();
+        Task<List<AuthorDTO>> GetAuthor(string pattern);
         Task<AuthorDTO> GetAuthor(int? id);
         Task AddAuthor(AuthorDTO authorDTO);
         Task ChangeAuthor(AuthorDTO authorDTO);
