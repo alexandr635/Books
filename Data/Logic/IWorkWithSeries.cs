@@ -6,7 +6,7 @@ namespace Data.Logic
 {
     public interface IWorkWithSeries
     {
-        Task<List<BookSeries>> GetSeries();
+        Task<HashSet<BookSeries>> GetSeries();
         Task AddSeries(BookSeries bookSeries);
     }
 }

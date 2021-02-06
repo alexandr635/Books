@@ -19,7 +19,7 @@ namespace WebAPI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            List<TagDTO> tags = await tagQuery.GetTag();
+            HashSet<TagDTO> tags = await tagQuery.GetTag();
             return View(tags);
         }
 

@@ -23,10 +23,10 @@ namespace Application
             return bookDTO;
         }
 
-        public async Task<List<BookDTO>> GetBook()
+        public async Task<HashSet<BookDTO>> GetBook()
         {
             var listOfBook = await iWorkWithBook.GetBook();
-            List<BookDTO> list = new List<BookDTO>();
+            HashSet<BookDTO> list = new HashSet<BookDTO>();
             foreach (Book book in listOfBook)
                 list.Add(ConvertTo.BookDTO(book));
 

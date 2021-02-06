@@ -16,9 +16,9 @@ namespace Data.Logic
             this.context = context;
         }
 
-        public async Task<List<Tag>> GetTag()
+        public async Task<HashSet<Tag>> GetTag()
         {
-            var result = await Task.Run( () => context.Tags.ToList());
+            var result = await Task.Run( () => context.Tags.ToHashSet());
             return result;
         }
 
@@ -30,20 +30,14 @@ namespace Data.Logic
 
         public async Task AddTag(Tag tag)
         {
-            await Task.Run( () =>
-            {
-                context.Tags.Add(tag);
-                context.SaveChanges();
-            });
+            await context.Tags.AddAsync(tag);
+            await context.SaveChangesAsync();
         }
 
         public async Task ChangeTag(Tag tag)
         {
-            await Task.Run( () =>
-            {
-                context.Entry(tag).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                context.SaveChanges();
-            });
+            context.Update(tag);
+            await context.SaveChangesAsync();
         }
     }
 }

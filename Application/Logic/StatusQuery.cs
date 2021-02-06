@@ -16,10 +16,10 @@ namespace Application.Logic
             this.workWithStatus = workWithStatus;
         }
 
-        public async Task<List<BookStatusDTO>> GetStatus()
+        public async Task<HashSet<BookStatusDTO>> GetStatus()
         {
             var result = await workWithStatus.GetStatus();
-            List<BookStatusDTO> list = new List<BookStatusDTO>();
+            HashSet<BookStatusDTO> list = new HashSet<BookStatusDTO>();
             foreach (var status in result)
                 list.Add(ConvertTo.BookStatusDTO(status));
 

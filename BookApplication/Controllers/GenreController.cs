@@ -18,7 +18,7 @@ namespace WebAPI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            List<GenreDTO> listOfGenres = await genreQuery.GetGenre();
+            HashSet<GenreDTO> listOfGenres = await genreQuery.GetGenre();
             return View(listOfGenres);
         }
 

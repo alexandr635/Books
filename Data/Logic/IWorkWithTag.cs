@@ -8,7 +8,7 @@ namespace Data.Logic
 {
     public interface IWorkWithTag
     {
-        Task<List<Tag>> GetTag();
+        Task<HashSet<Tag>> GetTag();
         Task<Tag> GetTag(int? id);
         Task AddTag(Tag tag);
         Task ChangeTag(Tag tag);

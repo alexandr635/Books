@@ -17,9 +17,9 @@ namespace Data.Logic
             this.context = context;
         }
 
-        public async Task<List<Author>> GetAuthor()
+        public async Task<HashSet<Author>> GetAuthor()
         {
-            var res = await Task.Run( () => context.Authors.ToList());
+            var res = await Task.Run( () => context.Authors.ToHashSet());
             return res;
         }
 
@@ -39,20 +39,14 @@ namespace Data.Logic
 
         public async Task AddAuthor(Author author)
         {
-            await Task.Run( () =>
-            {
-                context.Authors.Add(author);
-                context.SaveChanges();
-            });
+            await context.Authors.AddAsync(author);
+            await context.SaveChangesAsync();
         }
 
         public async Task ChangeAuthor(Author author)
         {
-            await Task.Run( () =>
-            {
-                context.Entry(author).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                context.SaveChanges();
-            });
+            context.Update(author);
+            await context.SaveChangesAsync();
         }
     }
 }

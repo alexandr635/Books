@@ -21,7 +21,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                List<AuthorDTO> listAuthor = await authorQuery.GetAuthor();
+                HashSet<AuthorDTO> listAuthor = await authorQuery.GetAuthor();
                 return View(listAuthor);
             }
             catch (Exception ex)

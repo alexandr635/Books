@@ -11,11 +11,16 @@ namespace Application.DTO
         public string DescriptionLong { get; set; }
 
 
+        public int AuthorDTOId {get; set;}
+        public int GenreDTOId { get; set; }
+        public int BookStatusDTOId { get; set; }
+        public int? BookSeriesDTOId { get; set; }
+
         public AuthorDTO AuthorDTO { get; set; }
         public GenreDTO GenreDTO { get; set; }
-        public List<TagDTO> TagsDTO { get; set; }
+        public HashSet<TagDTO> TagsDTO { get; set; }
         public BookStatusDTO BookStatusDTO { get; set; }
-        public BookSeries BookSeries { get; set; }
-        public List<ReviewDTO> ReviewDTOs { get; set; }
+        public BookSeriesDTO BookSeriesDTO { get; set; }
+        public HashSet<ReviewDTO> ReviewDTOs { get; set; }
     }
 }

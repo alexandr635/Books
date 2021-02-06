@@ -18,7 +18,12 @@
                 <tr>
                     <td>@series.Id</td>
                     <td>@series.SeriesName</td>
-                    <td><a href="~/Change/@series.Id">Изменить</a></td>
+                    <table>
+                        @foreach (var book in series.BooksDTO)
+                        {
+                            <tr><td><pre>     @book.Title</pre></td></tr>
+                        }
+                    </table>
                 </tr>
             }
         </table>

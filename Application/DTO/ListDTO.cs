@@ -4,9 +4,9 @@ namespace Application.DTO
 {
     public class ListDTO
     {
-        public List<AuthorDTO> AuthorDTO { get; set; }
-        public List<BookStatusDTO> BookStatusDTO { get; set; }
-        public List<GenreDTO> GenreDTO { get; set; }
-        public List<TagDTO> TagDTO { get; set; }
+        public HashSet<AuthorDTO> AuthorDTO { get; set; }
+        public HashSet<BookStatusDTO> BookStatusDTO { get; set; }
+        public HashSet<GenreDTO> GenreDTO { get; set; }
+        public HashSet<TagDTO> TagDTO { get; set; }
     }
 }

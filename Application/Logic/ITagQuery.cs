@@ -7,7 +7,7 @@ namespace Application.Logic
 {
     public interface ITagQuery
     {
-        Task<List<TagDTO>> GetTag();
+        Task<HashSet<TagDTO>> GetTag();
         Task<TagDTO> GetTag(int? id);
         Task AddTag(TagDTO tagDTO);
         Task ChangeTag(TagDTO tagDTO);

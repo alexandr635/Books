@@ -1,4 +1,5 @@
 ﻿using Data.Entities;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,19 +15,16 @@ namespace Data.Logic
             this.context = context;
         }
 
-        public async Task<List<BookSeries>> GetSeries()
+        public async Task<HashSet<BookSeries>> GetSeries()
         {
-            var result = await Task.Run( () => context.BookSeries.ToList());
+            var result = await Task.Run( () => context.BookSeries.Include("Books").ToHashSet());
             return result;
         }
 
         public async Task AddSeries(BookSeries bookSeries)
         {
-            await Task.Run(() =>
-            {
-                context.BookSeries.Add(bookSeries);
-                context.SaveChanges();
-            });
+            await context.BookSeries.AddAsync(bookSeries);
+            await context.SaveChangesAsync();
         }
     }
 }

@@ -22,7 +22,7 @@
         </p>
         <p>
             <label>Genre</label>
-            <select name="GenreDTO">
+            <select name="GenreDTOId">
                 @foreach (var genre in Model.GenreDTO)
                 {
                     <option value="@genre.Id">@genre.GenreName</option>
@@ -31,7 +31,7 @@
         </p>
         <p>
             <label>Author</label>
-            <select name="AuthorDTO">
+            <select name="AuthorDTOId">
                 @foreach (var author in Model.AuthorDTO)
                 {
                     <option value="@author.Id">@author.LastName</option>
@@ -40,7 +40,7 @@
         </p>
         <p>
             <label>Book status</label>
-            <select name="BookStatusDTO">
+            <select name="BookStatusDTOId">
                 @foreach (var status in Model.BookStatusDTO)
                 {
                     <option value="@status.Id">@status.StatusName</option>

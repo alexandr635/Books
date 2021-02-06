@@ -17,19 +17,19 @@ namespace Application.Logic
             this.iWorkWithAuthor = iWorkWithAuthor;
         }
 
-        public async Task<List<AuthorDTO>> GetAuthor()
+        public async Task<HashSet<AuthorDTO>> GetAuthor()
         {
             var listOfAuthor = await iWorkWithAuthor.GetAuthor();
-            List<AuthorDTO> listOfAuthorDTO = new List<AuthorDTO>();
+            HashSet<AuthorDTO> listOfAuthorDTO = new HashSet<AuthorDTO>();
             foreach (Author author in listOfAuthor)
                 listOfAuthorDTO.Add(ConvertTo.AuthorDTO(author));
             return listOfAuthorDTO;
         }
 
-        public async Task<List<AuthorDTO>> GetAuthor(string pattern)
+        public async Task<HashSet<AuthorDTO>> GetAuthor(string pattern)
         {
             var listOfAuthor = await iWorkWithAuthor.GetAuthor(pattern);
-            List<AuthorDTO> listOfAuthorDTO = new List<AuthorDTO>();
+            HashSet<AuthorDTO> listOfAuthorDTO = new HashSet<AuthorDTO>();
             foreach (Author author in listOfAuthor)
                 listOfAuthorDTO.Add(ConvertTo.AuthorDTO(author));
             return listOfAuthorDTO;

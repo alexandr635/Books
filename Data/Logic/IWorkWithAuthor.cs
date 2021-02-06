@@ -7,7 +7,7 @@ namespace Data.Logic
 {
     public interface IWorkWithAuthor
     {
-        Task<List<Author>> GetAuthor();
+        Task<HashSet<Author>> GetAuthor();
         Task<IQueryable<Author>> GetAuthor(string pattern);
         Task<Author> GetAuthor(int? id);
         Task AddAuthor(Author author);

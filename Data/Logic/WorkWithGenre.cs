@@ -15,9 +15,9 @@ namespace Data.Logic
             this.context = context;
         }
 
-        public async Task<List<Genre>> GetGenre()
+        public async Task<HashSet<Genre>> GetGenre()
         {
-            var res = await Task.Run( () => context.Genres.ToList());
+            var res = await Task.Run( () => context.Genres.ToHashSet());
             return res;
         }
 
@@ -29,20 +29,14 @@ namespace Data.Logic
 
         public async Task AddGenre(Genre genre)
         {
-            await Task.Run( () =>
-            {
-                context.Genres.Add(genre);
-                context.SaveChanges();
-            });
+            await context.Genres.AddAsync(genre);
+            await context.SaveChangesAsync();
         }
 
         public async Task ChangeGenre(Genre genre)
         {
-            await Task.Run( () =>
-            {
-                context.Entry(genre).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                context.SaveChanges();
-            });
+            context.Update(genre);
+            await context.SaveChangesAsync();
         }
     }
 }

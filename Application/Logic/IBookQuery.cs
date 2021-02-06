@@ -7,7 +7,7 @@ namespace Application.Logic
     public interface IBookQuery
     {
         Task<BookDTO> GetBook(int? id);
-        Task<List<BookDTO>> GetBook();
+        Task<HashSet<BookDTO>> GetBook();
         Task AddBook(BookDTO book);
         Task ChangeBook(BookDTO book);
 

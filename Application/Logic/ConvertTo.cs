@@ -8,96 +8,145 @@ namespace Application.Logic
     {
         public static BookDTO BookDTO(Book book)
         {
-            BookDTO bookDTO = new BookDTO();
-            bookDTO.Id = book.Id;
-            bookDTO.Title = book.Title;
-            bookDTO.DescriptionLong = book.DescriptionLong;
-            bookDTO.DescriptionShort = book.DescriptionShort;
-            bookDTO.AuthorDTO = AuthorDTO(book.Author);
-            bookDTO.GenreDTO = GenreDTO(book.Genre);
-            //bookDTO.TagsDTO = TagDTO(book.Tags);
-            //bookDTO.BookSeries = book.BookSeries;
-            bookDTO.BookStatusDTO = BookStatusDTO(book.BookStatus);
+            if (book != null)
+            {
+                BookDTO bookDTO = new BookDTO();
+                bookDTO.Id = book.Id;
+                bookDTO.Title = book.Title;
+                bookDTO.DescriptionLong = book.DescriptionLong;
+                bookDTO.DescriptionShort = book.DescriptionShort;
 
-            return bookDTO;
+                bookDTO.AuthorDTOId = book.AuthorId;
+                bookDTO.GenreDTOId = book.GenreId;
+                bookDTO.BookStatusDTOId = book.BookStatusId;
+                bookDTO.BookSeriesDTOId = book.BookSeriesId;
+
+                bookDTO.AuthorDTO = AuthorDTO(book.Author);
+                bookDTO.GenreDTO = GenreDTO(book.Genre);
+                //bookDTO.TagsDTO = TagDTO(book.Tags);
+                bookDTO.BookStatusDTO = BookStatusDTO(book.BookStatus);
+
+                return bookDTO;
+            }
+            else
+                return null;
         }
 
         public static Book Book(BookDTO bookDTO)
         {
-            Book book = new Book();
-            book.Id = bookDTO.Id;
-            book.Title = bookDTO.Title;
-            book.DescriptionLong = bookDTO.DescriptionLong;
-            book.DescriptionShort = bookDTO.DescriptionShort;
-            book.Author = Author(bookDTO.AuthorDTO);
-            book.Genre = Genre(bookDTO.GenreDTO);
-            //book.Tags = bookDTO.Tags;
-            //book.BookSeries = bookDTO.BookSeries;
-            book.BookStatus = BookStatus(bookDTO.BookStatusDTO);
+            if (bookDTO != null)
+            {
+                Book book = new Book();
+                book.Id = bookDTO.Id;
+                book.Title = bookDTO.Title;
+                book.DescriptionLong = bookDTO.DescriptionLong;
+                book.DescriptionShort = bookDTO.DescriptionShort;
 
-            return book;
+                book.AuthorId = bookDTO.AuthorDTOId;
+                book.GenreId = bookDTO.GenreDTOId;
+                book.BookStatusId = bookDTO.BookStatusDTOId;
+                book.BookSeriesId = bookDTO.BookSeriesDTOId;
+
+                book.Author = Author(bookDTO.AuthorDTO);
+                book.Genre = Genre(bookDTO.GenreDTO);
+                //book.Tags = bookDTO.Tags;
+                book.BookStatus = BookStatus(bookDTO.BookStatusDTO);
+
+                return book;
+            }
+            else
+                return null;
         }
 
         public static BookStatus BookStatus(BookStatusDTO bookStatusDTO)
         {
-            BookStatus bookStatus = new BookStatus();
-            bookStatus.Id = bookStatusDTO.Id;
-            bookStatus.StatusName = bookStatusDTO.StatusName;
+            if (bookStatusDTO != null)
+            {
+                BookStatus bookStatus = new BookStatus();
+                bookStatus.Id = bookStatusDTO.Id;
+                bookStatus.StatusName = bookStatusDTO.StatusName;
 
-            return bookStatus;
+                return bookStatus;
+            }
+            else
+                return null;
         }
 
         public static BookStatusDTO BookStatusDTO(BookStatus bookStatus)
         {
-            BookStatusDTO bookStatusDTO = new BookStatusDTO();
-            bookStatusDTO.Id = bookStatus.Id;
-            bookStatusDTO.StatusName = bookStatus.StatusName;
+            if (bookStatus != null)
+            {
+                BookStatusDTO bookStatusDTO = new BookStatusDTO();
+                bookStatusDTO.Id = bookStatus.Id;
+                bookStatusDTO.StatusName = bookStatus.StatusName;
 
-            return bookStatusDTO;
+                return bookStatusDTO;
+            }
+            else
+                return null;
         }
 
         public static GenreDTO GenreDTO(Genre genre)
         {
-            GenreDTO genreDTO = new GenreDTO();
-            genreDTO.Id = genre.Id;
-            genreDTO.GenreName = genre.GenreName;
-            return genreDTO;
+            if (genre != null)
+            {
+                GenreDTO genreDTO = new GenreDTO();
+                genreDTO.Id = genre.Id;
+                genreDTO.GenreName = genre.GenreName;
+                return genreDTO;
+            }
+            else
+                return null;
         }
 
         public static Genre Genre(GenreDTO genreDTO)
         {
-            Genre genre = new Genre();
-            genre.Id = genreDTO.Id;
-            genre.GenreName = genreDTO.GenreName;
-            return genre;
+            if (genreDTO != null)
+            {
+                Genre genre = new Genre();
+                genre.Id = genreDTO.Id;
+                genre.GenreName = genreDTO.GenreName;
+                return genre;
+            }
+            else
+                return null;
         }
 
         public static AuthorDTO AuthorDTO(Author author)
         {
-            AuthorDTO authorDTO = new AuthorDTO();
-            authorDTO.Id = author.Id;
-            authorDTO.Name = author.Name;
-            authorDTO.LastName = author.LastName;
-            authorDTO.Patronymic = author.Patronymic;
-            authorDTO.DateOfBirth = author.DateOfBirth;
-            authorDTO.PlaceOfBirth = author.PlaceOfBirth;
-            authorDTO.Biography = author.Biography;
+            if (author != null)
+            {
+                AuthorDTO authorDTO = new AuthorDTO();
+                authorDTO.Id = author.Id;
+                authorDTO.Name = author.Name;
+                authorDTO.LastName = author.LastName;
+                authorDTO.Patronymic = author.Patronymic;
+                authorDTO.DateOfBirth = author.DateOfBirth;
+                authorDTO.PlaceOfBirth = author.PlaceOfBirth;
+                authorDTO.Biography = author.Biography;
 
-            return authorDTO;
+                return authorDTO;
+            }
+            else
+                return null;
         }
 
         public static Author Author(AuthorDTO authorDTO)
         {
-            Author author = new Author();
-            author.Id = authorDTO.Id;
-            author.Name = authorDTO.Name;
-            author.LastName = authorDTO.LastName;
-            author.Patronymic = authorDTO.Patronymic;
-            author.DateOfBirth = authorDTO.DateOfBirth;
-            author.PlaceOfBirth = authorDTO.PlaceOfBirth;
-            author.Biography = authorDTO.Biography;
+            if (authorDTO != null)
+            {
+                Author author = new Author();
+                author.Id = authorDTO.Id;
+                author.Name = authorDTO.Name;
+                author.LastName = authorDTO.LastName;
+                author.Patronymic = authorDTO.Patronymic;
+                author.DateOfBirth = authorDTO.DateOfBirth;
+                author.PlaceOfBirth = authorDTO.PlaceOfBirth;
+                author.Biography = authorDTO.Biography;
 
-            return author;
+                return author;
+            }
+            else return null;
         }
 
         public static TagDTO TagDTO(Tag tag)
@@ -118,36 +167,53 @@ namespace Application.Logic
 
         public static BookSeriesDTO BookSeriesDTO(BookSeries bookSeries)
         {
-            BookSeriesDTO bookSeriesDTO = new BookSeriesDTO();
-            bookSeriesDTO.Id = bookSeries.Id;
-            bookSeriesDTO.SeriesName = bookSeries.SeriesName;
-            foreach (var book in bookSeries.Books)
-                bookSeriesDTO.BooksDTO.Add(ConvertTo.BookDTO(book));
+            if (bookSeries != null)
+            {
+                BookSeriesDTO bookSeriesDTO = new BookSeriesDTO();
+                bookSeriesDTO.Id = bookSeries.Id;
+                bookSeriesDTO.SeriesName = bookSeries.SeriesName;
+                foreach (var book in bookSeries.Books)
+                    bookSeriesDTO.BooksDTO.Add(BookDTO(book));
 
-            return bookSeriesDTO;
+                return bookSeriesDTO;
+            }
+            else
+                return null;
         }
 
         public static BookSeries BookSeries(BookSeriesDTO bookSeriesDTO)
         {
-            BookSeries bookSeries = new BookSeries();
-            bookSeries.Id = bookSeriesDTO.Id;
-            bookSeries.SeriesName = bookSeriesDTO.SeriesName;
-            foreach (var book in bookSeriesDTO.BooksDTO)
-                bookSeries.Books.Add(ConvertTo.Book(book));
+            if (bookSeriesDTO != null)
+            {
+                BookSeries bookSeries = new BookSeries();
+                bookSeries.Id = bookSeriesDTO.Id;
+                bookSeries.SeriesName = bookSeriesDTO.SeriesName;
+                foreach (var book in bookSeriesDTO.BooksDTO)
+                    bookSeries.Books.Add(Book(book));
 
-            return bookSeries;
+                return bookSeries;
+            }
+            return null;
         }
 
         public static Review Review(ReviewDTO reviewDTO)
         {
-            Review review = new Review();
-            review.Id = reviewDTO.Id;
-            review.Pseudonim = reviewDTO.Pseudonim;
-            review.ReviewString = reviewDTO.ReviewString;
-            review.Rating = reviewDTO.Rating;
-            review.Book = Book(reviewDTO.Book);
+            if (reviewDTO != null)
+            {
+                Review review = new Review();
+                review.Id = reviewDTO.Id;
+                review.Pseudonim = reviewDTO.Pseudonim;
+                review.ReviewString = reviewDTO.ReviewString;
+                review.Rating = reviewDTO.Rating;
 
-            return review;
+                review.BookId = reviewDTO.BookDTOId;
+
+                review.Book = Book(reviewDTO.Book);
+
+                return review;
+            }
+            else
+                return null;
         }
     }
 }

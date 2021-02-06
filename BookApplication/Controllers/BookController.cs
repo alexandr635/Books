@@ -56,11 +56,11 @@ namespace WebAPI.Controllers
 
         [Route("Home/AddReview/{Id?}")]
         [HttpGet]
-        public IActionResult AddReview()
+        public IActionResult AddReview(int? id)
         {
             try
             {
-                return View();
+                return View(id);
             }
             catch (Exception ex)
             {
@@ -70,12 +70,10 @@ namespace WebAPI.Controllers
 
         [Route("Home/AddReview/{Id?}")]
         [HttpPost]
-        public async Task<string> AddReview(ReviewDTO reviewDTO, int? id)
+        public async Task<string> AddReview(ReviewDTO reviewDTO)
         {
             try
             {
-                BookDTO book = await bookQuery.GetBook(id);
-                reviewDTO.Book = book;
                 await reviewQuery.AddReview(reviewDTO);
                 return "Отзыв добавлен";
             }
@@ -102,14 +100,6 @@ namespace WebAPI.Controllers
         {
             try
             {
-                var genre = Convert.ToInt32(Request.Form["GenreDTO"]);
-                var author = Convert.ToInt32(Request.Form["AuthorDTO"]);
-                var status = Convert.ToInt32(Request.Form["BookStatusDTO"]);
-
-                book.GenreDTO = await genreQuery.GetGenre(genre);
-                book.AuthorDTO = await authorQuery.GetAuthor(author);
-                book.BookStatusDTO = await statusQuery.GetStatus(status);
-
                 await bookQuery.AddBook(book);
                 return "Книга добавлена";
             }
@@ -122,7 +112,7 @@ namespace WebAPI.Controllers
 
         [Route("Home/ChangeBook/{Id?}")]
         [HttpGet]
-        public async Task<IActionResult> Change(int? id)
+        public async Task<IActionResult> ChangeBook(int? id)
         {
             if (id == null)
                 return RedirectToAction("Index");

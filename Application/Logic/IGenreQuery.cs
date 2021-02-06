@@ -8,7 +8,7 @@ namespace Application.Logic
 {
     public interface IGenreQuery
     {
-        Task<List<GenreDTO>> GetGenre();
+        Task<HashSet<GenreDTO>> GetGenre();
         Task AddGenre(GenreDTO genreDTO);
         Task ChangeGenre(GenreDTO genreDTO);
         Task<GenreDTO> GetGenre(int? id);

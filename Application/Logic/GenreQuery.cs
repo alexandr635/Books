@@ -17,10 +17,10 @@ namespace Application.Logic
             this.iWorkWithGenre = iWorkWithGenre;
         }
 
-        public async Task<List<GenreDTO>> GetGenre()
+        public async Task<HashSet<GenreDTO>> GetGenre()
         {
-            List<Genre> listGenre = await iWorkWithGenre.GetGenre();
-            List<GenreDTO> listGenreDTO = new List<GenreDTO>();
+            HashSet<Genre> listGenre = await iWorkWithGenre.GetGenre();
+            HashSet<GenreDTO> listGenreDTO = new HashSet<GenreDTO>();
             foreach (Genre genre in listGenre)
                 listGenreDTO.Add(ConvertTo.GenreDTO(genre));
 

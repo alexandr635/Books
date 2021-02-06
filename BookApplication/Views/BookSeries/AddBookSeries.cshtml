@@ -1,4 +1,4 @@
-﻿@model List<Application.DTO.BookDTO>
+﻿@model HashSet<Application.DTO.BookDTO>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,14 +10,6 @@
         <p>
             <label>Name</label>
             <input type="text" name="SeriesName" required />
-        </p>
-        <p>
-            <h3>Книги</h3>
-            @foreach (var book in Model)
-            {
-                <input type="checkbox" name="@book.Id" value="@book.Title" />@book.Title<br />
-            }
-
         </p>
         <button>Добавить серию</button>
     </form>

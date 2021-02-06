@@ -1,4 +1,5 @@
-﻿using Application.Logic;
+﻿using Application.DTO;
+using Application.Logic;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -26,11 +27,19 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        [Route("/AddBookSeries/{Id?}")]
+        [Route("AddBookSeries")]
         public async Task<IActionResult> AddBookSeries()
         {
-            var books = await bookQuery.GetBook();
+            HashSet<BookDTO> books = await bookQuery.GetBook();
             return View(books);
+        }
+
+        [HttpPost]
+        [Route("AddBookSeries")]
+        public async Task<string> AddBookSeries(BookSeriesDTO bookSeriesDTO)
+        {
+            await seriesQuery.AddSeries(bookSeriesDTO);
+            return "Серия добавлена!";
         }
     }
 }

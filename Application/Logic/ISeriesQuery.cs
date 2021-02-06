@@ -8,7 +8,7 @@ namespace Application.Logic
 {
     public interface ISeriesQuery
     {
-        Task<List<BookSeriesDTO>> GetSeries();
+        Task<HashSet<BookSeriesDTO>> GetSeries();
         Task AddSeries(BookSeriesDTO bookSeriesDTO);
     }
 }

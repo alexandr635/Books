@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,10 +14,10 @@ namespace Data.Logic
             this.bookContext = bookContext;
         }
 
-        public async Task<List<Book>> GetBook()
+        public async Task<HashSet<Book>> GetBook()
         {
-            var res = Task.Run( () => bookContext.Books.Include("Author").Include("Genre").Include("BookStatus").ToList());
-            List<Book> books = await res;
+            var res = Task.Run( () => bookContext.Books.Include("Author").Include("Genre").Include("BookStatus").ToHashSet());
+            HashSet<Book> books = await res;
             
             return books;
         }
@@ -32,34 +31,14 @@ namespace Data.Logic
 
         public async Task AddBook(Book book)
         {
-            await Task.Run(() =>
-            {
-                int AuthorId = book.Author.Id;
-                int GenreId = book.Genre.Id;
-                int StatusId = book.BookStatus.Id;
-                book.Author = null;
-                book.Genre = null;
-                book.BookStatus = null;
-
-                bookContext.Books.Add(book);
-                bookContext.SaveChanges();
-
-                book.Author = bookContext.Authors.FirstOrDefault(a => a.Id == AuthorId);
-                book.Genre = bookContext.Genres.FirstOrDefault(g => g.Id == GenreId);
-                book.BookStatus = bookContext.BookStatuses.FirstOrDefault(s => s.Id == StatusId);
-
-                bookContext.Entry(book).State = EntityState.Modified;
-                bookContext.SaveChanges();
-            });
+            await bookContext.Books.AddAsync(book);
+            await bookContext.SaveChangesAsync();
         }
 
         public async Task ChangeBook(Book book)
         {
-            await Task.Run(() =>
-            {
-                bookContext.Entry(book).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                bookContext.SaveChanges();
-            });
+            bookContext.Update(book);
+            await bookContext.SaveChangesAsync();
         }
     }
 }

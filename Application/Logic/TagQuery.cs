@@ -16,10 +16,10 @@ namespace Application.Logic
         }
 
 
-        public async Task<List<TagDTO>> GetTag()
+        public async Task<HashSet<TagDTO>> GetTag()
         {
             var listTag = await workWithTag.GetTag();
-            List<TagDTO> listTagDTO = new List<TagDTO>();
+            HashSet<TagDTO> listTagDTO = new HashSet<TagDTO>();
             foreach (Tag tag in listTag)
                 listTagDTO.Add(ConvertTo.TagDTO(tag));
 

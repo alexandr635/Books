@@ -16,10 +16,10 @@ namespace Application.Logic
             this.workWithSeries = workWithSeries;
         }
 
-        public async Task<List<BookSeriesDTO>> GetSeries()
+        public async Task<HashSet<BookSeriesDTO>> GetSeries()
         {
             var result = await workWithSeries.GetSeries();
-            List<BookSeriesDTO> bookSeriesDTO = new List<BookSeriesDTO>();
+            HashSet<BookSeriesDTO> bookSeriesDTO = new HashSet<BookSeriesDTO>();
             foreach (var series in result)
                 bookSeriesDTO.Add(ConvertTo.BookSeriesDTO(series));
             

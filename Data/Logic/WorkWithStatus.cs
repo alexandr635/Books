@@ -14,9 +14,9 @@ namespace Data.Logic
             this.context = context;
         }
 
-        public async Task<List<BookStatus>> GetStatus()
+        public async Task<HashSet<BookStatus>> GetStatus()
         {
-            var result = await Task.Run( () => context.BookStatuses.ToList());
+            var result = await Task.Run( () => context.BookStatuses.ToHashSet());
             return result;
         }
 
