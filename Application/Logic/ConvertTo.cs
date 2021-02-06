@@ -17,7 +17,7 @@ namespace Application.Logic
             bookDTO.GenreDTO = GenreDTO(book.Genre);
             //bookDTO.TagsDTO = TagDTO(book.Tags);
             //bookDTO.BookSeries = book.BookSeries;
-            //bookDTO.BookStatusDTO = book.BookStatus;
+            bookDTO.BookStatusDTO = BookStatusDTO(book.BookStatus);
 
             return bookDTO;
         }
@@ -33,9 +33,27 @@ namespace Application.Logic
             book.Genre = Genre(bookDTO.GenreDTO);
             //book.Tags = bookDTO.Tags;
             //book.BookSeries = bookDTO.BookSeries;
-            //book.BookStatus = bookDTO.BookStatus;
+            book.BookStatus = BookStatus(bookDTO.BookStatusDTO);
 
             return book;
+        }
+
+        public static BookStatus BookStatus(BookStatusDTO bookStatusDTO)
+        {
+            BookStatus bookStatus = new BookStatus();
+            bookStatus.Id = bookStatusDTO.Id;
+            bookStatus.StatusName = bookStatusDTO.StatusName;
+
+            return bookStatus;
+        }
+
+        public static BookStatusDTO BookStatusDTO(BookStatus bookStatus)
+        {
+            BookStatusDTO bookStatusDTO = new BookStatusDTO();
+            bookStatusDTO.Id = bookStatus.Id;
+            bookStatusDTO.StatusName = bookStatus.StatusName;
+
+            return bookStatusDTO;
         }
 
         public static GenreDTO GenreDTO(Genre genre)
@@ -127,7 +145,7 @@ namespace Application.Logic
             review.Pseudonim = reviewDTO.Pseudonim;
             review.ReviewString = reviewDTO.ReviewString;
             review.Rating = reviewDTO.Rating;
-            review.Book = reviewDTO.Book;
+            review.Book = Book(reviewDTO.Book);
 
             return review;
         }

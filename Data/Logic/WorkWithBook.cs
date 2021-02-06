@@ -17,14 +17,15 @@ namespace Data.Logic
 
         public async Task<List<Book>> GetBook()
         {
-            var res = Task.Run( () => bookContext.Books.ToList());
+            var res = Task.Run( () => bookContext.Books.Include("Author").Include("Genre").Include("BookStatus").ToList());
             List<Book> books = await res;
+            
             return books;
         }
 
         public async Task<Book> GetBook(int? id)
         {
-            var res = Task.Run( () => bookContext.Books.AsNoTracking().FirstOrDefault(b => b.Id == id));
+            var res = Task.Run( () => bookContext.Books.AsNoTracking().Include("Author").Include("Genre").Include("BookStatus").FirstOrDefault(b => b.Id == id));
             Book book = await res;
             return book;
         }
@@ -33,7 +34,21 @@ namespace Data.Logic
         {
             await Task.Run(() =>
             {
+                int AuthorId = book.Author.Id;
+                int GenreId = book.Genre.Id;
+                int StatusId = book.BookStatus.Id;
+                book.Author = null;
+                book.Genre = null;
+                book.BookStatus = null;
+
                 bookContext.Books.Add(book);
+                bookContext.SaveChanges();
+
+                book.Author = bookContext.Authors.FirstOrDefault(a => a.Id == AuthorId);
+                book.Genre = bookContext.Genres.FirstOrDefault(g => g.Id == GenreId);
+                book.BookStatus = bookContext.BookStatuses.FirstOrDefault(s => s.Id == StatusId);
+
+                bookContext.Entry(book).State = EntityState.Modified;
                 bookContext.SaveChanges();
             });
         }

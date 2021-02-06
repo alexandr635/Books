@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Data.Entities
 {
     public class Author
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Name { get; set; }
         public string LastName { get; set; }
@@ -14,11 +16,11 @@ namespace Data.Entities
         public string PlaceOfBirth { get; set; }
         public string Biography { get; set; }
 
-        public List<Book> Books { get; set; }
+        public HashSet<Book> Books { get; set; }
 
         public Author()
         {
-            Books = new List<Book>();
+            Books = new HashSet<Book>();
         }
     }
 }

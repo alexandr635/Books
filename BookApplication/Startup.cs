@@ -37,6 +37,8 @@ namespace BookApplication
             services.AddScoped<ISeriesQuery, SeriesQuery>();
             services.AddScoped<IWorkWithReview, WorkWithReview>();
             services.AddScoped<IReviewQuery, ReviewQuery>();
+            services.AddScoped<IStatusQuery, StatusQuery>();
+            services.AddScoped<IWorkWithStatus, WorkWithStatus>();
 
             services.AddControllersWithViews();
         }
@@ -55,7 +57,7 @@ namespace BookApplication
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Book}/{action=Index}/{id?}");
+                    pattern: "{controller=book}/{action=Index}/{id?}");
             });
         }
     }

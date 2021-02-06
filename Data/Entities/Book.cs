@@ -13,17 +13,18 @@ namespace Data
         public DateTime PublishDate { get; set; }
         public double AverageRating { get; set; }
 
+
         public Author Author { get; set; }
         public Genre Genre { get; set; }
-        public List<Tag> Tags { get; set; }
+        public HashSet<Tag> Tags { get; set; }
         public BookStatus BookStatus { get; set; }
         public BookSeries BookSeries { get; set; }
-        public List<Review> Reviews { get; set; }
+        public HashSet<Review> Reviews { get; set; }
 
         public Book()
         {
-            Tags = new List<Tag>();
-            Reviews = new List<Review>();
+            Tags = new HashSet<Tag>();
+            Reviews = new HashSet<Review>();
         }
     }
 }

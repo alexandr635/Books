@@ -7,5 +7,6 @@
         public string ReviewString { get; set; }
         public int Rating { get; set; }
         public Book Book { get; set; }
+
     }
 }

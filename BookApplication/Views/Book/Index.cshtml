@@ -1,7 +1,4 @@
 ﻿@model IEnumerable<Application.DTO.BookDTO>
-@{
-    Layout = null;
-}
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,6 +21,7 @@
                     <td><a href="~/Home/Book/@book.Id">@book.Title</a></td>
                     <td>@book.DescriptionShort</td>
                     <td><a href="~/Home/Change/@book.Id">Изменить</a></td>
+                    <td><a href="~/Home/AddReview/@book.Id">Добавить отзыв</a></td>
                 </tr>
             }
         </table>

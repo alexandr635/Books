@@ -8,24 +8,27 @@ namespace WebAPI.Controllers
 {
     public class BookController : Controller
     {
-        IBookQuery iDBQuery { get; set; }
+        IBookQuery bookQuery { get; set; }
         IGenreQuery genreQuery { get; set; }
         IAuthorQuery authorQuery { get; set; }
         IReviewQuery reviewQuery { get; set; }
+        IStatusQuery statusQuery { get; set; }
 
-        public BookController(IBookQuery dBQuery, IGenreQuery genreQuery, IAuthorQuery authorQuery, IReviewQuery reviewQuery)
+        public BookController(IBookQuery bookQuery, IGenreQuery genreQuery, 
+                              IAuthorQuery authorQuery, IReviewQuery reviewQuery, IStatusQuery statusQuery)
         {
-            iDBQuery = dBQuery;
+            this.bookQuery = bookQuery;
             this.genreQuery = genreQuery;
             this.authorQuery = authorQuery;
             this.reviewQuery = reviewQuery;
+            this.statusQuery = statusQuery;
         }
 
         public async Task<IActionResult> Index()
         {
             try
             {
-                var listOfBook = await iDBQuery.GetBook();
+                var listOfBook = await bookQuery.GetBook();
                 return View(listOfBook);
             }
             catch (Exception ex)
@@ -42,7 +45,7 @@ namespace WebAPI.Controllers
                 return RedirectToAction("Index");
             try
             {
-                BookDTO book = await iDBQuery.GetBook(id);
+                BookDTO book = await bookQuery.GetBook(id);
                 return View(book);
             }
             catch (Exception ex)
@@ -71,7 +74,8 @@ namespace WebAPI.Controllers
         {
             try
             {
-                BookDTO book = await iDBQuery.GetBook(id);
+                BookDTO book = await bookQuery.GetBook(id);
+                reviewDTO.Book = book;
                 await reviewQuery.AddReview(reviewDTO);
                 return "Отзыв добавлен";
             }
@@ -88,6 +92,7 @@ namespace WebAPI.Controllers
             ListDTO listDTO = new ListDTO();
             listDTO.GenreDTO = await genreQuery.GetGenre();
             listDTO.AuthorDTO = await authorQuery.GetAuthor();
+            listDTO.BookStatusDTO = await statusQuery.GetStatus();
             return View(listDTO);
         }
 
@@ -99,11 +104,13 @@ namespace WebAPI.Controllers
             {
                 var genre = Convert.ToInt32(Request.Form["GenreDTO"]);
                 var author = Convert.ToInt32(Request.Form["AuthorDTO"]);
+                var status = Convert.ToInt32(Request.Form["BookStatusDTO"]);
 
                 book.GenreDTO = await genreQuery.GetGenre(genre);
                 book.AuthorDTO = await authorQuery.GetAuthor(author);
+                book.BookStatusDTO = await statusQuery.GetStatus(status);
 
-                await iDBQuery.AddBook(book);
+                await bookQuery.AddBook(book);
                 return "Книга добавлена";
             }
             catch (Exception ex)
@@ -121,7 +128,7 @@ namespace WebAPI.Controllers
                 return RedirectToAction("Index");
             try
             {
-                BookDTO book = await iDBQuery.GetBook(id);
+                BookDTO book = await bookQuery.GetBook(id);
                 return View(book);
             }
             catch (Exception ex)
@@ -136,7 +143,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                await iDBQuery.ChangeBook(book);
+                await bookQuery.ChangeBook(book);
                 return RedirectToAction("Index");
             }
             catch (Exception ex)

@@ -38,6 +38,15 @@
                 }
             </select>
         </p>
+        <p>
+            <label>Book status</label>
+            <select name="BookStatusDTO">
+                @foreach (var status in Model.BookStatusDTO)
+                {
+                    <option value="@status.Id">@status.StatusName</option>
+                }
+            </select>
+        </p>
         <br /><br />
         <button>Добавить книгу</button>
     </form>

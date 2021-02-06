@@ -7,11 +7,11 @@ namespace Data.Entities
         public int Id { get; set; }
         public string TagName { get; set; }
 
-        public List<Book> Books { get; set; }
+        public HashSet<Book> Books { get; set; }
 
         public Tag()
         {
-            Books = new List<Book>();
+            Books = new HashSet<Book>();
         }
     }
 }
