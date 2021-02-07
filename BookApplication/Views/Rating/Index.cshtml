@@ -1,0 +1,25 @@
+﻿@model HashSet<Application.DTO.BookDTO>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Рейтинг</title>
+</head>
+<body>
+    <h3>Рейтинг</h3>
+    <table>
+        <tr>
+            <td>Id</td>
+            <td>Title</td>
+            <td>Description</td>
+        </tr>
+        @foreach (var book in Model)
+        {
+            <tr>
+                <td>@book.Id</td>
+                <td>@book.Title</td>
+                <td>@book.DescriptionShort</td>
+            </tr>
+        }
+    </table>
+</body>
+</html>

@@ -205,9 +205,7 @@ namespace Application.Logic
                 review.Pseudonim = reviewDTO.Pseudonim;
                 review.ReviewString = reviewDTO.ReviewString;
                 review.Rating = reviewDTO.Rating;
-
                 review.BookId = reviewDTO.BookDTOId;
-
                 review.Book = Book(reviewDTO.Book);
 
                 return review;

@@ -23,6 +23,16 @@ namespace Application
             return bookDTO;
         }
 
+        public async Task<HashSet<BookDTO>> GetBook(string pattern)
+        {
+            var listOfBook = await iWorkWithBook.GetBook(pattern);
+            HashSet<BookDTO> list = new HashSet<BookDTO>();
+            foreach (Book book in listOfBook)
+                list.Add(ConvertTo.BookDTO(book));
+
+            return list;
+        }
+
         public async Task<HashSet<BookDTO>> GetBook()
         {
             var listOfBook = await iWorkWithBook.GetBook();
@@ -43,6 +53,16 @@ namespace Application
         {
             Book changeBook = ConvertTo.Book(book);
             await iWorkWithBook.ChangeBook(changeBook);
+        }
+
+        public async Task<HashSet<BookDTO>> GetRatingList(int size)
+        {
+            var listBook = await iWorkWithBook.GetRatingList(size);
+            HashSet<BookDTO> listBookDTO = new HashSet<BookDTO>();
+            foreach (Book book in listBook)
+                listBookDTO.Add(ConvertTo.BookDTO(book));
+
+            return listBookDTO;
         }
     }
 }

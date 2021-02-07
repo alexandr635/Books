@@ -5,6 +5,10 @@
     <title>Книги</title>
 </head>
 <body>
+    <form method="get" action="/FindBook">
+        <input type="text" name="pattern" />
+        <button>Найти</button>
+    </form>
     <h3>Книги</h3>
     <form method="get" action="~/AddBook">
         <table>
@@ -20,7 +24,7 @@
                     <td>@book.Id</td>
                     <td><a href="~/Home/Book/@book.Id">@book.Title</a></td>
                     <td>@book.DescriptionShort</td>
-                    <td><a href="~/Home/Change/@book.Id">Изменить</a></td>
+                    <td><a href="~/Home/ChangeBook/@book.Id">Изменить</a></td>
                 </tr>
             }
         </table>

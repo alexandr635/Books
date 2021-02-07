@@ -13,7 +13,6 @@ namespace Data
         public DateTime PublishDate { get; set; }
         public double AverageRating { get; set; }
 
-
         public int AuthorId { get; set; }
         public int GenreId { get; set; }
         public int BookStatusId { get; set; }

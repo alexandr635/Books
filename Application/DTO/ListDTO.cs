@@ -8,5 +8,7 @@ namespace Application.DTO
         public HashSet<BookStatusDTO> BookStatusDTO { get; set; }
         public HashSet<GenreDTO> GenreDTO { get; set; }
         public HashSet<TagDTO> TagDTO { get; set; }
+        public HashSet<BookSeriesDTO> BookSeriesDTO { get; set; }
+        public BookDTO BookDTO { get; set; }
     }
 }

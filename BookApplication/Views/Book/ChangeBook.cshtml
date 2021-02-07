@@ -1,7 +1,4 @@
-﻿@model Application.DTO.BookDTO
-@{
-    Layout = null;
-}
+﻿@model Application.DTO.ListDTO
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,18 +7,84 @@
 <body>
     <h3>Изменение книги</h3>
     <form method="post">
-        <input type="hidden" value="@Model.Id" name="Id"/>
+        <input type="hidden" value="@Model.BookDTO.Id" name="Id" />
         <p>
             <label>Title</label>
-            <input type="text" value="@Model.Title" name="Title" required/>
+            <input type="text" value="@Model.BookDTO.Title" name="Title" required />
         </p>
         <p>
             <label>Short description</label>
-            <input type="text" value="@Model.DescriptionShort" name="DescriptionShort" required/>
+            <input type="text" value="@Model.BookDTO.DescriptionShort" name="DescriptionShort" required />
         </p>
         <p>
             <label>Long description</label>
-            <input type="text" value="@Model.DescriptionLong" name="DescriptionLong" required/>
+            <input type="text" value="@Model.BookDTO.DescriptionLong" name="DescriptionLong" required />
+        </p>
+        <p>
+            <label>Genre</label>
+            <select name="GenreDTOId">
+                @foreach (var genre in @Model.GenreDTO)
+                {
+                    if (genre.Id == Model.BookDTO.GenreDTOId)
+                    {
+                        <option selected value="@genre.Id">@genre.GenreName</option>
+                    }
+                    else
+                    {
+                        <option value="@genre.Id">@genre.GenreName</option>
+                    }
+
+                }
+            </select>
+        </p>
+        <p>
+            <label>Author</label>
+            <select name="AuthorDTOId">
+                @foreach (var author in Model.AuthorDTO)
+                {
+                    if (author.Id == Model.BookDTO.AuthorDTOId)
+                    {
+                        <option selected value="@author.Id">@author.LastName</option>
+                    }
+                    else
+                    {
+                        <option value="@author.Id">@author.LastName</option>
+                    }
+                }
+            </select>
+        </p>
+        <p>
+            <label>Book status</label>
+            <select name="BookStatusDTOId">
+                @foreach (var status in Model.BookStatusDTO)
+                {
+                    if (status.Id == Model.BookDTO.BookStatusDTOId)
+                    {
+                        <option selected value="@status.Id">@status.StatusName</option>
+                    }
+                    else
+                    {
+                        <option selected value="@status.Id">@status.StatusName</option>
+                    }
+                }
+            </select>
+        </p>
+        <p>
+            <label>Book series</label>
+            <select name="BookSeriesDTOId">
+                @foreach (var series in Model.BookSeriesDTO)
+                {
+                    if (series.Id == Model.BookDTO.BookSeriesDTOId)
+                    {
+                        <option selected value="@series.Id">@series.SeriesName</option>
+                    }
+                    else
+                    {
+                        <option value="@series.Id">@series.SeriesName</option>
+
+                    }
+                }
+            </select>
         </p>
         <br /><br />
         <button>Изменить книгу</button>

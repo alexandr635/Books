@@ -1,5 +1,4 @@
 ﻿using Data.Entities;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Data.Logic

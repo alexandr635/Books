@@ -13,15 +13,18 @@ namespace WebAPI.Controllers
         IAuthorQuery authorQuery { get; set; }
         IReviewQuery reviewQuery { get; set; }
         IStatusQuery statusQuery { get; set; }
+        ISeriesQuery seriesQuery { get; set; }
 
         public BookController(IBookQuery bookQuery, IGenreQuery genreQuery, 
-                              IAuthorQuery authorQuery, IReviewQuery reviewQuery, IStatusQuery statusQuery)
+                              IAuthorQuery authorQuery, IReviewQuery reviewQuery, 
+                              IStatusQuery statusQuery, ISeriesQuery seriesQuery)
         {
             this.bookQuery = bookQuery;
             this.genreQuery = genreQuery;
             this.authorQuery = authorQuery;
             this.reviewQuery = reviewQuery;
             this.statusQuery = statusQuery;
+            this.seriesQuery = seriesQuery;
         }
 
         public async Task<IActionResult> Index()
@@ -83,6 +86,14 @@ namespace WebAPI.Controllers
             }
         }
 
+        [Route("FindBook")]
+        [HttpGet]
+        public async Task<IActionResult> FindBook(string pattern)
+        {
+            var bookDTO = await bookQuery.GetBook(pattern);
+            return View(bookDTO);
+        }
+
         [Route("AddBook")]
         [HttpGet]
         public async Task<IActionResult> AddBook()
@@ -91,6 +102,7 @@ namespace WebAPI.Controllers
             listDTO.GenreDTO = await genreQuery.GetGenre();
             listDTO.AuthorDTO = await authorQuery.GetAuthor();
             listDTO.BookStatusDTO = await statusQuery.GetStatus();
+            listDTO.BookSeriesDTO = await seriesQuery.GetSeries();
             return View(listDTO);
         }
 
@@ -118,8 +130,13 @@ namespace WebAPI.Controllers
                 return RedirectToAction("Index");
             try
             {
-                BookDTO book = await bookQuery.GetBook(id);
-                return View(book);
+                ListDTO listDTO = new ListDTO();
+                listDTO.GenreDTO = await genreQuery.GetGenre();
+                listDTO.AuthorDTO = await authorQuery.GetAuthor();
+                listDTO.BookStatusDTO = await statusQuery.GetStatus();
+                listDTO.BookSeriesDTO = await seriesQuery.GetSeries();
+                listDTO.BookDTO = await bookQuery.GetBook(id);
+                return View(listDTO);
             }
             catch (Exception ex)
             {

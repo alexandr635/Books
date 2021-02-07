@@ -111,6 +111,12 @@ namespace Data
                     }
             });
 
+            modelBuilder.Entity<Review>().HasData(
+               new Review[]{
+                    new Review { Id = 1, Pseudonim = "Commentator1", Rating = 4.5, ReviewString = "Интересно", BookId = 1 },
+                    new Review { Id = 2, Pseudonim = "Commentator2", Rating = 2.5, ReviewString = "Не очень", BookId = 2 },
+                    new Review { Id = 3, Pseudonim = "Commentator3", Rating = 4, ReviewString = "Прикольно", BookId = 2 }
+           });
         }
 
         public DbSet<Book> Books { get; set; }

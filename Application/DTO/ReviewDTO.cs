@@ -7,7 +7,7 @@ namespace Application.DTO
         public int Id { get; set; }
         public string Pseudonim { get; set; }
         public string ReviewString { get; set; }
-        public int Rating { get; set; }
+        public double Rating { get; set; }
 
         public int BookDTOId { get; set; }
 

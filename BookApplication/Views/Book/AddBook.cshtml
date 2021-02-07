@@ -47,6 +47,15 @@
                 }
             </select>
         </p>
+        <p>
+            <label>Book series</label>
+            <select name="BookSeriesDTOId">
+                @foreach (var series in Model.BookSeriesDTO)
+                {
+                    <option value="@series.Id">@series.SeriesName</option>
+                }
+            </select>
+        </p>
         <br /><br />
         <button>Добавить книгу</button>
     </form>
