@@ -8,21 +8,22 @@ using Microsoft.EntityFrameworkCore;
 using Application.Logic;
 using Application;
 using Data.Logic;
+using Microsoft.AspNetCore.Http;
 
 namespace BookApplication
 {
     public class Startup
     {
-        public IConfiguration configuration { get; }
+        public IConfiguration Configuration { get; }
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration Configuration)
         {
-            this.configuration = configuration;
+            this.Configuration = Configuration;
         }
         
         public void ConfigureServices(IServiceCollection services)
 {
-            string connection = configuration.GetConnectionString("DefaultConnection");
+            string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<BookContext>(options => options.UseSqlServer(connection));
 
             services.AddScoped<IBookService, BookService>();
@@ -58,6 +59,11 @@ namespace BookApplication
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Book}/{action=Index}/{id?}");
+            });
+
+            app.Run(async (context) =>
+            {
+                await context.Response.WriteAsync(context.Response.StatusCode.ToString());
             });
         }
     }

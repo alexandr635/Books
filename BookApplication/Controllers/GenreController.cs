@@ -45,7 +45,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
-        [Route("Change/{Id?}")]
+        [Route("Genre/Change/{Id?}")]
         public async Task<IActionResult> ChangeGenre(int? id)
         {
             if (id == null)
@@ -63,7 +63,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost]
-        [Route("Change/{Id?}")]
+        [Route("Genre/Change/{Id?}")]
         public async Task<string> ChangeGenre(GenreDTO genreDTO)
         {
             try
@@ -77,7 +77,7 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("Genre/Delete/{Id?}")]
         public async Task<string> DeleteGenre(GenreDTO genreDTO, int? id)
         {

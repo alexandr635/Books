@@ -1,6 +1,4 @@
-﻿using Data;
-
-namespace Application.DTO
+﻿namespace Application.DTO
 {
     public class ReviewDTO
     {
@@ -9,8 +7,8 @@ namespace Application.DTO
         public string ReviewString { get; set; }
         public double Rating { get; set; }
 
-        public int BookDTOId { get; set; }
+        public int BookId { get; set; }
 
-        public BookDTO Book { get; set; }
+        public BookDTO BookDTO { get; set; }
     }
 }

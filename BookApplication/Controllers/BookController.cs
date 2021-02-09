@@ -11,18 +11,15 @@ namespace WebAPI.Controllers
         IBookService BookService { get; set; }
         IGenreService GenreService { get; set; }
         IAuthorService AuthorService { get; set; }
-        IReviewService ReviewService { get; set; }
         IStatusService StatusService { get; set; }
         ISeriesService SeriesService { get; set; }
 
         public BookController(IBookService BookService, IGenreService GenreService, 
-                              IAuthorService AuthorService, IReviewService ReviewService, 
-                              IStatusService StatusService, ISeriesService SeriesService)
+                              IAuthorService AuthorService, IStatusService StatusService, ISeriesService SeriesService)
         {
             this.BookService = BookService;
             this.GenreService = GenreService;
             this.AuthorService = AuthorService;
-            this.ReviewService = ReviewService;
             this.StatusService = StatusService;
             this.SeriesService = SeriesService;
         }
@@ -54,35 +51,6 @@ namespace WebAPI.Controllers
             catch (Exception ex)
             {
                 return View(ex.Message);
-            }
-        }
-
-        [Route("Home/AddReview/{Id?}")]
-        [HttpGet]
-        public IActionResult AddReview(int? id)
-        {
-            try
-            {
-                return View(id);
-            }
-            catch (Exception ex)
-            {
-                return View(ex.Message);
-            }
-        }
-
-        [Route("Home/AddReview/{Id?}")]
-        [HttpPost]
-        public async Task<string> AddReview(ReviewDTO reviewDTO)
-        {
-            try
-            {
-                await ReviewService.AddReview(reviewDTO);
-                return "Отзыв добавлен";
-            }
-            catch (Exception ex)
-            {
-                return ex.Message;
             }
         }
 

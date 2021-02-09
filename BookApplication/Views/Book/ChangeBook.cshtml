@@ -22,10 +22,10 @@
         </p>
         <p>
             <label>Genre</label>
-            <select name="GenreDTOId">
+            <select name="GenreId">
                 @foreach (var genre in @Model.GenreDTO)
                 {
-                    if (genre.Id == Model.BookDTO.GenreDTOId)
+                    if (genre.Id == Model.BookDTO.GenreId)
                     {
                         <option selected value="@genre.Id">@genre.GenreName</option>
                     }
@@ -39,10 +39,10 @@
         </p>
         <p>
             <label>Author</label>
-            <select name="AuthorDTOId">
+            <select name="AuthorId">
                 @foreach (var author in Model.AuthorDTO)
                 {
-                    if (author.Id == Model.BookDTO.AuthorDTOId)
+                    if (author.Id == Model.BookDTO.AuthorId)
                     {
                         <option selected value="@author.Id">@author.LastName</option>
                     }
@@ -55,10 +55,10 @@
         </p>
         <p>
             <label>Book status</label>
-            <select name="BookStatusDTOId">
+            <select name="BookStatusId">
                 @foreach (var status in Model.BookStatusDTO)
                 {
-                    if (status.Id == Model.BookDTO.BookStatusDTOId)
+                    if (status.Id == Model.BookDTO.BookStatusId)
                     {
                         <option selected value="@status.Id">@status.StatusName</option>
                     }
@@ -71,10 +71,10 @@
         </p>
         <p>
             <label>Book series</label>
-            <select name="BookSeriesDTOId">
+            <select name="BookSeriesId">
                 @foreach (var series in Model.BookSeriesDTO)
                 {
-                    if (series.Id == Model.BookDTO.BookSeriesDTOId)
+                    if (series.Id == Model.BookDTO.BookSeriesId)
                     {
                         <option selected value="@series.Id">@series.SeriesName</option>
                     }
