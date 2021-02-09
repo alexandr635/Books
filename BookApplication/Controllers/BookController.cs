@@ -8,30 +8,30 @@ namespace WebAPI.Controllers
 {
     public class BookController : Controller
     {
-        IBookQuery bookQuery { get; set; }
-        IGenreQuery genreQuery { get; set; }
-        IAuthorQuery authorQuery { get; set; }
-        IReviewQuery reviewQuery { get; set; }
-        IStatusQuery statusQuery { get; set; }
-        ISeriesQuery seriesQuery { get; set; }
+        IBookService BookService { get; set; }
+        IGenreService GenreService { get; set; }
+        IAuthorService AuthorService { get; set; }
+        IReviewService ReviewService { get; set; }
+        IStatusService StatusService { get; set; }
+        ISeriesService SeriesService { get; set; }
 
-        public BookController(IBookQuery bookQuery, IGenreQuery genreQuery, 
-                              IAuthorQuery authorQuery, IReviewQuery reviewQuery, 
-                              IStatusQuery statusQuery, ISeriesQuery seriesQuery)
+        public BookController(IBookService BookService, IGenreService GenreService, 
+                              IAuthorService AuthorService, IReviewService ReviewService, 
+                              IStatusService StatusService, ISeriesService SeriesService)
         {
-            this.bookQuery = bookQuery;
-            this.genreQuery = genreQuery;
-            this.authorQuery = authorQuery;
-            this.reviewQuery = reviewQuery;
-            this.statusQuery = statusQuery;
-            this.seriesQuery = seriesQuery;
+            this.BookService = BookService;
+            this.GenreService = GenreService;
+            this.AuthorService = AuthorService;
+            this.ReviewService = ReviewService;
+            this.StatusService = StatusService;
+            this.SeriesService = SeriesService;
         }
 
         public async Task<IActionResult> Index()
         {
             try
             {
-                var listOfBook = await bookQuery.GetBook();
+                var listOfBook = await BookService.GetBook();
                 return View(listOfBook);
             }
             catch (Exception ex)
@@ -48,7 +48,7 @@ namespace WebAPI.Controllers
                 return RedirectToAction("Index");
             try
             {
-                BookDTO book = await bookQuery.GetBook(id);
+                BookDTO book = await BookService.GetBook(id);
                 return View(book);
             }
             catch (Exception ex)
@@ -77,7 +77,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                await reviewQuery.AddReview(reviewDTO);
+                await ReviewService.AddReview(reviewDTO);
                 return "Отзыв добавлен";
             }
             catch (Exception ex)
@@ -90,7 +90,7 @@ namespace WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> FindBook(string pattern)
         {
-            var bookDTO = await bookQuery.GetBook(pattern);
+            var bookDTO = await BookService.GetBook(pattern);
             return View(bookDTO);
         }
 
@@ -98,11 +98,13 @@ namespace WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> AddBook()
         {
-            ListDTO listDTO = new ListDTO();
-            listDTO.GenreDTO = await genreQuery.GetGenre();
-            listDTO.AuthorDTO = await authorQuery.GetAuthor();
-            listDTO.BookStatusDTO = await statusQuery.GetStatus();
-            listDTO.BookSeriesDTO = await seriesQuery.GetSeries();
+            ListDTO listDTO = new ListDTO
+            {
+                GenreDTO = await GenreService.GetGenre(),
+                AuthorDTO = await AuthorService.GetAuthor(),
+                BookStatusDTO = await StatusService.GetStatus(),
+                BookSeriesDTO = await SeriesService.GetSeries()
+            };
             return View(listDTO);
         }
 
@@ -112,7 +114,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                await bookQuery.AddBook(book);
+                await BookService.AddBook(book);
                 return "Книга добавлена";
             }
             catch (Exception ex)
@@ -130,12 +132,14 @@ namespace WebAPI.Controllers
                 return RedirectToAction("Index");
             try
             {
-                ListDTO listDTO = new ListDTO();
-                listDTO.GenreDTO = await genreQuery.GetGenre();
-                listDTO.AuthorDTO = await authorQuery.GetAuthor();
-                listDTO.BookStatusDTO = await statusQuery.GetStatus();
-                listDTO.BookSeriesDTO = await seriesQuery.GetSeries();
-                listDTO.BookDTO = await bookQuery.GetBook(id);
+                ListDTO listDTO = new ListDTO
+                {
+                    GenreDTO = await GenreService.GetGenre(),
+                    AuthorDTO = await AuthorService.GetAuthor(),
+                    BookStatusDTO = await StatusService.GetStatus(),
+                    BookSeriesDTO = await SeriesService.GetSeries(),
+                    BookDTO = await BookService.GetBook(id)
+                };
                 return View(listDTO);
             }
             catch (Exception ex)
@@ -150,7 +154,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                await bookQuery.ChangeBook(book);
+                await BookService.ChangeBook(book);
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -159,5 +163,12 @@ namespace WebAPI.Controllers
             }
         }
 
+        [Route("Home/DeleteBook/{Id?}")]
+        [HttpGet]
+        public async Task<string> DeleteBook(BookDTO bookDTO)
+        {
+            await BookService.DeleteBook(bookDTO);
+            return "Книга удалена";
+        }
     }
 }

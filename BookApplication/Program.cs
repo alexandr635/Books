@@ -14,7 +14,6 @@ namespace BookApplication
             {
                 var services = scope.ServiceProvider;
                 var context = services.GetRequiredService<BookContext>();
-                //context.Database.EnsureDeleted();
                 context.Database.EnsureCreated();
             }
             host.Run();

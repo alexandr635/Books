@@ -3,23 +3,22 @@ using Application.Logic;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
     public class TagController : Controller
     {
-        ITagQuery tagQuery { get; set; }
+        ITagService TagService { get; set; }
 
-        public TagController(ITagQuery tagQuery)
+        public TagController(ITagService TagService)
         {
-            this.tagQuery = tagQuery;
+            this.TagService = TagService;
         }
 
         public async Task<IActionResult> Index()
         {
-            HashSet<TagDTO> tags = await tagQuery.GetTag();
+            HashSet<TagDTO> tags = await TagService.GetTag();
             return View(tags);
         }
 
@@ -36,7 +35,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                await tagQuery.AddTag(tagDTO);
+                await TagService.AddTag(tagDTO);
                 return "Тэг добавлен";
             }
             catch (Exception ex)
@@ -51,7 +50,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                TagDTO tagDTO = await tagQuery.GetTag(id);
+                TagDTO tagDTO = await TagService.GetTag(id);
                 return View(tagDTO);
             }
             catch (Exception ex)
@@ -66,12 +65,25 @@ namespace WebAPI.Controllers
         {
             try
             {
-                await tagQuery.ChangeTag(tagDTO);
+                await TagService.ChangeTag(tagDTO);
                 return "Тэг изменен";
             }
             catch (Exception ex)
             {
                 return ex.Message;
+            }
+        }
+
+        [HttpGet]
+        [Route("Tag/DeleteTag/{Id?}")]
+        public async Task<string> DeleteTag(TagDTO tagDTO ,int? id)
+        {
+            if (id == null)
+                return "go away";
+            else
+            {
+                await TagService.DeleteTag(tagDTO);
+                return "Тэг удален!";
             }
         }
     }

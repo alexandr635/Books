@@ -12,18 +12,19 @@
                 <td>Id</td>
                 <td>Серия</td>
                 <td></td>
+                <td></td>
             </tr>
             @foreach (var series in Model)
             {
                 <tr>
                     <td>@series.Id</td>
-                    <td>@series.SeriesName</td>
-                    <table>
+                    <td>@series.SeriesName<br />
                         @foreach (var book in series.BooksDTO)
                         {
-                            <tr><td><pre>     @book.Title</pre></td></tr>
+                            <pre>     @book.Title</pre>
                         }
-                    </table>
+                    </td>
+                    <td><a href="~/BookSeries/DeleteSeries/@series.Id">Удалить</a></td>
                 </tr>
             }
         </table>

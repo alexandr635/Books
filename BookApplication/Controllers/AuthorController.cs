@@ -3,25 +3,24 @@ using Application.Logic;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
     public class AuthorController : Controller
     {
-        IAuthorQuery authorQuery { get; set; }
+        IAuthorService AuthorService { get; set; }
 
-        public AuthorController(IAuthorQuery authorQuery)
+        public AuthorController(IAuthorService AuthorService)
         {
-            this.authorQuery = authorQuery;
+            this.AuthorService = AuthorService;
         }
 
         public async Task<IActionResult> Index()
         {
             try
             {
-                HashSet<AuthorDTO> listAuthor = await authorQuery.GetAuthor();
+                HashSet<AuthorDTO> listAuthor = await AuthorService.GetAuthor();
                 return View(listAuthor);
             }
             catch (Exception ex)
@@ -38,7 +37,7 @@ namespace WebAPI.Controllers
                 return RedirectToAction();
             try
             {
-                AuthorDTO author = await authorQuery.GetAuthor(id);
+                AuthorDTO author = await AuthorService.GetAuthor(id);
                 return View(author);
             }
             catch (Exception ex)
@@ -53,7 +52,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                await authorQuery.ChangeAuthor(authorDTO);
+                await AuthorService.ChangeAuthor(authorDTO);
                 return "пользователь изменен";
             }
             catch (Exception ex)
@@ -75,7 +74,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                await authorQuery.AddAuthor(authorDTO);
+                await AuthorService.AddAuthor(authorDTO);
                 return "Автор добавлен";
             }
             catch (Exception ex)
@@ -95,8 +94,21 @@ namespace WebAPI.Controllers
         [Route("Result")]
         public async Task<IActionResult> Result(string pattern)
         {
-            var result = await authorQuery.GetAuthor(pattern);
+            var result = await AuthorService.GetAuthor(pattern);
             return View(result);
+        }
+
+        [HttpGet]
+        [Route("author/Delete/{Id?}")]
+        public async Task<string> DeleteAuthor(AuthorDTO authorDTO, int? id)
+        {
+            if (id == null)
+                return "Куда ты мальчик?";
+            else
+            {
+                await AuthorService.DeleteAuthor(authorDTO);
+                return "Автор удален";
+            }
         }
     }
 }

@@ -1,28 +1,26 @@
 ﻿using Application.DTO;
 using Application.Logic;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
     public class BookSeriesController : Controller
     {
-        ISeriesQuery seriesQuery { get; set; }
-        IBookQuery bookQuery { get; set; }
+        ISeriesService SeriesService { get; set; }
+        IBookService BookService { get; set; }
 
-        public BookSeriesController(ISeriesQuery seriesQuery, IBookQuery bookQuery)
+        public BookSeriesController(ISeriesService SeriesService, IBookService BookService)
         {
-            this.seriesQuery = seriesQuery;
-            this.bookQuery = bookQuery;
+            this.SeriesService = SeriesService;
+            this.BookService = BookService;
         }
 
 
         public async Task<IActionResult> Index()
         {
-            var result = await seriesQuery.GetSeries();
+            var result = await SeriesService.GetSeries();
             return View(result);
         }
 
@@ -30,7 +28,7 @@ namespace WebAPI.Controllers
         [Route("AddBookSeries")]
         public async Task<IActionResult> AddBookSeries()
         {
-            HashSet<BookDTO> books = await bookQuery.GetBook();
+            HashSet<BookDTO> books = await BookService.GetBook();
             return View(books);
         }
 
@@ -38,8 +36,21 @@ namespace WebAPI.Controllers
         [Route("AddBookSeries")]
         public async Task<string> AddBookSeries(BookSeriesDTO bookSeriesDTO)
         {
-            await seriesQuery.AddSeries(bookSeriesDTO);
+            await SeriesService.AddSeries(bookSeriesDTO);
             return "Серия добавлена!";
+        }
+
+        [HttpGet]
+        [Route("BookSeries/DeleteSeries/{id?}")]
+        public async Task<string> AddBookSeries(BookSeriesDTO bookSeriesDTO, int? id)
+        {
+            if (id == null)
+                return "потеряйся";
+            else
+            {
+                await SeriesService.DeleteSeries(bookSeriesDTO);
+                return "Серия удалена";
+            }
         }
     }
 }

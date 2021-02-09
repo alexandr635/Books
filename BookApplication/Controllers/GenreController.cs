@@ -9,16 +9,16 @@ namespace WebAPI.Controllers
 {
     public class GenreController : Controller
     {
-        IGenreQuery genreQuery { get; set; }
+        IGenreService GenreService { get; set; }
 
-        public GenreController(IGenreQuery genreQuery)
+        public GenreController(IGenreService GenreService)
         {
-            this.genreQuery = genreQuery;
+            this.GenreService = GenreService;
         }
 
         public async Task<IActionResult> Index()
         {
-            HashSet<GenreDTO> listOfGenres = await genreQuery.GetGenre();
+            HashSet<GenreDTO> listOfGenres = await GenreService.GetGenre();
             return View(listOfGenres);
         }
 
@@ -35,7 +35,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                await genreQuery.AddGenre(genreDTO);
+                await GenreService.AddGenre(genreDTO);
                 return "Жанр добавлен";
             }
             catch (Exception ex)
@@ -52,7 +52,7 @@ namespace WebAPI.Controllers
                 RedirectToAction();
             try
             {
-                var result = await genreQuery.GetGenre(id);
+                var result = await GenreService.GetGenre(id);
                 return View(result);
             }
             catch (Exception ex)
@@ -68,12 +68,25 @@ namespace WebAPI.Controllers
         {
             try
             {
-                await genreQuery.ChangeGenre(genreDTO);
+                await GenreService.ChangeGenre(genreDTO);
                 return "Жанр изменен";
             }
             catch (Exception ex)
             {
                 return ex.Message;
+            }
+        }
+
+        [HttpPost]
+        [Route("Genre/Delete/{Id?}")]
+        public async Task<string> DeleteGenre(GenreDTO genreDTO, int? id)
+        {
+            if (id == null)
+                return "fuck you";
+            else
+            {
+                await GenreService.DeleteGenre(genreDTO);
+                return "Жанр удален!";
             }
         }
     }

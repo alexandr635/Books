@@ -25,20 +25,20 @@ namespace BookApplication
             string connection = configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<BookContext>(options => options.UseSqlServer(connection));
 
-            services.AddScoped<IBookQuery, BookQuery>();
-            services.AddScoped<IWorkWithBook, WorkWithBook>();
-            services.AddScoped<IAuthorQuery, AuthorQuery>();
-            services.AddScoped<IWorkWithAuthor, WorkWithAuthor>();
-            services.AddScoped<IWorkWithGenre, WorkWithGenre>();
-            services.AddScoped<IGenreQuery, GenreQuery>();
-            services.AddScoped<IWorkWithTag, WorkWithTag>();
-            services.AddScoped<ITagQuery, TagQuery>();
-            services.AddScoped<IWorkWithSeries, WorkWithSeries>();
-            services.AddScoped<ISeriesQuery, SeriesQuery>();
-            services.AddScoped<IWorkWithReview, WorkWithReview>();
-            services.AddScoped<IReviewQuery, ReviewQuery>();
-            services.AddScoped<IStatusQuery, StatusQuery>();
-            services.AddScoped<IWorkWithStatus, WorkWithStatus>();
+            services.AddScoped<IBookService, BookService>();
+            services.AddScoped<IBookRepository, BookRepository>();
+            services.AddScoped<IAuthorService, AuthorService>();
+            services.AddScoped<IAuthorRepository, AuthorRepository>();
+            services.AddScoped<IGenreRepository, GenreRepository>();
+            services.AddScoped<IGenreService, GenreService>();
+            services.AddScoped<ITagRepository, TagRepository>();
+            services.AddScoped<ITagService, TagService>();
+            services.AddScoped<ISeriesRepository, SeriesRepository>();
+            services.AddScoped<ISeriesService, SeriesService>();
+            services.AddScoped<IReviewRepository, ReviewRepository>();
+            services.AddScoped<IReviewService, ReviewService>();
+            services.AddScoped<IStatusService, StatusService>();
+            services.AddScoped<IStatusRepository, StatusRepository>();
 
             services.AddControllersWithViews();
         }
