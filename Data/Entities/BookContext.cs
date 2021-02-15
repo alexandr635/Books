@@ -112,9 +112,9 @@ namespace Data
 
             modelBuilder.Entity<Review>().HasData(
                new Review[]{
-                    new Review ( 1, "Commentator1", "Интересно", 4.5, 1 ),
-                    new Review ( 2, "Commentator2", "Не очень", 2.5, 2 ),
-                    new Review ( 3, "Commentator3", "Прикольно", 4,  2 )
+                    new Review ( 1, "Commentator1", "Интересно", 4.5, 1, 1 ),
+                    new Review ( 2, "Commentator2", "Не очень", 2.5, 2, 1 ),
+                    new Review ( 3, "Commentator3", "Прикольно", 4,  2, 4 )
            });
 
             modelBuilder.Entity<Role>().HasData(

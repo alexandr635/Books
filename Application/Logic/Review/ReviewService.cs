@@ -14,7 +14,7 @@ namespace Application.Logic
         public ReviewService(IReviewRepository ReviewRepository, IMapper mapper)
         {
             this.ReviewRepository = ReviewRepository;
-            this.Mapper = mapper;
+            Mapper = mapper;
         }
 
         public async Task AddReview(ReviewDTO reviewDTO)

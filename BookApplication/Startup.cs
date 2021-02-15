@@ -9,6 +9,8 @@ using Application.Logic;
 using Application;
 using Data.Logic;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Data.Repositories.User;
+using Application.Logic.User;
 
 namespace BookApplication
 {
@@ -40,13 +42,17 @@ namespace BookApplication
             services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<IStatusService, StatusService>();
             services.AddScoped<IStatusRepository, StatusRepository>();
-
-            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            //    .AddCookie(options => {
-            //        options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
-            //});
-
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserService, UserService>();
+        
             services.AddAutoMapper(typeof(BookService));
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+               .AddCookie(options =>
+               {
+                   options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Index");
+                   options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Account/Index");
+               });
 
             services.AddControllersWithViews();
         }
@@ -61,8 +67,8 @@ namespace BookApplication
             app.UseRouting();
             app.UseStaticFiles();
 
-            //app.UseAuthentication();
-            //app.UseAuthorization();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {                

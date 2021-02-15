@@ -1,4 +1,6 @@
-﻿namespace Data.Entities
+﻿using System.Collections.Generic;
+
+namespace Data.Entities
 {
     public class User
     {
@@ -9,10 +11,11 @@
         public int RoleId { get; protected set; }
 
         public Role Role { get; protected set; }
+        public HashSet<Review> Reviews { get; protected set; }
 
         public User()
         {
-
+            Reviews = new HashSet<Review>();
         }
 
         public User(int id, string login, string password, int role)
@@ -21,6 +24,8 @@
             Login = login;
             Password = password;
             RoleId = role;
+
+            Reviews = new HashSet<Review>();
         }
 
         public void SetLogin(string login)

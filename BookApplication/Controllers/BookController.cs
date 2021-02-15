@@ -4,6 +4,7 @@ using Application.Logic;
 using Application.DTO;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebAPI.Controllers
 {
@@ -28,6 +29,7 @@ namespace WebAPI.Controllers
             this.TagService = TagService;
         }
 
+        [Authorize(Roles = "Администратор")]
         public async Task<IActionResult> Index()
         {
             try
@@ -68,6 +70,7 @@ namespace WebAPI.Controllers
 
         [Route("AddBook")]
         [HttpGet]
+        [Authorize(Roles = "Писатель, Администратор")]
         public async Task<IActionResult> AddBook()
         {
             ListDTO listDTO = new ListDTO
@@ -82,6 +85,7 @@ namespace WebAPI.Controllers
 
         [Route("AddBook")]
         [HttpPost]
+        [Authorize(Roles = "Администратор")]
         public async Task<string> AddBook(BookDTO book)
         {
             try
@@ -98,6 +102,7 @@ namespace WebAPI.Controllers
 
         [Route("Home/ChangeBook/{Id?}")]
         [HttpGet]
+        [Authorize(Roles = "Писатель, Администратор")]
         public async Task<IActionResult> ChangeBook(int? id)
         {
             if (id == null)
@@ -123,6 +128,7 @@ namespace WebAPI.Controllers
 
         [Route("Home/ChangeBook/{Id?}")]
         [HttpPost]
+        [Authorize(Roles = "Писатель, Администратор")]
         public async Task<IActionResult> Change(BookDTO book, int[] tagsId)
         {
             try
@@ -145,6 +151,7 @@ namespace WebAPI.Controllers
 
         [Route("Home/DeleteBook/{Id?}")]
         [HttpGet]
+        [Authorize(Roles = "Администратор")]
         public async Task<string> DeleteBook(BookDTO bookDTO)
         {
             await BookService.DeleteBook(bookDTO);

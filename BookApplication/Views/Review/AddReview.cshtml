@@ -1,4 +1,5 @@
 ﻿@model int?
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,11 +8,11 @@
 <body>
     <h3>Добавить отзыв</h3>
     <form method="post">
-        <input type="hidden" value="@Model" name="BookId" />
+        <input type="hidden" value="@Model" name="BookId"/>
         <input type="hidden" name="Id" />
         <p>
             <label>Pseudonim</label>
-            <input type="text" name="Pseudonim" required />
+            <input type="text" disabled name="Pseudonim" required value='@ViewData["Name"]'/>
         </p>
         <p>
             <label>Review string</label>
