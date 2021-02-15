@@ -13,5 +13,6 @@ namespace Application.Logic
         Task ChangeBook(BookDTO book);
         Task<HashSet<BookDTO>> GetRatingList(int size);
         Task DeleteBook(BookDTO bookDTO);
+        Task<HashSet<BookDTO>> GetBook(BookDTO book);
     }
 }

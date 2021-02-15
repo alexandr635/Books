@@ -1,4 +1,5 @@
 ﻿using Data.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,14 +19,14 @@ namespace Data.Logic
 
         public async Task<HashSet<Tag>> GetTag()
         {
-            var result = await Task.Run( () => Context.Tags.ToHashSet());
+            var result = await Task.Run( () => Context.Tags.AsNoTracking().ToHashSet());
 
             return result;
         }
 
         public async Task<Tag> GetTag(int? id)
         {
-            var result = await Task.Run(() => Context.Tags.FirstOrDefault(t => t.Id == id));
+            var result = await Task.Run(() => Context.Tags.AsNoTracking().FirstOrDefault(t => t.Id == id));
 
             return result;
         }

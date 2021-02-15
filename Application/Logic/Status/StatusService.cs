@@ -1,5 +1,6 @@
 ﻿using Application.DTO;
 using Application.Mapping;
+using AutoMapper;
 using Data.Logic;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,10 +10,12 @@ namespace Application.Logic
     public class StatusService : IStatusService
     {
         IStatusRepository StatusRepository { get; set; }
+        IMapper mapper { get; set; }
 
-        public StatusService(IStatusRepository StatusRepository)
+        public StatusService(IStatusRepository StatusRepository, IMapper mapper)
         {
             this.StatusRepository = StatusRepository;
+            this.mapper = mapper;
         }
 
         public async Task<HashSet<BookStatusDTO>> GetStatus()
@@ -21,7 +24,7 @@ namespace Application.Logic
             HashSet<BookStatusDTO> list = new HashSet<BookStatusDTO>();
 
             foreach (var status in result)
-                list.Add(StatusMap.BookStatusDTO(status));
+                list.Add(mapper.Map<BookStatusDTO>(status));
 
             return list;
         }
@@ -29,7 +32,7 @@ namespace Application.Logic
         public async Task<BookStatusDTO> GetStatus(int? id)
         {
             var result = await StatusRepository.GetStatus(id);
-            BookStatusDTO statusDTO = StatusMap.BookStatusDTO(result);
+            BookStatusDTO statusDTO = mapper.Map<BookStatusDTO>(result);
 
             return statusDTO;
         }

@@ -26,10 +26,19 @@ namespace Data.Logic
 
         public async Task<IQueryable<Author>> GetAuthor(string pattern)
         {
-            var res = await Task.Run(() => Context.Authors.Where(u => u.Name.Contains(pattern) || 
-                                                                      u.LastName.Contains(pattern) ||
-                                                                      u.Patronymic.Contains(pattern)));
-            return res;
+            try
+            {
+                DateTime date = Convert.ToDateTime(pattern);
+                var res = await Task.Run(() => Context.Authors.Where(a => a.DateOfBirth == date || a.DateOfDie == date));
+                return res;
+            }
+            catch
+            {
+                var res = await Task.Run(() => Context.Authors.Where(u => u.Name.Contains(pattern) ||
+                                                                          u.LastName.Contains(pattern) ||
+                                                                          u.Patronymic.Contains(pattern)));
+                return res;
+            }
         }
 
         public async Task<Author> GetAuthor(int? id)

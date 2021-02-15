@@ -1,5 +1,6 @@
 ﻿using Application.DTO;
 using Application.Mapping;
+using AutoMapper;
 using Data.Entities;
 using Data.Logic;
 using System.Collections.Generic;
@@ -10,10 +11,12 @@ namespace Application.Logic
     public class TagService : ITagService
     {
         ITagRepository TagRepository { get; set; }
+        IMapper mapper { get; set; }
 
-        public TagService(ITagRepository TagRepository)
+        public TagService(ITagRepository TagRepository, IMapper mapper)
         {
             this.TagRepository = TagRepository;
+            this.mapper = mapper;
         }
 
         public async Task<HashSet<TagDTO>> GetTag()
@@ -22,7 +25,7 @@ namespace Application.Logic
             HashSet<TagDTO> listTagDTO = new HashSet<TagDTO>();
 
             foreach (Tag tag in listTag)
-                listTagDTO.Add(TagMap.TagDTO(tag));
+                listTagDTO.Add(mapper.Map<TagDTO>(tag));
 
             return listTagDTO;
         }
@@ -30,26 +33,26 @@ namespace Application.Logic
         public async Task<TagDTO> GetTag(int? id)
         {
             var tag = await TagRepository.GetTag(id);
-            TagDTO tagDTO = TagMap.TagDTO(tag);
+            TagDTO tagDTO = mapper.Map<TagDTO>(tag);
 
             return tagDTO;
         }
 
         public async Task AddTag(TagDTO tagDTO)
         {
-            Tag tag = TagMap.Tag(tagDTO);
+            Tag tag = mapper.Map<Tag>(tagDTO);
             await TagRepository.AddTag(tag);
         }
 
         public async Task ChangeTag(TagDTO tagDTO)
         {
-            Tag tag = TagMap.Tag(tagDTO);
+            Tag tag = mapper.Map<Tag>(tagDTO);
             await TagRepository.ChangeTag(tag);
         }
 
         public async Task DeleteTag(TagDTO tagDTO)
         {
-            Tag tag = TagMap.Tag(tagDTO);
+            Tag tag = mapper.Map<Tag>(tagDTO);
             await TagRepository.DeleteTag(tag);
         }
     }

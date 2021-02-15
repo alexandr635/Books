@@ -1,5 +1,6 @@
 ﻿using Application.DTO;
 using Application.Mapping;
+using AutoMapper;
 using Data.Entities;
 using Data.Logic;
 using System.Collections.Generic;
@@ -10,10 +11,12 @@ namespace Application.Logic
     public class GenreService : IGenreService
     {
         IGenreRepository GenreRepository { get; set; }
+        IMapper mapper { get; set; }
 
-        public GenreService(IGenreRepository GenreRepository)
+        public GenreService(IGenreRepository GenreRepository, IMapper mapper)
         {
             this.GenreRepository = GenreRepository;
+            this.mapper = mapper;
         }
 
         public async Task<HashSet<GenreDTO>> GetGenre()
@@ -22,7 +25,7 @@ namespace Application.Logic
             HashSet<GenreDTO> listGenreDTO = new HashSet<GenreDTO>();
 
             foreach (Genre genre in listGenre)
-                listGenreDTO.Add(GenreMap.GenreDTO(genre));
+                listGenreDTO.Add(mapper.Map<GenreDTO>(genre));
 
             return listGenreDTO;
         }
@@ -30,26 +33,26 @@ namespace Application.Logic
         public async Task<GenreDTO> GetGenre(int? id)
         {
             Genre genre = await GenreRepository.GetGenre(id);
-            GenreDTO genreDTO = GenreMap.GenreDTO(genre);
+            GenreDTO genreDTO = mapper.Map<GenreDTO>(genre);
 
             return genreDTO;
         }
 
         public async Task AddGenre(GenreDTO genreDTO)
         {
-            Genre genre = GenreMap.Genre(genreDTO);
+            Genre genre = mapper.Map<Genre>(genreDTO);
             await GenreRepository.AddGenre(genre);
         }
 
         public async Task ChangeGenre(GenreDTO genreDTO)
         {
-            Genre genre = GenreMap.Genre(genreDTO);
+            Genre genre = mapper.Map<Genre>(genreDTO);
             await GenreRepository.ChangeGenre(genre);
         }
 
         public async Task DeleteGenre(GenreDTO genreDTO)
         {
-            Genre genre = GenreMap.Genre(genreDTO);
+            Genre genre = mapper.Map<Genre>(genreDTO);
             await GenreRepository.DeleteGenre(genre);
         }
     }

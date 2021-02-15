@@ -1,0 +1,39 @@
+﻿@model Application.DTO.ListDTO
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Книги</title>
+</head>
+<body>
+    <h3>Поиск книги</h3>
+    <form method="post">
+        <input type="hidden" name="Id" />
+        <p>
+            <label>Название книги/серии</label>
+            <input type="text" name="Title" required />
+        </p>
+        <p>
+            <label>Средняя оценка</label>
+            <input type="number" max="5" min="0" step="0.1" name="AverageRating" required />
+        </p>
+        <p>
+            <label>Author</label>
+            <select name="AuthorId">
+                @foreach (var author in Model.AuthorDTO)
+                {
+                    <option value="@author.Id">@author.LastName</option>
+                }
+            </select>
+        </p>
+        <p>
+            <label>Tags</label><br />
+            @foreach (var tag in Model.TagDTO)
+            {
+                <input type="checkbox" name="tagsId" value="@tag.Id"/>@tag.TagName<br />
+            }
+        </p>
+        <br /><br />
+        <button>Найти книгу</button>
+    </form>
+</body>
+</html>

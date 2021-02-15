@@ -6,12 +6,12 @@ namespace Data
 {
     public class Book
     {
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public string DescriptionShort { get; set; }
-        public string DescriptionLong { get; set; }
-        public DateTime PublishDate { get; set; }
-        public double AverageRating { get; set; }
+        public int Id { get; internal set; }
+        public string Title { get; internal set; }
+        public string DescriptionShort { get; internal set; }
+        public string DescriptionLong { get; internal set; }
+        public DateTime PublishDate { get; internal set; }
+        public double AverageRating { get; internal set; }
 
         public int AuthorId { get; set; }
         public int GenreId { get; set; }

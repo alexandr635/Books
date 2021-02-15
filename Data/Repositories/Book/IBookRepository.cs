@@ -12,6 +12,6 @@ namespace Data.Logic
         Task ChangeBook(Book book);
         Task<HashSet<Book>> GetRatingList(int size);
         Task DeleteBook(Book book);
-
+        Task<HashSet<Book>> GetBook(Book book);
     }
 }

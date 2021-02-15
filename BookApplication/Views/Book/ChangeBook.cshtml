@@ -86,6 +86,27 @@
                 }
             </select>
         </p>
+        <p>
+            <label>Tags</label><br />
+            @foreach (var tag in Model.TagDTO)
+            {
+                if (Model.BookDTO.TagsDTO != null)
+                {
+                    if (Model.BookDTO.TagsDTO.Any(t => t.Id == tag.Id))
+                    {
+                        <input type="checkbox" checked name="tagsId" value="@tag.Id" />@tag.TagName<br />
+                    }
+                    else
+                    {
+                        <input type="checkbox" name="tagsId" value="@tag.Id" />@tag.TagName<br />
+                    }
+                }
+                else
+                {
+                    <input type="checkbox" name="tagsId" value="@tag.Id" />@tag.TagName<br />
+                }
+            }
+        </p>
         <br /><br />
         <button>Изменить книгу</button>
     </form>

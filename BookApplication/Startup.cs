@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Application.Logic;
 using Application;
 using Data.Logic;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace BookApplication
 {
@@ -22,7 +22,7 @@ namespace BookApplication
         }
         
         public void ConfigureServices(IServiceCollection services)
-{
+        {
             string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<BookContext>(options => options.UseSqlServer(connection));
 
@@ -41,6 +41,13 @@ namespace BookApplication
             services.AddScoped<IStatusService, StatusService>();
             services.AddScoped<IStatusRepository, StatusRepository>();
 
+            //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            //    .AddCookie(options => {
+            //        options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
+            //});
+
+            services.AddAutoMapper(typeof(BookService));
+
             services.AddControllersWithViews();
         }
 
@@ -54,17 +61,16 @@ namespace BookApplication
             app.UseRouting();
             app.UseStaticFiles();
 
+            //app.UseAuthentication();
+            //app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
-            {
+            {                
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Book}/{action=Index}/{id?}");
             });
-
-            app.Run(async (context) =>
-            {
-                await context.Response.WriteAsync(context.Response.StatusCode.ToString());
-            });
         }
     }
 }
+ 
