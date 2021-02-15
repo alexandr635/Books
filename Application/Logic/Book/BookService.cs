@@ -13,18 +13,18 @@ namespace Application
     public class BookService : IBookService
     {
         IBookRepository BookRepository { get; set; }
-        IMapper mapper { get; set; }
+        IMapper Mapper { get; set; }
 
         public BookService(IBookRepository workWithBook, IMapper mapper)
         {
             BookRepository = workWithBook;
-            this.mapper = mapper;
+            this.Mapper = mapper;
         }
 
         public async Task<BookDTO> GetBook(int? id)
         {
             Book book = await BookRepository.GetBook(id);
-            BookDTO bookDTO = mapper.Map<BookDTO>(book);
+            BookDTO bookDTO = Mapper.Map<BookDTO>(book);
 
             return bookDTO;
         }
@@ -35,7 +35,7 @@ namespace Application
             HashSet<BookDTO> list = new HashSet<BookDTO>();
 
             foreach (Book book in listOfBook)
-                list.Add(mapper.Map<BookDTO>(book));
+                list.Add(Mapper.Map<BookDTO>(book));
 
             return list;
         }
@@ -46,26 +46,26 @@ namespace Application
             HashSet<BookDTO> list = new HashSet<BookDTO>();
 
             foreach (Book book in listOfBook)
-                list.Add(mapper.Map<BookDTO>(book));
+                list.Add(Mapper.Map<BookDTO>(book));
 
             return list;
         }
 
         public async Task AddBook(BookDTO book)
         {
-            Book newBook = mapper.Map<Book>(book);
+            Book newBook = Mapper.Map<Book>(book);
             await BookRepository.AddBook(newBook);
         }
 
         public async Task ChangeBook(BookDTO book)
         {
-            Book changeBook = mapper.Map<Book>(book);
+            Book changeBook = Mapper.Map<Book>(book);
 
             HashSet<Tag> tags = new HashSet<Tag>();
             foreach (var tag in book.TagsDTO)
-                tags.Add(mapper.Map<Tag>(tag));
+                tags.Add(Mapper.Map<Tag>(tag));
 
-            changeBook.Tags = tags;
+            changeBook.SetTags(tags);
 
             await BookRepository.ChangeBook(changeBook);
         }
@@ -76,24 +76,24 @@ namespace Application
             HashSet<BookDTO> listBookDTO = new HashSet<BookDTO>();
 
             foreach (Book book in listBook)
-                listBookDTO.Add(mapper.Map<BookDTO>(book));
+                listBookDTO.Add(Mapper.Map<BookDTO>(book));
 
             return listBookDTO;
         }
 
         public async Task DeleteBook(BookDTO bookDTO)
         {
-            Book book = mapper.Map<Book>(bookDTO);
+            Book book = Mapper.Map<Book>(bookDTO);
             await BookRepository.DeleteBook(book);
         }
 
         public async Task<HashSet<BookDTO>> GetBook(BookDTO book)
         {
-            HashSet<Book> books = await BookRepository.GetBook(mapper.Map<Book>(book));
+            HashSet<Book> books = await BookRepository.GetBook(Mapper.Map<Book>(book));
             HashSet<BookDTO> bookDTOs = new HashSet<BookDTO>();
 
             foreach (var entity in books)
-                bookDTOs.Add(mapper.Map<BookDTO>(entity));
+                bookDTOs.Add(Mapper.Map<BookDTO>(entity));
 
             return bookDTOs;
         }

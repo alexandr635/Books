@@ -10,12 +10,12 @@ namespace Application.Logic
     public class AuthorService : IAuthorService
     {
         IAuthorRepository AuthorRepository { get; set; }
-        IMapper mapper { get; set; }
+        IMapper Mapper { get; set; }
 
         public AuthorService(IAuthorRepository AuthorRepository, IMapper mapper)
         {
             this.AuthorRepository = AuthorRepository;
-            this.mapper = mapper;
+            this.Mapper = mapper;
         }
 
         public async Task<HashSet<AuthorDTO>> GetAuthor()
@@ -24,7 +24,7 @@ namespace Application.Logic
             HashSet<AuthorDTO> listOfAuthorDTO = new HashSet<AuthorDTO>();
 
             foreach (Author author in listOfAuthor)
-                listOfAuthorDTO.Add(mapper.Map<AuthorDTO>(author));
+                listOfAuthorDTO.Add(Mapper.Map<AuthorDTO>(author));
 
             return listOfAuthorDTO;
         }
@@ -35,7 +35,7 @@ namespace Application.Logic
             HashSet<AuthorDTO> listOfAuthorDTO = new HashSet<AuthorDTO>();
 
             foreach (Author author in listOfAuthor)
-                listOfAuthorDTO.Add(mapper.Map<AuthorDTO>(author));
+                listOfAuthorDTO.Add(Mapper.Map<AuthorDTO>(author));
 
             return listOfAuthorDTO;
         }
@@ -43,26 +43,26 @@ namespace Application.Logic
         public async Task<AuthorDTO> GetAuthor(int? id)
         {
             Author author = await AuthorRepository.GetAuthor(id);
-            AuthorDTO authorDTO = mapper.Map<AuthorDTO>(author);
+            AuthorDTO authorDTO = Mapper.Map<AuthorDTO>(author);
 
             return authorDTO;
         }
 
         public async Task AddAuthor(AuthorDTO authorDTO)
         {
-            Author author = mapper.Map<Author>(authorDTO);
+            Author author = Mapper.Map<Author>(authorDTO);
             await AuthorRepository.AddAuthor(author);
         }
 
         public async Task ChangeAuthor(AuthorDTO authorDTO)
         {
-            Author author = mapper.Map<Author>(authorDTO);
+            Author author = Mapper.Map<Author>(authorDTO);
             await AuthorRepository.ChangeAuthor(author);
         }
 
         public async Task DeleteAuthor(AuthorDTO authorDTO)
         {
-            Author book = mapper.Map<Author>(authorDTO);
+            Author book = Mapper.Map<Author>(authorDTO);
             await AuthorRepository.DeleteAuthor(book);
         }
     }

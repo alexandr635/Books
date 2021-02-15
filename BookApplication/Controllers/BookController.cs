@@ -156,9 +156,11 @@ namespace WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> FilterBook()
         {
-            ListDTO listDTO = new ListDTO();
-            listDTO.AuthorDTO = await AuthorService.GetAuthor();
-            listDTO.TagDTO = await TagService.GetTag();
+            ListDTO listDTO = new ListDTO()
+            {
+                AuthorDTO = await AuthorService.GetAuthor(),
+                TagDTO = await TagService.GetTag()
+            };
 
             return View(listDTO);
         }

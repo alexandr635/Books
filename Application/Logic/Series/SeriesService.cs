@@ -1,5 +1,4 @@
 ﻿using Application.DTO;
-using Application.Mapping;
 using AutoMapper;
 using Data.Entities;
 using Data.Logic;
@@ -11,12 +10,12 @@ namespace Application.Logic
     public class SeriesService : ISeriesService
     {
         ISeriesRepository SeriesRepository { get; set; }
-        IMapper mapper { get; set; }
+        IMapper Mapper { get; set; }
 
         public SeriesService(ISeriesRepository SeriesRepository, IMapper mapper)
         {
             this.SeriesRepository = SeriesRepository;
-            this.mapper = mapper;
+            this.Mapper = mapper;
         }
 
         public async Task<HashSet<BookSeriesDTO>> GetSeries()
@@ -25,20 +24,20 @@ namespace Application.Logic
             HashSet<BookSeriesDTO> bookSeriesDTO = new HashSet<BookSeriesDTO>();
 
             foreach (var series in result)
-                bookSeriesDTO.Add(mapper.Map<BookSeriesDTO>(series));
+                bookSeriesDTO.Add(Mapper.Map<BookSeriesDTO>(series));
             
             return bookSeriesDTO;
         }
 
         public async Task AddSeries(BookSeriesDTO bookSeriesDTO)
         {
-            var result = mapper.Map<BookSeries>(bookSeriesDTO);
+            var result = Mapper.Map<BookSeries>(bookSeriesDTO);
             await SeriesRepository.AddSeries(result);
         }
 
         public async Task DeleteSeries(BookSeriesDTO bookSeriesDTO)
         {
-            var result = mapper.Map<BookSeries>(bookSeriesDTO);
+            var result = Mapper.Map<BookSeries>(bookSeriesDTO);
             await SeriesRepository.DeleteSeries(result);
         }
     }
