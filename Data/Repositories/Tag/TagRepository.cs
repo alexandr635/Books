@@ -19,14 +19,14 @@ namespace Data.Logic
 
         public async Task<HashSet<Tag>> GetTag()
         {
-            var result = await Task.Run( () => Context.Tags.AsNoTracking().ToHashSet());
+            var result = await Task.Run( () => Context.Tags.ToHashSet());
 
             return result;
         }
 
         public async Task<Tag> GetTag(int? id)
         {
-            var result = await Task.Run(() => Context.Tags.AsNoTracking().FirstOrDefault(t => t.Id == id));
+            var result = await Task.Run(() => Context.Tags.AsNoTracking().Include("Books").FirstOrDefault(t => t.Id == id));
 
             return result;
         }

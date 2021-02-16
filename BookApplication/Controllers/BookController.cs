@@ -99,7 +99,6 @@ namespace WebAPI.Controllers
             }
         }
 
-
         [Route("Home/ChangeBook/{Id?}")]
         [HttpGet]
         [Authorize(Roles = "Писатель, Администратор")]
@@ -139,8 +138,8 @@ namespace WebAPI.Controllers
                     tags.Add(await TagService.GetTag(tagId));
 
                 book.TagsDTO = tags;
-
                 await BookService.ChangeBook(book);
+
                 return RedirectToAction("Index");
             }
             catch (Exception ex)

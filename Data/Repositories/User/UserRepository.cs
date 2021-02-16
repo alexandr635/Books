@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
+using Data.Entities;
 
 namespace Data.Repositories.User
 {
@@ -26,7 +27,8 @@ namespace Data.Repositories.User
 
         public async Task<Entities.User> GetUser(string login)
         {
-            var user = await Task.Run( () => Context.Users.Include("Role").FirstOrDefault(u => u.Login == login));
+            var user = await Task.Run( () => 
+            Context.Users.FirstOrDefault(u => u.Login == login));
 
             return user;
         }

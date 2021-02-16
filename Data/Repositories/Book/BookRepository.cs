@@ -1,5 +1,4 @@
-﻿using Data.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,7 +43,8 @@ namespace Data.Logic
 
         public async Task<Book> GetBook(int? id)
         {
-            var res = Task.Run( () => BookContext.Books.Include("Author").Include("Genre").Include("BookStatus").Include("Tags").FirstOrDefault(b => b.Id == id));
+            var res = Task.Run( () => 
+                BookContext.Books.Include("Tags").FirstOrDefault(b => b.Id == id));
             Book book = await res;
 
             return book;
@@ -52,12 +52,12 @@ namespace Data.Logic
 
         public async Task<HashSet<Book>> GetBook(Book book)
         {
-            var books = await Task.Run( () => BookContext.Books.Where(b => 
-                b.Title == book.Title ||
-                b.BookSeries.SeriesName == book.Title ||
-                b.Author.Id == book.AuthorId ||
-                b.AverageRating >= book.AverageRating ||
-                b.Tags.Intersect(book.Tags).Count() > 0).ToHashSet());
+            var books = await Task.Run(() => BookContext.Books.Include("Tags").Where(b =>
+                (b.Title.Contains(book.Title) ||
+                b.BookSeries.SeriesName.Contains(book.Title)) &&
+                b.AuthorId == book.AuthorId &&
+                b.AverageRating >= book.AverageRating &&
+                b.Tags.Count() == book.Tags.Count()).ToHashSet());
 
             return books;
         }
@@ -70,7 +70,7 @@ namespace Data.Logic
 
         public async Task ChangeBook(Book book)
         {
-            BookContext.Books.Update(book);            
+            BookContext.Books.Update(book);
             await BookContext.SaveChangesAsync();
         }
 

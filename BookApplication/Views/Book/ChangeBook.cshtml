@@ -21,6 +21,10 @@
             <input type="text" value="@Model.BookDTO.DescriptionLong" name="DescriptionLong" required />
         </p>
         <p>
+            <label>Average rating</label>
+            <input type="text" value="@Model.BookDTO.AverageRating" name="AverageRating" required />
+        </p>
+        <p>
             <label>Genre</label>
             <select name="GenreId">
                 @foreach (var genre in @Model.GenreDTO)
@@ -64,7 +68,7 @@
                     }
                     else
                     {
-                        <option selected value="@status.Id">@status.StatusName</option>
+                        <option value="@status.Id">@status.StatusName</option>
                     }
                 }
             </select>

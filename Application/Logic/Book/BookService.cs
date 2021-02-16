@@ -1,9 +1,7 @@
 ﻿using Application.DTO;
 using Application.Logic;
-using Application.Mapping;
 using AutoMapper;
 using Data;
-using Data.Entities;
 using Data.Logic;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -18,7 +16,7 @@ namespace Application
         public BookService(IBookRepository workWithBook, IMapper mapper)
         {
             BookRepository = workWithBook;
-            this.Mapper = mapper;
+            Mapper = mapper;
         }
 
         public async Task<BookDTO> GetBook(int? id)
@@ -60,13 +58,6 @@ namespace Application
         public async Task ChangeBook(BookDTO book)
         {
             Book changeBook = Mapper.Map<Book>(book);
-
-            HashSet<Tag> tags = new HashSet<Tag>();
-            foreach (var tag in book.TagsDTO)
-                tags.Add(Mapper.Map<Tag>(tag));
-
-            changeBook.SetTags(tags);
-
             await BookRepository.ChangeBook(changeBook);
         }
 

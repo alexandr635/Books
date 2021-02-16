@@ -50,7 +50,7 @@ namespace WebAPI.Controllers
             try
             {
                 string name = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultNameClaimType).Value;
-                var user = UserService.GetUser(name);
+                var user = await UserService.GetUser(name);
                 reviewDTO.UserId = user.Id;
                 reviewDTO.Pseudonim = name;
                 await ReviewService.AddReview(reviewDTO);
