@@ -5,6 +5,7 @@ using Application.DTO;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq;
 
 namespace WebAPI.Controllers
 {
@@ -132,12 +133,14 @@ namespace WebAPI.Controllers
         {
             try
             {
-                HashSet<TagDTO> tags = new HashSet<TagDTO>();
+                List<BookToTagDTO> tags = new List<BookToTagDTO>();
 
                 foreach (int tagId in tagsId)
-                    tags.Add(await TagService.GetTag(tagId));
+                    tags.Add(new BookToTagDTO(book.Id, tagId));
 
-                book.TagsDTO = tags;
+
+
+                book.BookToTagsDTO = tags;
                 await BookService.ChangeBook(book);
 
                 return RedirectToAction("Index");
@@ -175,13 +178,13 @@ namespace WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> FilterBookResult(BookDTO bookDTO, int[] tagsId)
         {
-            HashSet<TagDTO> tags = new HashSet<TagDTO>();
+            List<TagDTO> tags = new List<TagDTO>();
 
             foreach (int tagId in tagsId)
                 tags.Add(await TagService.GetTag(tagId));
 
-            bookDTO.TagsDTO = tags;
-            HashSet<BookDTO> books = await BookService.GetBook(bookDTO); 
+            //bookDTO.TagsDTO = tags;
+            List<BookDTO> books = await BookService.GetBook(bookDTO); 
 
             return View(books);
         }

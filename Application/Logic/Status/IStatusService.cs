@@ -6,7 +6,7 @@ namespace Application.Logic
 {
     public interface IStatusService
     {
-        Task<HashSet<BookStatusDTO>> GetStatus();
+        Task<List<BookStatusDTO>> GetStatus();
         Task<BookStatusDTO> GetStatus(int? id);
     }
 }

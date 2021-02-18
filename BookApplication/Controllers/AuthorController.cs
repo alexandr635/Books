@@ -20,7 +20,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                HashSet<AuthorDTO> listAuthor = await AuthorService.GetAuthor();
+                List<AuthorDTO> listAuthor = await AuthorService.GetAuthor();
                 return View(listAuthor);
             }
             catch (Exception ex)

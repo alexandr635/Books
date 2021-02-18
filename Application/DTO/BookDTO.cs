@@ -17,9 +17,14 @@ namespace Application.DTO
 
         public AuthorDTO AuthorDTO { get; set; }
         public GenreDTO GenreDTO { get; set; }
-        public HashSet<TagDTO> TagsDTO { get; set; }
+        public List<BookToTagDTO> BookToTagsDTO { get; set; }
         public BookStatusDTO BookStatusDTO { get; set; }
         public BookSeriesDTO BookSeriesDTO { get; set; }
-        public HashSet<ReviewDTO> ReviewsDTO { get; set; }
+        public List<ReviewDTO> ReviewsDTO { get; set; }
+
+        public BookDTO()
+        {
+            BookToTagsDTO = new List<BookToTagDTO>();
+        }
     }
 }

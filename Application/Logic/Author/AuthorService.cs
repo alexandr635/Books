@@ -15,13 +15,13 @@ namespace Application.Logic
         public AuthorService(IAuthorRepository AuthorRepository, IMapper mapper)
         {
             this.AuthorRepository = AuthorRepository;
-            this.Mapper = mapper;
+            Mapper = mapper;
         }
 
-        public async Task<HashSet<AuthorDTO>> GetAuthor()
+        public async Task<List<AuthorDTO>> GetAuthor()
         {
             var listOfAuthor = await AuthorRepository.GetAuthor();
-            HashSet<AuthorDTO> listOfAuthorDTO = new HashSet<AuthorDTO>();
+            List<AuthorDTO> listOfAuthorDTO = new List<AuthorDTO>();
 
             foreach (Author author in listOfAuthor)
                 listOfAuthorDTO.Add(Mapper.Map<AuthorDTO>(author));
@@ -29,10 +29,10 @@ namespace Application.Logic
             return listOfAuthorDTO;
         }
 
-        public async Task<HashSet<AuthorDTO>> GetAuthor(string pattern)
+        public async Task<List<AuthorDTO>> GetAuthor(string pattern)
         {
             var listOfAuthor = await AuthorRepository.GetAuthor(pattern);
-            HashSet<AuthorDTO> listOfAuthorDTO = new HashSet<AuthorDTO>();
+            List<AuthorDTO> listOfAuthorDTO = new List<AuthorDTO>();
 
             foreach (Author author in listOfAuthor)
                 listOfAuthorDTO.Add(Mapper.Map<AuthorDTO>(author));

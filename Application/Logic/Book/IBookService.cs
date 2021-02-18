@@ -7,12 +7,12 @@ namespace Application.Logic
     public interface IBookService
     {
         Task<BookDTO> GetBook(int? id);
-        Task<HashSet<BookDTO>> GetBook();
-        Task<HashSet<BookDTO>> GetBook(string pattern);
+        Task<List<BookDTO>> GetBook();
+        Task<List<BookDTO>> GetBook(string pattern);
         Task AddBook(BookDTO book);
         Task ChangeBook(BookDTO book);
-        Task<HashSet<BookDTO>> GetRatingList(int size);
+        Task<List<BookDTO>> GetRatingList(int size);
         Task DeleteBook(BookDTO bookDTO);
-        Task<HashSet<BookDTO>> GetBook(BookDTO book);
+        Task<List<BookDTO>> GetBook(BookDTO book);
     }
 }

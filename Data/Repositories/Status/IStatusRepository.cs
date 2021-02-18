@@ -6,7 +6,7 @@ namespace Data.Logic
 {
     public interface IStatusRepository
     {
-        Task<HashSet<BookStatus>> GetStatus();
+        Task<List<BookStatus>> GetStatus();
         Task<BookStatus> GetStatus(int? id);
     }
 }

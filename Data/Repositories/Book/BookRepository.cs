@@ -15,51 +15,46 @@ namespace Data.Logic
             this.BookContext = BookContext;
         }
 
-        public async Task<HashSet<Book>> GetBook()
+        public async Task<List<Book>> GetBook()
         {
-            var res = Task.Run( () => BookContext.Books.Include("Author").Include("Genre").Include("BookStatus").ToHashSet());
-            HashSet<Book> books = await res;
-            
-            return books;
+            return await BookContext.Books
+                .Include(b => b.Author)
+                .Include(b => b.Genre)
+                .Include(b => b.BookStatus)
+                .ToListAsync();
         }
 
-        public async Task<HashSet<Book>> GetBook(string pattern)
+        public async Task<List<Book>> GetBook(string pattern)
         {
             try
             {
                 DateTime date = Convert.ToDateTime(pattern);
-                var res = await Task.Run(() => BookContext.Books.Where(b => b.PublishDate == date).ToHashSet());
-                return res;
+                return await BookContext.Books.Where(b => b.PublishDate == date).ToListAsync();
             }
             catch
             {
-                var res = await Task.Run(() => BookContext.Books.Where(b => b.Title.Contains(pattern) || b.Author.Name.Contains(pattern) ||
-                                                                       b.Author.LastName.Contains(pattern) || b.Author.Patronymic.Contains(pattern) ||
-                                                                       b.BookSeries.SeriesName.Contains(pattern) || b.Genre.GenreName.Contains(pattern)).ToHashSet());
-
-                return res;
+                return await BookContext.Books.Where(b => b.Title.Contains(pattern) || b.Author.Name.Contains(pattern) ||
+                                                    b.Author.LastName.Contains(pattern) || b.Author.Patronymic.Contains(pattern) ||
+                                                    b.BookSeries.SeriesName.Contains(pattern) || b.Genre.GenreName.Contains(pattern))
+                    .ToListAsync();
             }
         }
 
         public async Task<Book> GetBook(int? id)
         {
-            var res = Task.Run( () => 
-                BookContext.Books.Include("Tags").FirstOrDefault(b => b.Id == id));
-            Book book = await res;
-
-            return book;
+            return await BookContext.Books
+                .Include(b => b.BookToTags)
+                .FirstOrDefaultAsync(b => b.Id == id);
         }
 
-        public async Task<HashSet<Book>> GetBook(Book book)
+        public async Task<List<Book>> GetBook(Book book)
         {
-            var books = await Task.Run(() => BookContext.Books.Include("Tags").Where(b =>
+            return await BookContext.Books.Include("Tags").Where(b =>
                 (b.Title.Contains(book.Title) ||
                 b.BookSeries.SeriesName.Contains(book.Title)) &&
                 b.AuthorId == book.AuthorId &&
-                b.AverageRating >= book.AverageRating &&
-                b.Tags.Count() == book.Tags.Count()).ToHashSet());
-
-            return books;
+                b.AverageRating >= book.AverageRating)
+                .ToListAsync();
         }
 
         public async Task AddBook(Book book)
@@ -70,15 +65,14 @@ namespace Data.Logic
 
         public async Task ChangeBook(Book book)
         {
+            BookContext.BookToTags.RemoveRange(BookContext.BookToTags.Where(bt => bt.BookId == book.Id));
             BookContext.Books.Update(book);
             await BookContext.SaveChangesAsync();
         }
 
-        public async Task<HashSet<Book>> GetRatingList(int size)
+        public async Task<List<Book>> GetRatingList(int size)
         {
-            var result = await Task.Run( () => BookContext.Books.OrderBy(b => b.Reviews.Count).ToHashSet());
-
-            return result;
+            return await BookContext.Books.OrderBy(b => b.Reviews.Count).ToListAsync();
         }
 
         public async Task DeleteBook(Book book)

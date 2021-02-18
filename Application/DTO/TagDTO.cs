@@ -7,6 +7,6 @@ namespace Application.DTO
         public int Id { get; set; }
         public string TagName { get; set; }
 
-        public HashSet<BookDTO> BooksDTO { get; set; }
+        public List<BookToTagDTO> BookToTagsDTO { get; set; }
     }
 }

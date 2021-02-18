@@ -6,7 +6,7 @@ namespace Application.Logic
 {
     public interface ISeriesService
     {
-        Task<HashSet<BookSeriesDTO>> GetSeries();
+        Task<List<BookSeriesDTO>> GetSeries();
         Task AddSeries(BookSeriesDTO bookSeriesDTO);
         Task DeleteSeries(BookSeriesDTO bookSeriesDTO);
     }

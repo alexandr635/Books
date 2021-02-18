@@ -7,11 +7,11 @@ namespace Data.Entities
         public int Id { get; protected set; }
         public string SeriesName { get; protected set; }
 
-        public HashSet<Book> Books { get; protected set; }
+        public List<Book> Books { get; protected set; }
 
         public BookSeries()
         {
-            Books = new HashSet<Book>();
+            Books = new List<Book>();
         }
 
         public BookSeries(int id, string seriesName)
@@ -19,7 +19,7 @@ namespace Data.Entities
             Id = id;
             SeriesName = seriesName;
             
-            Books = new HashSet<Book>();
+            Books = new List<Book>();
         }
 
         public void SetSeriesName(string name)

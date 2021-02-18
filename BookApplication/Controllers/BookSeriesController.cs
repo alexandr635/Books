@@ -28,7 +28,7 @@ namespace WebAPI.Controllers
         [Route("AddBookSeries")]
         public async Task<IActionResult> AddBookSeries()
         {
-            HashSet<BookDTO> books = await BookService.GetBook();
+            List<BookDTO> books = await BookService.GetBook();
             return View(books);
         }
 

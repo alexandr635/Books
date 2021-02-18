@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Data.Logic
@@ -17,35 +16,29 @@ namespace Data.Logic
             this.Context = Context;
         }
 
-        public async Task<HashSet<Author>> GetAuthor()
+        public async Task<List<Author>> GetAuthor()
         {
-            var res = await Task.Run( () => Context.Authors.ToHashSet());
-
-            return res;
+            return await Context.Authors.ToListAsync();
         }
 
-        public async Task<IQueryable<Author>> GetAuthor(string pattern)
+        public async Task<List<Author>> GetAuthor(string pattern)
         {
             try
             {
                 DateTime date = Convert.ToDateTime(pattern);
-                var res = await Task.Run(() => Context.Authors.Where(a => a.DateOfBirth == date || a.DateOfDie == date));
-                return res;
+                return await Context.Authors.Where(a => a.DateOfBirth == date || a.DateOfDie == date).ToListAsync();
             }
             catch
             {
-                var res = await Task.Run(() => Context.Authors.Where(u => u.Name.Contains(pattern) ||
-                                                                          u.LastName.Contains(pattern) ||
-                                                                          u.Patronymic.Contains(pattern)));
-                return res;
+                return await Context.Authors.Where(u => u.Name.Contains(pattern) ||
+                                                        u.LastName.Contains(pattern) ||
+                                                        u.Patronymic.Contains(pattern)).ToListAsync();
             }
         }
 
         public async Task<Author> GetAuthor(int? id)
         {
-            var result = await Task.Run( () => Context.Authors.AsNoTracking().FirstOrDefault(a => a.Id == id));
-
-            return result;
+            return await Context.Authors.AsNoTracking().FirstOrDefaultAsync(a => a.Id == id);
         }
 
         public async Task AddAuthor(Author author)

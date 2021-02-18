@@ -7,11 +7,11 @@ namespace Application.DTO
         public int Id { get; set; }
         public string RoleName { get; set; }
 
-        public HashSet<UserDTO> UsersDTO { get; set; }
+        public List<UserDTO> UsersDTO { get; set; }
 
         public RoleDTO()
         {
-            UsersDTO = new HashSet<UserDTO>();
+            UsersDTO = new List<UserDTO>();
         }
     }
 }

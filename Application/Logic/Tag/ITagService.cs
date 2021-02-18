@@ -6,7 +6,7 @@ namespace Application.Logic
 {
     public interface ITagService
     {
-        Task<HashSet<TagDTO>> GetTag();
+        Task<List<TagDTO>> GetTag();
         Task<TagDTO> GetTag(int? id);
         Task AddTag(TagDTO tagDTO);
         Task ChangeTag(TagDTO tagDTO);

@@ -1,7 +1,6 @@
 ﻿using Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Data.Logic
@@ -15,18 +14,14 @@ namespace Data.Logic
             this.Context = Context;
         }
 
-        public async Task<HashSet<Genre>> GetGenre()
+        public async Task<List<Genre>> GetGenre()
         {
-            var res = await Task.Run( () => Context.Genres.ToHashSet());
-
-            return res;
+            return await Task.Run( () => Context.Genres.ToListAsync());
         }
 
         public async Task<Genre> GetGenre(int? id)
         {
-            var res = await Task.Run(() => Context.Genres.AsNoTracking().FirstOrDefault(g => g.Id == id));
-
-            return res;
+            return await Context.Genres.AsNoTracking().FirstOrDefaultAsync(g => g.Id == id);
         }
 
         public async Task AddGenre(Genre genre)

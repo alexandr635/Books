@@ -1,9 +1,6 @@
 ﻿using Data.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Data.Logic
@@ -17,18 +14,14 @@ namespace Data.Logic
             this.Context = Context;
         }
 
-        public async Task<HashSet<Tag>> GetTag()
+        public async Task<List<Tag>> GetTag()
         {
-            var result = await Task.Run( () => Context.Tags.ToHashSet());
-
-            return result;
+            return await Context.Tags.AsNoTracking().ToListAsync();
         }
 
         public async Task<Tag> GetTag(int? id)
         {
-            var result = await Task.Run(() => Context.Tags.AsNoTracking().Include("Books").FirstOrDefault(t => t.Id == id));
-
-            return result;
+            return await Context.Tags.AsNoTracking().Include("Books").FirstOrDefaultAsync(t => t.Id == id);
         }
 
         public async Task AddTag(Tag tag)

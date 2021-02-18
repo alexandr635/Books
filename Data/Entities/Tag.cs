@@ -7,19 +7,19 @@ namespace Data.Entities
         public int Id { get; protected set; }
         public string TagName { get; protected set; }
 
-        public HashSet<Book> Books { get; protected set; }
+        public List<BookToTag> BookToTags { get; protected set; }
 
         public Tag()
         {
-            Books = new HashSet<Book>();
+            BookToTags = new List<BookToTag>();
         }
 
         public Tag(int id, string tagName)
         {
             Id = id;
             TagName = tagName;
-            
-            Books = new HashSet<Book>();
+
+            BookToTags = new List<BookToTag>();
         }
 
         public void SetTagName(string name)

@@ -4,11 +4,11 @@ using Data.Entities;
 
 namespace Application.Mapping
 {
-    public class TagProfile : Profile
+    public class BookToTagProfile : Profile
     {
-        public TagProfile()
+        public BookToTagProfile()
         {
-            CreateMap<Tag, TagDTO>()
+            CreateMap<BookToTag, BookToTagDTO>()
                 .ReverseMap();
         }
     }

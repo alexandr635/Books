@@ -21,16 +21,13 @@ namespace Application
 
         public async Task<BookDTO> GetBook(int? id)
         {
-            Book book = await BookRepository.GetBook(id);
-            BookDTO bookDTO = Mapper.Map<BookDTO>(book);
-
-            return bookDTO;
+            return Mapper.Map<BookDTO>(await BookRepository.GetBook(id));
         }
 
-        public async Task<HashSet<BookDTO>> GetBook(string pattern)
+        public async Task<List<BookDTO>> GetBook(string pattern)
         {
             var listOfBook = await BookRepository.GetBook(pattern);
-            HashSet<BookDTO> list = new HashSet<BookDTO>();
+            List<BookDTO> list = new List<BookDTO>();
 
             foreach (Book book in listOfBook)
                 list.Add(Mapper.Map<BookDTO>(book));
@@ -38,10 +35,10 @@ namespace Application
             return list;
         }
 
-        public async Task<HashSet<BookDTO>> GetBook()
+        public async Task<List<BookDTO>> GetBook()
         {
             var listOfBook = await BookRepository.GetBook();
-            HashSet<BookDTO> list = new HashSet<BookDTO>();
+            List<BookDTO> list = new List<BookDTO>();
 
             foreach (Book book in listOfBook)
                 list.Add(Mapper.Map<BookDTO>(book));
@@ -61,10 +58,10 @@ namespace Application
             await BookRepository.ChangeBook(changeBook);
         }
 
-        public async Task<HashSet<BookDTO>> GetRatingList(int size)
+        public async Task<List<BookDTO>> GetRatingList(int size)
         {
             var listBook = await BookRepository.GetRatingList(size);
-            HashSet<BookDTO> listBookDTO = new HashSet<BookDTO>();
+            List<BookDTO> listBookDTO = new List<BookDTO>();
 
             foreach (Book book in listBook)
                 listBookDTO.Add(Mapper.Map<BookDTO>(book));
@@ -78,10 +75,10 @@ namespace Application
             await BookRepository.DeleteBook(book);
         }
 
-        public async Task<HashSet<BookDTO>> GetBook(BookDTO book)
+        public async Task<List<BookDTO>> GetBook(BookDTO book)
         {
-            HashSet<Book> books = await BookRepository.GetBook(Mapper.Map<Book>(book));
-            HashSet<BookDTO> bookDTOs = new HashSet<BookDTO>();
+            List<Book> books = await BookRepository.GetBook(Mapper.Map<Book>(book));
+            List<BookDTO> bookDTOs = new List<BookDTO>();
 
             foreach (var entity in books)
                 bookDTOs.Add(Mapper.Map<BookDTO>(entity));

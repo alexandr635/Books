@@ -94,9 +94,9 @@
             <label>Tags</label><br />
             @foreach (var tag in Model.TagDTO)
             {
-                if (Model.BookDTO.TagsDTO != null)
+                if (Model.BookDTO.BookToTagsDTO != null)
                 {
-                    if (Model.BookDTO.TagsDTO.Any(t => t.Id == tag.Id))
+                    if (Model.BookDTO.BookToTagsDTO.Any(t => t.TagId == tag.Id))
                     {
                         <input type="checkbox" checked name="tagsId" value="@tag.Id" />@tag.TagName<br />
                     }

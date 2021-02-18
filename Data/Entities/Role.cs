@@ -7,11 +7,11 @@ namespace Data.Entities
         public int Id { get; protected set; }
         public string RoleName { get; protected set; }
 
-        public HashSet<User> Users { get; protected set; }
+        public List<User> Users { get; protected set; }
 
         public Role()
         {
-            Users = new HashSet<User>();
+            Users = new List<User>();
         }
 
         public Role(int id, string role)
@@ -19,7 +19,7 @@ namespace Data.Entities
             Id = id;
             RoleName = role;
             
-            Users = new HashSet<User>();
+            Users = new List<User>();
         }
 
         public void SetRole(string role)

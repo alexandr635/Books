@@ -1,6 +1,6 @@
 ﻿using Data.Entities;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Data.Logic
@@ -14,18 +14,14 @@ namespace Data.Logic
             this.Context = Context;
         }
 
-        public async Task<HashSet<BookStatus>> GetStatus()
+        public async Task<List<BookStatus>> GetStatus()
         {
-            var result = await Task.Run( () => Context.BookStatuses.ToHashSet());
-
-            return result;
+            return await Context.BookStatuses.ToListAsync();
         }
 
         public async Task<BookStatus> GetStatus(int? id)
         {
-            var result = await Task.Run( () => Context.BookStatuses.FirstOrDefault(s => s.Id == id));
-
-            return result;
+            return await Context.BookStatuses.FirstOrDefaultAsync(s => s.Id == id);
         }
     }
 }

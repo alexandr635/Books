@@ -11,11 +11,11 @@ namespace Data.Entities
         public int RoleId { get; protected set; }
 
         public Role Role { get; protected set; }
-        public HashSet<Review> Reviews { get; protected set; }
+        public List<Review> Reviews { get; protected set; }
 
         public User()
         {
-            Reviews = new HashSet<Review>();
+            Reviews = new List<Review>();
         }
 
         public User(int id, string login, string password, int role)
@@ -25,7 +25,7 @@ namespace Data.Entities
             Password = password;
             RoleId = role;
 
-            Reviews = new HashSet<Review>();
+            Reviews = new List<Review>();
         }
 
         public void SetLogin(string login)

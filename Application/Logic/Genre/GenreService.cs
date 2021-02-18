@@ -15,13 +15,13 @@ namespace Application.Logic
         public GenreService(IGenreRepository GenreRepository, IMapper mapper)
         {
             this.GenreRepository = GenreRepository;
-            this.Mapper = mapper;
+            Mapper = mapper;
         }
 
-        public async Task<HashSet<GenreDTO>> GetGenre()
+        public async Task<List<GenreDTO>> GetGenre()
         {
-            HashSet<Genre> listGenre = await GenreRepository.GetGenre();
-            HashSet<GenreDTO> listGenreDTO = new HashSet<GenreDTO>();
+            List<Genre> listGenre = await GenreRepository.GetGenre();
+            List<GenreDTO> listGenreDTO = new List<GenreDTO>();
 
             foreach (Genre genre in listGenre)
                 listGenreDTO.Add(Mapper.Map<GenreDTO>(genre));

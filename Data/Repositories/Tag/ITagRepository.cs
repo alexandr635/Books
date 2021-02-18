@@ -6,7 +6,7 @@ namespace Data.Logic
 {
     public interface ITagRepository
     {
-        Task<HashSet<Tag>> GetTag();
+        Task<List<Tag>> GetTag();
         Task<Tag> GetTag(int? id);
         Task AddTag(Tag tag);
         Task ChangeTag(Tag tag);

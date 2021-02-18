@@ -20,10 +20,10 @@ namespace Data
 
         public Author Author { get; protected set; }
         public Genre Genre { get; protected set; }
-        public HashSet<Tag> Tags { get; protected set; }
         public BookStatus BookStatus { get; protected set; }
         public BookSeries BookSeries { get; protected set; }
-        public HashSet<Review> Reviews { get; protected set; }
+        public List<Review> Reviews { get; protected set; }
+        public List<BookToTag> BookToTags { get; protected set; }
 
         public Book(int id, string title, string sDesc, string lDesc, DateTime publishDate, double averageRating,
                     int author, int genre, int status, int series)
@@ -40,14 +40,14 @@ namespace Data
             BookStatusId = status;
             BookSeriesId = series;
             
-            Tags = new HashSet<Tag>();
-            Reviews = new HashSet<Review>();
+            Reviews = new List<Review>();
+            BookToTags = new List<BookToTag>();
         }
 
         public Book()
         {
-            Tags = new HashSet<Tag>();
-            Reviews = new HashSet<Review>();
+            Reviews = new List<Review>();
+            BookToTags = new List<BookToTag>();
         }
 
         public void SetTitle(string title)
@@ -93,11 +93,6 @@ namespace Data
         public void SetSeriesId(int id)
         {
             BookSeriesId = id;
-        }
-
-        public void SetTags(HashSet<Tag> tags)
-        {
-            Tags = tags;
         }
     }
 }

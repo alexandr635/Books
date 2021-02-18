@@ -15,13 +15,13 @@ namespace Application.Logic
         public SeriesService(ISeriesRepository SeriesRepository, IMapper mapper)
         {
             this.SeriesRepository = SeriesRepository;
-            this.Mapper = mapper;
+            Mapper = mapper;
         }
 
-        public async Task<HashSet<BookSeriesDTO>> GetSeries()
+        public async Task<List<BookSeriesDTO>> GetSeries()
         {
             var result = await SeriesRepository.GetSeries();
-            HashSet<BookSeriesDTO> bookSeriesDTO = new HashSet<BookSeriesDTO>();
+            List<BookSeriesDTO> bookSeriesDTO = new List<BookSeriesDTO>();
 
             foreach (var series in result)
                 bookSeriesDTO.Add(Mapper.Map<BookSeriesDTO>(series));

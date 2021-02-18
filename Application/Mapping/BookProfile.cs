@@ -9,7 +9,7 @@ namespace Application.Mapping
         public BookProfile()
         {
             CreateMap<Book, BookDTO>()
-                .ForMember(b => b.TagsDTO, opt => opt.MapFrom(src => src.Tags))
+                .ForMember(b => b.BookToTagsDTO, opt => opt.MapFrom(src => src.BookToTags))
                 .ReverseMap();
         }
     }

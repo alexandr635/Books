@@ -17,10 +17,10 @@ namespace Application.Logic
             this.Mapper = mapper;
         }
 
-        public async Task<HashSet<BookStatusDTO>> GetStatus()
+        public async Task<List<BookStatusDTO>> GetStatus()
         {
             var result = await StatusRepository.GetStatus();
-            HashSet<BookStatusDTO> list = new HashSet<BookStatusDTO>();
+            List<BookStatusDTO> list = new List<BookStatusDTO>();
 
             foreach (var status in result)
                 list.Add(Mapper.Map<BookStatusDTO>(status));

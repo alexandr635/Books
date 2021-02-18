@@ -8,8 +8,8 @@ namespace Application.Logic
 {
     public interface IAuthorService
     {
-        Task<HashSet<AuthorDTO>> GetAuthor();
-        Task<HashSet<AuthorDTO>> GetAuthor(string pattern);
+        Task<List<AuthorDTO>> GetAuthor();
+        Task<List<AuthorDTO>> GetAuthor(string pattern);
         Task<AuthorDTO> GetAuthor(int? id);
         Task AddAuthor(AuthorDTO authorDTO);
         Task ChangeAuthor(AuthorDTO authorDTO);

@@ -14,11 +14,11 @@ namespace Data.Entities
         public string PlaceOfBirth { get; protected set; }
         public string Biography { get; protected set; }
 
-        public HashSet<Book> Books { get; protected set; }
+        public List<Book> Books { get; protected set; }
 
         public Author()
         {
-            Books = new HashSet<Book>();
+            Books = new List<Book>();
         }
 
         public Author(int id, string name, string lastName, string patronymic, 
@@ -33,7 +33,7 @@ namespace Data.Entities
             PlaceOfBirth = placeOfBirth;
             Biography = biography;
 
-            Books = new HashSet<Book>();
+            Books = new List<Book>();
         }
 
         public void SetName(string name)
