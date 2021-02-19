@@ -19,21 +19,6 @@ namespace Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.2");
 
-            modelBuilder.Entity("BookTag", b =>
-                {
-                    b.Property<int>("BooksId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TagsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BooksId", "TagsId");
-
-                    b.HasIndex("TagsId");
-
-                    b.ToTable("BookTag");
-                });
-
             modelBuilder.Entity("Data.Book", b =>
                 {
                     b.Property<int>("Id")
@@ -87,7 +72,7 @@ namespace Data.Migrations
                             AuthorId = 4,
                             AverageRating = 5.0,
                             BookSeriesId = 1,
-                            BookStatusId = 3,
+                            BookStatusId = 4,
                             DescriptionLong = "Родителей годовалого Гарри Поттера убивает Волан-де-Морт, после чего исчезает при попытке убить самого Гарри. Поздно вечером директор школы волшебства Хогвартс Альбус Дамблдор и его заместитель Минерва МакГонагалл появляются возле дома Вернона и Петуньи Дурсль, единственных родственников Гарри.",
                             DescriptionShort = "первый роман в серии книг про юного волшебника Гарри Поттера",
                             GenreId = 6,
@@ -100,7 +85,7 @@ namespace Data.Migrations
                             AuthorId = 4,
                             AverageRating = 4.2000000000000002,
                             BookSeriesId = 1,
-                            BookStatusId = 3,
+                            BookStatusId = 4,
                             DescriptionLong = "Книга рассказывает о втором учебном годе в школе чародейства и волшебства Хогвартс, на котором Гарри и его друзья — Рон Уизли и Гермиона Грейнджер — расследуют таинственные нападения на учеников школы, совершаемые неким «Наследником Слизерина». Объектами нападений являются ученики, среди родственников которых есть неволшебники.",
                             DescriptionShort = "второй роман в серии книг про юного волшебника Гарри Поттера",
                             GenreId = 6,
@@ -132,6 +117,66 @@ namespace Data.Migrations
                             GenreId = 6,
                             PublishDate = new DateTime(1993, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Последнее желание"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            AuthorId = 1,
+                            AverageRating = 4.5,
+                            BookStatusId = 2,
+                            DescriptionLong = "«Капитанская дочка» принадлежит к числу произведений, которыми русские писатели 1830-х откликнулись на успех переводных романов Вальтера Скотта. Первым из исторических романов на русскую тему увидел свет «Юрий Милославский» М. Н. Загоскина (1829) (встреча Гринёва с вожатым, по мнению пушкиноведов, восходит к аналогичной сцене в романе Загоскина)",
+                            DescriptionShort = "исторический роман Александра Пушкина, действие которого происходит во время восстания Емельяна Пугачёва.",
+                            GenreId = 1,
+                            PublishDate = new DateTime(1836, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Капитанская дочка"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            AuthorId = 1,
+                            AverageRating = 4.9000000000000004,
+                            BookStatusId = 2,
+                            DescriptionLong = "В жанровом отношении повесть примыкает к таким (неоконченным) замыслам Пушкина, как «Египетские ночи», «Уединённый домик на Васильевском» и знаменитый отрывок «Гости съезжались на дачу…». Повесть неоднократно экранизирована.",
+                            DescriptionShort = "повесть Александра Сергеевича Пушкина с мистическими элементами, послужившая источником сюжета одноимённой оперы П. И. Чайковского.",
+                            GenreId = 1,
+                            PublishDate = new DateTime(1834, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Пиковая дама"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            AuthorId = 3,
+                            AverageRating = 3.7999999999999998,
+                            BookStatusId = 1,
+                            DescriptionLong = "Являлся одним из самых любимых произведений писателя, наиболее полно выразившим и нравственно-философскую позицию Достоевского, и его художественные принципы в 1860-х годах. Замысел романа обдумывался писателем во время пребывания за границей — в Германии и Швейцарии.",
+                            DescriptionShort = "роман Фёдора Михайловича Достоевского, впервые опубликованный в номерах журнала «Русский вестник» за 1868 год",
+                            GenreId = 1,
+                            PublishDate = new DateTime(1868, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Идиот"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            AuthorId = 3,
+                            AverageRating = 3.6000000000000001,
+                            BookStatusId = 1,
+                            DescriptionLong = "Роман был напечатан частями в журнале «Русский вестник». Достоевский задумывал роман как первую часть эпического романа «История Великого грешника». Произведение было окончено в ноябре 1880 года. Писатель умер через два месяца после публикации.",
+                            DescriptionShort = "последний роман Ф. М. Достоевского, который автор писал два года.",
+                            GenreId = 1,
+                            PublishDate = new DateTime(1879, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Братья Карамазовы"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            AuthorId = 2,
+                            AverageRating = 4.2000000000000002,
+                            BookStatusId = 4,
+                            DescriptionLong = "В обстановке «великих реформ» книга стала сенсацией и привлекла к себе всеобщее внимание, а образ главного героя Евгения Базарова был воспринят как воплощение нового, пореформенного поколения, став примером для подражания молодёжи 1860-х гг. Свойственные Базарову бескомпромиссность, отсутствие преклонения перед авторитетами и старыми истинами, приоритет полезного над прекрасным стали идеалами первого поколения пореформенной интеллигенции",
+                            DescriptionShort = "роман И. С. Тургенева, написанный в 1860—1861 годах и опубликованный в 1862 году в журнале «Русский вестник»",
+                            GenreId = 1,
+                            PublishDate = new DateTime(1862, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Отцы и дети"
                         });
                 });
 
@@ -285,6 +330,28 @@ namespace Data.Migrations
                             Id = 4,
                             StatusName = "Снято с публикации"
                         });
+                });
+
+            modelBuilder.Entity("Data.Entities.BookToTag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TagId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BookId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("BookToTags");
                 });
 
             modelBuilder.Entity("Data.Entities.Genre", b =>
@@ -516,21 +583,6 @@ namespace Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("BookTag", b =>
-                {
-                    b.HasOne("Data.Book", null)
-                        .WithMany()
-                        .HasForeignKey("BooksId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Data.Entities.Tag", null)
-                        .WithMany()
-                        .HasForeignKey("TagsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Data.Book", b =>
                 {
                     b.HasOne("Data.Entities.Author", "Author")
@@ -562,6 +614,25 @@ namespace Data.Migrations
                     b.Navigation("BookStatus");
 
                     b.Navigation("Genre");
+                });
+
+            modelBuilder.Entity("Data.Entities.BookToTag", b =>
+                {
+                    b.HasOne("Data.Book", "Book")
+                        .WithMany("BookToTags")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Data.Entities.Tag", "Tag")
+                        .WithMany("BookToTags")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Book");
+
+                    b.Navigation("Tag");
                 });
 
             modelBuilder.Entity("Data.Entities.Review", b =>
@@ -596,6 +667,8 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Book", b =>
                 {
+                    b.Navigation("BookToTags");
+
                     b.Navigation("Reviews");
                 });
 
@@ -622,6 +695,11 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.Entities.Role", b =>
                 {
                     b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("Data.Entities.Tag", b =>
+                {
+                    b.Navigation("BookToTags");
                 });
 
             modelBuilder.Entity("Data.Entities.User", b =>

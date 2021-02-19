@@ -5,7 +5,6 @@ using Application.DTO;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
-using System.Linq;
 
 namespace WebAPI.Controllers
 {
@@ -31,7 +30,7 @@ namespace WebAPI.Controllers
         }
 
         [Authorize(Roles = "Администратор")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
             try
             {

@@ -19,21 +19,12 @@ namespace Application.Logic
 
         public async Task<List<BookStatusDTO>> GetStatus()
         {
-            var result = await StatusRepository.GetStatus();
-            List<BookStatusDTO> list = new List<BookStatusDTO>();
-
-            foreach (var status in result)
-                list.Add(Mapper.Map<BookStatusDTO>(status));
-
-            return list;
+            return Mapper.Map<List<BookStatusDTO>>(await StatusRepository.GetStatus());
         }
 
         public async Task<BookStatusDTO> GetStatus(int? id)
         {
-            var result = await StatusRepository.GetStatus(id);
-            BookStatusDTO statusDTO = Mapper.Map<BookStatusDTO>(result);
-
-            return statusDTO;
+            return Mapper.Map<BookStatusDTO>(await StatusRepository.GetStatus(id));
         }
     }
 }

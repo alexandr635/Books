@@ -20,39 +20,27 @@ namespace Application.Logic
 
         public async Task<List<TagDTO>> GetTag()
         {
-            var listTag = await TagRepository.GetTag();
-            List<TagDTO> listTagDTO = new List<TagDTO>();
-
-            foreach (Tag tag in listTag)
-                listTagDTO.Add(Mapper.Map<TagDTO>(tag));
-
-            return listTagDTO;
+            return Mapper.Map<List<TagDTO>>(await TagRepository.GetTag());
         }
 
         public async Task<TagDTO> GetTag(int? id)
         {
-            var tag = await TagRepository.GetTag(id);
-            TagDTO tagDTO = Mapper.Map<TagDTO>(tag);
-
-            return tagDTO;
+            return Mapper.Map<TagDTO>(await TagRepository.GetTag(id));
         }
 
         public async Task AddTag(TagDTO tagDTO)
         {
-            Tag tag = Mapper.Map<Tag>(tagDTO);
-            await TagRepository.AddTag(tag);
+            await TagRepository.AddTag(Mapper.Map<Tag>(tagDTO));
         }
 
         public async Task ChangeTag(TagDTO tagDTO)
         {
-            Tag tag = Mapper.Map<Tag>(tagDTO);
-            await TagRepository.ChangeTag(tag);
+            await TagRepository.ChangeTag(Mapper.Map<Tag>(tagDTO));
         }
 
         public async Task DeleteTag(TagDTO tagDTO)
         {
-            Tag tag = Mapper.Map<Tag>(tagDTO);
-            await TagRepository.DeleteTag(tag);
+            await TagRepository.DeleteTag(Mapper.Map<Tag>(tagDTO));
         }
     }
 }

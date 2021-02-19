@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Data.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +42,13 @@ namespace Data.Logic
                                 b.BookSeries.SeriesName.Contains(pattern) || b.Genre.GenreName.Contains(pattern))
                     .ToListAsync();
             }
+        }
+
+        public async Task<List<Book>> GetBook(BookStatus status)
+        {
+            return await BookContext.Books
+                .Where(b => b.BookStatus.StatusName == status.StatusName)
+                .ToListAsync();
         }
 
         public async Task<Book> GetBook(int? id)

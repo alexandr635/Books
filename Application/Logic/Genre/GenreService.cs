@@ -20,39 +20,27 @@ namespace Application.Logic
 
         public async Task<List<GenreDTO>> GetGenre()
         {
-            List<Genre> listGenre = await GenreRepository.GetGenre();
-            List<GenreDTO> listGenreDTO = new List<GenreDTO>();
-
-            foreach (Genre genre in listGenre)
-                listGenreDTO.Add(Mapper.Map<GenreDTO>(genre));
-
-            return listGenreDTO;
+            return Mapper.Map<List<GenreDTO>>(await GenreRepository.GetGenre());
         }
 
         public async Task<GenreDTO> GetGenre(int? id)
         {
-            Genre genre = await GenreRepository.GetGenre(id);
-            GenreDTO genreDTO = Mapper.Map<GenreDTO>(genre);
-
-            return genreDTO;
+            return Mapper.Map<GenreDTO>(await GenreRepository.GetGenre(id));
         }
 
         public async Task AddGenre(GenreDTO genreDTO)
         {
-            Genre genre = Mapper.Map<Genre>(genreDTO);
-            await GenreRepository.AddGenre(genre);
+            await GenreRepository.AddGenre(Mapper.Map<Genre>(genreDTO));
         }
 
         public async Task ChangeGenre(GenreDTO genreDTO)
         {
-            Genre genre = Mapper.Map<Genre>(genreDTO);
-            await GenreRepository.ChangeGenre(genre);
+            await GenreRepository.ChangeGenre(Mapper.Map<Genre>(genreDTO));
         }
 
         public async Task DeleteGenre(GenreDTO genreDTO)
         {
-            Genre genre = Mapper.Map<Genre>(genreDTO);
-            await GenreRepository.DeleteGenre(genre);
+            await GenreRepository.DeleteGenre(Mapper.Map<Genre>(genreDTO));
         }
     }
 }

@@ -19,14 +19,13 @@ namespace Application.Logic.User
         public async Task<UserDTO> GetUser(UserDTO userDTO)
         {
             var user = Mapper.Map<Data.Entities.User>(userDTO);
-            var res = await UserRepository.GetUser(user);
-            return Mapper.Map<UserDTO>(res);
+
+            return Mapper.Map<UserDTO>(await UserRepository.GetUser(user));
         }
 
         public async Task<UserDTO> GetUser(string login)
         {
-            var res = await UserRepository.GetUser(login);
-            return Mapper.Map<UserDTO>(res);
+            return Mapper.Map<UserDTO>(await UserRepository.GetUser(login));
         }
     }
 }

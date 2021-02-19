@@ -20,25 +20,17 @@ namespace Application.Logic
 
         public async Task<List<BookSeriesDTO>> GetSeries()
         {
-            var result = await SeriesRepository.GetSeries();
-            List<BookSeriesDTO> bookSeriesDTO = new List<BookSeriesDTO>();
-
-            foreach (var series in result)
-                bookSeriesDTO.Add(Mapper.Map<BookSeriesDTO>(series));
-            
-            return bookSeriesDTO;
+            return Mapper.Map<List<BookSeriesDTO>>(await SeriesRepository.GetSeries());
         }
 
         public async Task AddSeries(BookSeriesDTO bookSeriesDTO)
         {
-            var result = Mapper.Map<BookSeries>(bookSeriesDTO);
-            await SeriesRepository.AddSeries(result);
+            await SeriesRepository.AddSeries(Mapper.Map<BookSeries>(bookSeriesDTO));
         }
 
         public async Task DeleteSeries(BookSeriesDTO bookSeriesDTO)
         {
-            var result = Mapper.Map<BookSeries>(bookSeriesDTO);
-            await SeriesRepository.DeleteSeries(result);
+            await SeriesRepository.DeleteSeries(Mapper.Map<BookSeries>(bookSeriesDTO));
         }
     }
 }

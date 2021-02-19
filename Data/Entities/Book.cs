@@ -26,7 +26,7 @@ namespace Data
         public List<BookToTag> BookToTags { get; protected set; }
 
         public Book(int id, string title, string sDesc, string lDesc, DateTime publishDate, double averageRating,
-                    int author, int genre, int status, int series)
+                    int author, int genre, int status, int? series)
         {
             Id = id;
             Title = title;
@@ -90,7 +90,7 @@ namespace Data
             BookStatusId = id;
         }
 
-        public void SetSeriesId(int id)
+        public void SetSeriesId(int? id)
         {
             BookSeriesId = id;
         }

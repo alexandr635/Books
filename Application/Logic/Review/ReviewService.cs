@@ -19,8 +19,7 @@ namespace Application.Logic
 
         public async Task AddReview(ReviewDTO reviewDTO)
         {
-            Review review = Mapper.Map<Review>(reviewDTO);
-            await ReviewRepository.AddReview(review);
+            await ReviewRepository.AddReview(Mapper.Map<Review>(reviewDTO));
         }
     }
 }

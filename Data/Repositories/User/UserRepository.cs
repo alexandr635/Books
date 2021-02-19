@@ -15,7 +15,7 @@ namespace Data.Repositories.User
         public async Task<Entities.User> GetUser(Entities.User user)
         {
             return await Context.Users
-                .Include("Role")
+                .Include(u => u.Role)
                 .FirstOrDefaultAsync(u => u.Login == user.Login && u.Password == user.Password);
         }
 

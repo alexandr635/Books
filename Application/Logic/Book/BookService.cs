@@ -26,64 +26,39 @@ namespace Application
 
         public async Task<List<BookDTO>> GetBook(string pattern)
         {
-            var listOfBook = await BookRepository.GetBook(pattern);
-            List<BookDTO> list = new List<BookDTO>();
-
-            foreach (Book book in listOfBook)
-                list.Add(Mapper.Map<BookDTO>(book));
-
-            return list;
+            return Mapper.Map<List<BookDTO>>(await BookRepository.GetBook(pattern));
         }
 
         public async Task<List<BookDTO>> GetBook()
         {
-            var listOfBook = await BookRepository.GetBook();
-            List<BookDTO> list = new List<BookDTO>();
-
-            foreach (Book book in listOfBook)
-                list.Add(Mapper.Map<BookDTO>(book));
-
-            return list;
+            return Mapper.Map<List<BookDTO>>(await BookRepository.GetBook());
         }
 
         public async Task AddBook(BookDTO book)
         {
-            Book newBook = Mapper.Map<Book>(book);
-            await BookRepository.AddBook(newBook);
+            await BookRepository.AddBook(Mapper.Map<Book>(book));
         }
 
         public async Task ChangeBook(BookDTO book)
         {
-            Book changeBook = Mapper.Map<Book>(book);
-            await BookRepository.ChangeBook(changeBook);
+            await BookRepository.ChangeBook(Mapper.Map<Book>(book));
         }
 
         public async Task<List<BookDTO>> GetRatingList(int size)
         {
-            var listBook = await BookRepository.GetRatingList(size);
-            List<BookDTO> listBookDTO = new List<BookDTO>();
-
-            foreach (Book book in listBook)
-                listBookDTO.Add(Mapper.Map<BookDTO>(book));
-
-            return listBookDTO;
+            return Mapper.Map<List<BookDTO>>(await BookRepository.GetRatingList(size));
         }
 
         public async Task DeleteBook(BookDTO bookDTO)
         {
-            Book book = Mapper.Map<Book>(bookDTO);
-            await BookRepository.DeleteBook(book);
+            await BookRepository.DeleteBook(Mapper.Map<Book>(bookDTO));
         }
 
         public async Task<List<BookDTO>> GetBook(BookDTO book)
         {
             List<Book> books = await BookRepository.GetBook(Mapper.Map<Book>(book));
-            List<BookDTO> bookDTOs = new List<BookDTO>();
 
-            foreach (var entity in books)
-                bookDTOs.Add(Mapper.Map<BookDTO>(entity));
-
-            return bookDTOs;
+            return Mapper.Map<List<BookDTO>>(books);
         }
     }
 }

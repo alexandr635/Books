@@ -17,7 +17,7 @@ namespace Data.Logic
         public async Task<List<BookSeries>> GetSeries()
         {
             return await Context.BookSeries
-                .Include("Books")
+                .Include(s => s.Books)
                 .ToListAsync();
         }
 

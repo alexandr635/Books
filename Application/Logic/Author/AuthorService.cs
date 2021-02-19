@@ -20,50 +20,32 @@ namespace Application.Logic
 
         public async Task<List<AuthorDTO>> GetAuthor()
         {
-            var listOfAuthor = await AuthorRepository.GetAuthor();
-            List<AuthorDTO> listOfAuthorDTO = new List<AuthorDTO>();
-
-            foreach (Author author in listOfAuthor)
-                listOfAuthorDTO.Add(Mapper.Map<AuthorDTO>(author));
-
-            return listOfAuthorDTO;
+            return Mapper.Map<List<AuthorDTO>>(await AuthorRepository.GetAuthor());
         }
 
         public async Task<List<AuthorDTO>> GetAuthor(string pattern)
         {
-            var listOfAuthor = await AuthorRepository.GetAuthor(pattern);
-            List<AuthorDTO> listOfAuthorDTO = new List<AuthorDTO>();
-
-            foreach (Author author in listOfAuthor)
-                listOfAuthorDTO.Add(Mapper.Map<AuthorDTO>(author));
-
-            return listOfAuthorDTO;
+            return Mapper.Map<List<AuthorDTO>>(await AuthorRepository.GetAuthor(pattern));
         }
 
         public async Task<AuthorDTO> GetAuthor(int? id)
         {
-            Author author = await AuthorRepository.GetAuthor(id);
-            AuthorDTO authorDTO = Mapper.Map<AuthorDTO>(author);
-
-            return authorDTO;
+            return Mapper.Map<AuthorDTO>(await AuthorRepository.GetAuthor(id));
         }
 
         public async Task AddAuthor(AuthorDTO authorDTO)
         {
-            Author author = Mapper.Map<Author>(authorDTO);
-            await AuthorRepository.AddAuthor(author);
+            await AuthorRepository.AddAuthor(Mapper.Map<Author>(authorDTO));
         }
 
         public async Task ChangeAuthor(AuthorDTO authorDTO)
         {
-            Author author = Mapper.Map<Author>(authorDTO);
-            await AuthorRepository.ChangeAuthor(author);
+            await AuthorRepository.ChangeAuthor(Mapper.Map<Author>(authorDTO));
         }
 
         public async Task DeleteAuthor(AuthorDTO authorDTO)
         {
-            Author book = Mapper.Map<Author>(authorDTO);
-            await AuthorRepository.DeleteAuthor(book);
+            await AuthorRepository.DeleteAuthor(Mapper.Map<Author>(authorDTO));
         }
     }
 }

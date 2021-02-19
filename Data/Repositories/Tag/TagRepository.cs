@@ -25,7 +25,7 @@ namespace Data.Logic
         {
             return await Context.Tags
                 .AsNoTracking()
-                .Include("Books")
+                .Include(t => t.BookToTags)
                 .FirstOrDefaultAsync(t => t.Id == id);
         }
 
