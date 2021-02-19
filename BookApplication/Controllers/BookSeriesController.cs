@@ -20,16 +20,14 @@ namespace WebAPI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var result = await SeriesService.GetSeries();
-            return View(result);
+            return View(await SeriesService.GetSeries());
         }
 
         [HttpGet]
         [Route("AddBookSeries")]
         public async Task<IActionResult> AddBookSeries()
         {
-            List<BookDTO> books = await BookService.GetBook();
-            return View(books);
+            return View(await BookService.GetBook());
         }
 
         [HttpPost]

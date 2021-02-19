@@ -16,12 +16,14 @@ namespace Data.Logic
 
         public async Task<List<Genre>> GetGenre()
         {
-            return await Task.Run( () => Context.Genres.ToListAsync());
+            return await Context.Genres.ToListAsync();
         }
 
         public async Task<Genre> GetGenre(int? id)
         {
-            return await Context.Genres.AsNoTracking().FirstOrDefaultAsync(g => g.Id == id);
+            return await Context.Genres
+                .AsNoTracking()
+                .FirstOrDefaultAsync(g => g.Id == id);
         }
 
         public async Task AddGenre(Genre genre)

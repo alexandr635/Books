@@ -35,8 +35,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                var listOfBook = await BookService.GetBook();
-                return View(listOfBook);
+                return View(await BookService.GetBook());
             }
             catch (Exception ex)
             {
@@ -52,8 +51,7 @@ namespace WebAPI.Controllers
                 return RedirectToAction("Index");
             try
             {
-                BookDTO book = await BookService.GetBook(id);
-                return View(book);
+                return View(await BookService.GetBook(id));
             }
             catch (Exception ex)
             {
@@ -65,8 +63,7 @@ namespace WebAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> FindBook(string pattern)
         {
-            var bookDTO = await BookService.GetBook(pattern);
-            return View(bookDTO);
+            return View(await BookService.GetBook(pattern));
         }
 
         [Route("AddBook")]
@@ -139,7 +136,6 @@ namespace WebAPI.Controllers
                     tags.Add(new BookToTagDTO(book.Id, tagId));
 
 
-
                 book.BookToTagsDTO = tags;
                 await BookService.ChangeBook(book);
 
@@ -178,12 +174,12 @@ namespace WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> FilterBookResult(BookDTO bookDTO, int[] tagsId)
         {
-            List<TagDTO> tags = new List<TagDTO>();
+            List<BookToTagDTO> bookToTags = new List<BookToTagDTO>();
 
             foreach (int tagId in tagsId)
-                tags.Add(await TagService.GetTag(tagId));
+                bookToTags.Add(new BookToTagDTO(bookDTO.Id, tagId));
 
-            //bookDTO.TagsDTO = tags;
+            bookDTO.BookToTagsDTO = bookToTags;
             List<BookDTO> books = await BookService.GetBook(bookDTO); 
 
             return View(books);

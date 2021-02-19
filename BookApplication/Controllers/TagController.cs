@@ -18,8 +18,7 @@ namespace WebAPI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            List<TagDTO> tags = await TagService.GetTag();
-            return View(tags);
+            return View(await TagService.GetTag());
         }
 
         [HttpGet]
@@ -50,8 +49,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                TagDTO tagDTO = await TagService.GetTag(id);
-                return View(tagDTO);
+                return View(await TagService.GetTag(id));
             }
             catch (Exception ex)
             {

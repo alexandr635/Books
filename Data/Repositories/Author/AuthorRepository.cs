@@ -26,19 +26,25 @@ namespace Data.Logic
             try
             {
                 DateTime date = Convert.ToDateTime(pattern);
-                return await Context.Authors.Where(a => a.DateOfBirth == date || a.DateOfDie == date).ToListAsync();
+                return await Context.Authors
+                    .Where(a => a.DateOfBirth == date || a.DateOfDie == date)
+                    .ToListAsync();
             }
             catch
             {
-                return await Context.Authors.Where(u => u.Name.Contains(pattern) ||
-                                                        u.LastName.Contains(pattern) ||
-                                                        u.Patronymic.Contains(pattern)).ToListAsync();
+                return await Context.Authors
+                    .Where(u => u.Name.Contains(pattern) ||
+                           u.LastName.Contains(pattern) ||
+                           u.Patronymic.Contains(pattern))
+                    .ToListAsync();
             }
         }
 
         public async Task<Author> GetAuthor(int? id)
         {
-            return await Context.Authors.AsNoTracking().FirstOrDefaultAsync(a => a.Id == id);
+            return await Context.Authors
+                .AsNoTracking()
+                .FirstOrDefaultAsync(a => a.Id == id);
         }
 
         public async Task AddAuthor(Author author)

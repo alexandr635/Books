@@ -17,8 +17,7 @@ namespace WebAPI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            List<BookDTO> listBook = await BookService.GetRatingList(100);
-            return View(listBook);
+            return View(await BookService.GetRatingList(100));
         }
     }
 }

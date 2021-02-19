@@ -16,12 +16,17 @@ namespace Data.Logic
 
         public async Task<List<Tag>> GetTag()
         {
-            return await Context.Tags.AsNoTracking().ToListAsync();
+            return await Context.Tags
+                .AsNoTracking()
+                .ToListAsync();
         }
 
         public async Task<Tag> GetTag(int? id)
         {
-            return await Context.Tags.AsNoTracking().Include("Books").FirstOrDefaultAsync(t => t.Id == id);
+            return await Context.Tags
+                .AsNoTracking()
+                .Include("Books")
+                .FirstOrDefaultAsync(t => t.Id == id);
         }
 
         public async Task AddTag(Tag tag)

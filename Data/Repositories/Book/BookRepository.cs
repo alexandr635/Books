@@ -29,13 +29,16 @@ namespace Data.Logic
             try
             {
                 DateTime date = Convert.ToDateTime(pattern);
-                return await BookContext.Books.Where(b => b.PublishDate == date).ToListAsync();
+                return await BookContext.Books
+                    .Where(b => b.PublishDate == date)
+                    .ToListAsync();
             }
             catch
             {
-                return await BookContext.Books.Where(b => b.Title.Contains(pattern) || b.Author.Name.Contains(pattern) ||
-                                                    b.Author.LastName.Contains(pattern) || b.Author.Patronymic.Contains(pattern) ||
-                                                    b.BookSeries.SeriesName.Contains(pattern) || b.Genre.GenreName.Contains(pattern))
+                return await BookContext.Books
+                    .Where(b => b.Title.Contains(pattern) || b.Author.Name.Contains(pattern) ||
+                                b.Author.LastName.Contains(pattern) || b.Author.Patronymic.Contains(pattern) ||
+                                b.BookSeries.SeriesName.Contains(pattern) || b.Genre.GenreName.Contains(pattern))
                     .ToListAsync();
             }
         }
@@ -49,12 +52,38 @@ namespace Data.Logic
 
         public async Task<List<Book>> GetBook(Book book)
         {
-            return await BookContext.Books.Include("Tags").Where(b =>
-                (b.Title.Contains(book.Title) ||
-                b.BookSeries.SeriesName.Contains(book.Title)) &&
-                b.AuthorId == book.AuthorId &&
-                b.AverageRating >= book.AverageRating)
+            var books = await BookContext.Books
+                .Include(b => b.BookToTags)
+                .Where(b =>
+                    (b.Title.Contains(book.Title) ||
+                    b.BookSeries.SeriesName.Contains(book.Title)) &&
+                    b.AuthorId == book.AuthorId &&
+                    b.AverageRating >= book.AverageRating)
                 .ToListAsync();
+
+            for(int i = 0; i < books.Count(); i++)
+            {
+                if (books[i].BookToTags.Count() != book.BookToTags.Count())
+                {
+                    books.Remove(books[i]);
+                    continue;
+                }
+
+                int countTags = 0;
+                foreach (var bt in books[i].BookToTags)
+                {
+                    foreach (var bt1 in book.BookToTags)
+                    {
+                        if (bt1.TagId == bt.TagId)
+                            countTags++;
+                    }
+                }
+
+                if (books[i].BookToTags.Count() != countTags)
+                    books.Remove(books[i]);
+            }
+
+            return books;
         }
 
         public async Task AddBook(Book book)
@@ -72,7 +101,9 @@ namespace Data.Logic
 
         public async Task<List<Book>> GetRatingList(int size)
         {
-            return await BookContext.Books.OrderBy(b => b.Reviews.Count).ToListAsync();
+            return await BookContext.Books
+                .OrderBy(b => b.Reviews.Count)
+                .ToListAsync();
         }
 
         public async Task DeleteBook(Book book)

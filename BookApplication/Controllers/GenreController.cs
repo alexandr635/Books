@@ -18,8 +18,7 @@ namespace WebAPI.Controllers
 
         public async Task<IActionResult> Index()
         {
-            List<GenreDTO> listOfGenres = await GenreService.GetGenre();
-            return View(listOfGenres);
+            return View(await GenreService.GetGenre());
         }
 
         [HttpGet]
@@ -52,8 +51,7 @@ namespace WebAPI.Controllers
                 RedirectToAction();
             try
             {
-                var result = await GenreService.GetGenre(id);
-                return View(result);
+                return View(await GenreService.GetGenre(id));
             }
             catch (Exception ex)
             {

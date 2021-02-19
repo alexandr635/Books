@@ -20,8 +20,7 @@ namespace WebAPI.Controllers
         {
             try
             {
-                List<AuthorDTO> listAuthor = await AuthorService.GetAuthor();
-                return View(listAuthor);
+                return View(await AuthorService.GetAuthor());
             }
             catch (Exception ex)
             {
@@ -37,8 +36,7 @@ namespace WebAPI.Controllers
                 return RedirectToAction();
             try
             {
-                AuthorDTO author = await AuthorService.GetAuthor(id);
-                return View(author);
+                return View(await AuthorService.GetAuthor(id));
             }
             catch (Exception ex)
             {
@@ -94,8 +92,7 @@ namespace WebAPI.Controllers
         [Route("Result")]
         public async Task<IActionResult> Result(string pattern)
         {
-            var result = await AuthorService.GetAuthor(pattern);
-            return View(result);
+            return View(await AuthorService.GetAuthor(pattern));
         }
 
         [HttpGet]
