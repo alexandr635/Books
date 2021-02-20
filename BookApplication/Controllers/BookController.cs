@@ -5,6 +5,8 @@ using Application.DTO;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq;
+using Application.Pagination;
 
 namespace WebAPI.Controllers
 {
@@ -16,6 +18,8 @@ namespace WebAPI.Controllers
         IStatusService StatusService { get; set; }
         ISeriesService SeriesService { get; set; }
         ITagService TagService { get; set; }
+
+        static List<BookDTO> bookForPagination { get; set; }
 
         public BookController(IBookService BookService, IGenreService GenreService, 
                               IAuthorService AuthorService, IStatusService StatusService, 
@@ -179,9 +183,25 @@ namespace WebAPI.Controllers
                 bookToTags.Add(new BookToTagDTO(bookDTO.Id, tagId));
 
             bookDTO.BookToTagsDTO = bookToTags;
-            List<BookDTO> books = await BookService.GetBook(bookDTO); 
+            bookForPagination = await BookService.GetBook(bookDTO);
 
-            return View(books);
+            return RedirectPermanent("~/Home/BookResult");            
+        }
+
+        [Route("Home/BookResult")]
+        public IActionResult FilterResult(int page = 1)
+        {
+            int pageSize = 1;
+            int count = bookForPagination.Count();
+            List<BookDTO> items = bookForPagination.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
+            IndexViewModel viewModel = new IndexViewModel
+            {
+                PageViewModel = pageViewModel,
+                Books = items
+            };
+            return View(viewModel);
         }
     }
 }
