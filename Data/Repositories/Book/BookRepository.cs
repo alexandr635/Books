@@ -27,21 +27,9 @@ namespace Data.Logic
 
         public async Task<List<Book>> GetBook(string pattern)
         {
-            try
-            {
-                DateTime date = Convert.ToDateTime(pattern);
-                return await BookContext.Books
-                    .Where(b => b.PublishDate == date)
-                    .ToListAsync();
-            }
-            catch
-            {
-                return await BookContext.Books
-                    .Where(b => b.Title.Contains(pattern) || b.Author.Name.Contains(pattern) ||
-                                b.Author.LastName.Contains(pattern) || b.Author.Patronymic.Contains(pattern) ||
-                                b.BookSeries.SeriesName.Contains(pattern) || b.Genre.GenreName.Contains(pattern))
-                    .ToListAsync();
-            }
+            return await BookContext.Books
+                .Where(b => b.BookStatus.StatusName == pattern)
+                .ToListAsync();
         }
 
         public async Task<List<Book>> GetBook(BookStatus status)
@@ -105,6 +93,12 @@ namespace Data.Logic
             BookContext.BookToTags.RemoveRange(BookContext.BookToTags.Where(bt => bt.BookId == book.Id));
             BookContext.Books.Update(book);
             await BookContext.SaveChangesAsync();
+        }
+
+        public async Task ChangeBookStatus(Book book)
+        {
+            BookContext.Entry(book).Property(b => b.BookStatusId).IsModified = true;
+            BookContext.SaveChanges();
         }
 
         public async Task<List<Book>> GetRatingList(int size)

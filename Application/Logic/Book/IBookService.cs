@@ -14,5 +14,6 @@ namespace Application.Logic
         Task<List<BookDTO>> GetRatingList(int size);
         Task DeleteBook(BookDTO bookDTO);
         Task<List<BookDTO>> GetBook(BookDTO book);
+        Task ChangeBookStatus(BookDTO book);
     }
 }

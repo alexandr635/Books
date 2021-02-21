@@ -5,11 +5,11 @@
     <title>Книги</title>
 </head>
 <body>
-    <form method="get" action="/FindBook">
-        <input type="text" name="pattern" />
-        <button>Найти</button>
-        <a href="/Home/Book/Filters">Расширенный поиск</a>
-    </form>
+    @if ((string)ViewData["role"] == "Администратор")
+    {
+    <a href="/Home/Book/Filters">Расширенный поиск</a>
+    }
+    
     <h3>Книги</h3>
     <form method="get" action="~/AddBook">
         <table>
@@ -18,6 +18,8 @@
                 <td>Заголовок</td>
                 <td>Описание</td>
                 <td></td>
+                <td></td>
+                <td></td>
             </tr>
             @foreach (var book in Model)
             {
@@ -25,13 +27,22 @@
                     <td>@book.Id</td>
                     <td><a href="~/Home/Book/@book.Id">@book.Title</a></td>
                     <td>@book.DescriptionShort</td>
-                    <td><a href="~/Home/ChangeBook/@book.Id">Изменить</a></td>
-                    <td><a href="~/Home/DeleteBook/@book.Id">Удалить</a></td>
+                    <td><input type="hidden" value="@book.BookStatusId"/></td>
+                    @if ((string)ViewData["role"] == "Администратор" || (string)ViewData["role"] == "Писатель")
+                    {
+                        <td><a href="~/Home/ChangeBook/@book.Id">Изменить</a></td>
+                        <td><a href="~/Home/DeleteBook/@book.Id">Удалить</a></td>
+                    }
+                    <td><a href="~/Home/ChangeStatus/@book.Id">Статус</a></td>
                 </tr>
             }
         </table>
         <br />
-        <button>Добавить книгу</button>
+        @if ((string)ViewData["role"] == "Администратор")
+        {
+            <button>Добавить книгу</button>
+        }
+        
     </form>
 </body>
 </html>

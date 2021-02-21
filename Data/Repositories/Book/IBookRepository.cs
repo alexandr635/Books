@@ -13,5 +13,6 @@ namespace Data.Logic
         Task<List<Book>> GetRatingList(int size);
         Task DeleteBook(Book book);
         Task<List<Book>> GetBook(Book book);
+        Task ChangeBookStatus(Book book);
     }
 }

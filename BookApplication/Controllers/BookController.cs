@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using System.Linq;
 using Application.Pagination;
+using System.Security.Claims;
 
 namespace WebAPI.Controllers
 {
@@ -33,12 +34,35 @@ namespace WebAPI.Controllers
             this.TagService = TagService;
         }
 
-        [Authorize(Roles = "Администратор")]
-        public async Task<IActionResult> Index(int page = 1)
+        public async Task<IActionResult> Index()
         {
             try
             {
-                return View(await BookService.GetBook());
+                var role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType).Value;
+
+                List<BookDTO> books = new List<BookDTO>();
+                switch (role)
+                {
+                    case "Администратор":
+                        books = await BookService.GetBook();
+                        break;
+                    case "Проверяющий":
+                        books = await BookService.GetBook("На рассмотрении");
+                        books.AddRange(await BookService.GetBook("Опубликовано"));
+                        books.AddRange(await BookService.GetBook("Снято с публикации"));
+                        books.OrderBy(b => b.Id);
+                        break;
+                    case "Писатель":
+                        books = await BookService.GetBook();
+                        break;
+
+                    default:
+                        books = await BookService.GetBook("Опубликовано");
+                        break;
+                }
+
+                ViewData["role"] = role;
+                return View(books);
             }
             catch (Exception ex)
             {
@@ -152,7 +176,7 @@ namespace WebAPI.Controllers
 
         [Route("Home/DeleteBook/{Id?}")]
         [HttpGet]
-        [Authorize(Roles = "Администратор")]
+        [Authorize(Roles = "Писатель, Администратор")]
         public async Task<string> DeleteBook(BookDTO bookDTO)
         {
             await BookService.DeleteBook(bookDTO);
@@ -189,6 +213,7 @@ namespace WebAPI.Controllers
         }
 
         [Route("Home/BookResult")]
+        [Authorize(Roles = "Администратор")]
         public IActionResult FilterResult(int page = 1)
         {
             int pageSize = 1;
@@ -201,7 +226,42 @@ namespace WebAPI.Controllers
                 PageViewModel = pageViewModel,
                 Books = items
             };
+
             return View(viewModel);
+        }
+
+        [Route("Home/ChangeStatus/{Id?}")]
+        [HttpGet]
+        [Authorize(Roles = "Писатель, Администратор, Проверяющий")]
+        public async Task<IActionResult> ChangeStatus(int? id)
+        {
+            string role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType).Value;
+            var list = new ListDTO();
+            list.BookDTO = await BookService.GetBook(id);
+            switch (role)
+            {
+                case "Проверяющий":
+                    list.BookStatusDTO = await StatusService.GetStatus();
+                    list.BookStatusDTO = list.BookStatusDTO.Where(s => s.Id != 1).ToList();
+                    break;
+
+                case "Писатель":
+                    list.BookStatusDTO = await StatusService.GetStatus();
+                    list.BookStatusDTO = list.BookStatusDTO.Where(s => s.Id == 1 || s.Id == 2).ToList();
+                    break;
+            };
+            
+            return View(list);
+        }
+
+        [Route("Home/ChangeStatus/{Id?}")]
+        [HttpPost]
+        [Authorize(Roles = "Писатель, Администратор, Проверяющий")]
+        public async Task<IActionResult> ChangeStatus(BookDTO book)
+        {
+            await BookService.ChangeBookStatus(book);
+
+            return RedirectToAction("Index");
         }
     }
 }

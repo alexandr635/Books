@@ -19,6 +19,7 @@ namespace WebAPI.Controllers
         }
 
         [HttpGet]
+        [Route("Account/Index")]
         public IActionResult Index()
         {
             return View();
