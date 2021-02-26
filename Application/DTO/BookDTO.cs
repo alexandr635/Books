@@ -9,6 +9,7 @@ namespace Application.DTO
         public string DescriptionShort { get; set; }
         public string DescriptionLong { get; set; }
         public double AverageRating { get; set; }
+        public byte[] Image { get; set; }
 
         public int AuthorId {get; set;}
         public int GenreId { get; set; }

@@ -12,6 +12,7 @@ namespace Data
         public string DescriptionLong { get; protected set; }
         public DateTime PublishDate { get; protected set; }
         public double AverageRating { get; protected set; }
+        public byte[] Image { get; protected set; }
 
         public int AuthorId { get; protected set; }
         public int GenreId { get; protected set; }
@@ -93,6 +94,11 @@ namespace Data
         public void SetSeriesId(int? id)
         {
             BookSeriesId = id;
+        }
+
+        public void SetImage(byte[] img)
+        {
+            Image = img;
         }
     }
 }

@@ -14,5 +14,6 @@ namespace Data.Logic
         Task DeleteBook(Book book);
         Task<List<Book>> GetBook(Book book);
         Task ChangeBookStatus(Book book);
+        Task ChangeBookImage(Book book);
     }
 }

@@ -90,15 +90,22 @@ namespace Data.Logic
 
         public async Task ChangeBook(Book book)
         {
-            BookContext.BookToTags.RemoveRange(BookContext.BookToTags.Where(bt => bt.BookId == book.Id));
+            BookContext.BookToTags.RemoveRange(BookContext.BookToTags.Where(bt => bt.BookId == book.Id));            
             BookContext.Books.Update(book);
+            BookContext.Entry(book).Property(b => b.Image).IsModified = false;
             await BookContext.SaveChangesAsync();
         }
 
         public async Task ChangeBookStatus(Book book)
         {
             BookContext.Entry(book).Property(b => b.BookStatusId).IsModified = true;
-            BookContext.SaveChanges();
+            await BookContext.SaveChangesAsync();
+        }
+
+        public async Task ChangeBookImage(Book book)
+        {
+            BookContext.Entry(book).Property(b => b.Image).IsModified = true;
+            await BookContext.SaveChangesAsync();
         }
 
         public async Task<List<Book>> GetRatingList(int size)

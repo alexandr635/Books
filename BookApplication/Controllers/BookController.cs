@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Authorization;
 using System.Linq;
 using Application.Pagination;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace WebAPI.Controllers
 {
@@ -20,7 +22,7 @@ namespace WebAPI.Controllers
         ISeriesService SeriesService { get; set; }
         ITagService TagService { get; set; }
 
-        static List<BookDTO> bookForPagination { get; set; }
+        static List<BookDTO> BookForPagination { get; set; }
 
         public BookController(IBookService BookService, IGenreService GenreService, 
                               IAuthorService AuthorService, IStatusService StatusService, 
@@ -207,7 +209,7 @@ namespace WebAPI.Controllers
                 bookToTags.Add(new BookToTagDTO(bookDTO.Id, tagId));
 
             bookDTO.BookToTagsDTO = bookToTags;
-            bookForPagination = await BookService.GetBook(bookDTO);
+            BookForPagination = await BookService.GetBook(bookDTO);
 
             return RedirectPermanent("~/Home/BookResult");            
         }
@@ -217,8 +219,8 @@ namespace WebAPI.Controllers
         public IActionResult FilterResult(int page = 1)
         {
             int pageSize = 1;
-            int count = bookForPagination.Count();
-            List<BookDTO> items = bookForPagination.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            int count = BookForPagination.Count;
+            List<BookDTO> items = BookForPagination.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
             PageViewModel pageViewModel = new PageViewModel(count, page, pageSize);
             IndexViewModel viewModel = new IndexViewModel
@@ -260,6 +262,24 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> ChangeStatus(BookDTO book)
         {
             await BookService.ChangeBookStatus(book);
+
+            return RedirectToAction("Index");
+        }
+
+        [Route("Home/Book/{Id?}")]
+        [HttpPost]
+        [Authorize(Roles = "Администратор")]
+        public async Task<IActionResult> AddImage(int? id)
+        {
+            BookDTO book = new BookDTO();
+            book.Id = (int)id;
+
+            using (var target = new MemoryStream())
+            {
+                await Request.Form.Files[0].CopyToAsync(target);
+                book.Image = target.ToArray();
+            }
+            await BookService.ChangeBookImage(book);
 
             return RedirectToAction("Index");
         }

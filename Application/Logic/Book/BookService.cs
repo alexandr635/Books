@@ -49,6 +49,11 @@ namespace Application
             await BookRepository.ChangeBookStatus(Mapper.Map<Book>(book));
         }
 
+        public async Task ChangeBookImage(BookDTO book)
+        {
+            await BookRepository.ChangeBookImage(Mapper.Map<Book>(book));
+        }
+
         public async Task<List<BookDTO>> GetRatingList(int size)
         {
             return Mapper.Map<List<BookDTO>>(await BookRepository.GetRatingList(size));
