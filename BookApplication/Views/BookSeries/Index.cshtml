@@ -1,35 +1,31 @@
 ﻿@model List<Application.DTO.BookSeriesDTO>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Серии</title>
-</head>
-<body>
-    <h3>Серии</h3>
-    <form method="get" action="~/addBookSeries">
-        <table>
+@{
+    ViewData["Title"] = "Серии";
+}
+<h3>Серии</h3>
+<form method="get" action="~/addBookSeries">
+    <table>
+        <tr>
+            <td>Id</td>
+            <td>Серия</td>
+            <td></td>
+            <td></td>
+        </tr>
+        @foreach (var series in Model)
+        {
             <tr>
-                <td>Id</td>
-                <td>Серия</td>
-                <td></td>
-                <td></td>
-            </tr>
-            @foreach (var series in Model)
-            {
-                <tr>
-                    <td>@series.Id</td>
-                    <td>@series.SeriesName<br />
-                        @foreach (var book in series.BooksDTO)
-                        {
-                            <pre>     @book.Title</pre>
-                        }
-                    </td>
-                    <td><a href="~/BookSeries/DeleteSeries/@series.Id">Удалить</a></td>
-                </tr>
-            }
-        </table>
-        <br />
-        <button>Добавить серию</button>
-    </form>
-</body>
-</html>
+                <td>@series.Id</td>
+                <td>
+                    @series.SeriesName<br />
+                @foreach (var book in series.BooksDTO)
+                {
+                    <pre>     @book.Title</pre>
+                }
+            </td>
+            <td><a href="~/BookSeries/DeleteSeries/@series.Id">Удалить</a></td>
+        </tr>
+    }
+    </table>
+    <br />
+    <button>Добавить серию</button>
+</form>

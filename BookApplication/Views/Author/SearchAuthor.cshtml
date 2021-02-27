@@ -1,15 +1,10 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <title>Авторы</title>
-</head>
-<body>
-    <h3>Поиск автора</h3>
-    <form method="post" action="Result">
-        <p>
-            <input type="text" name="pattern" required/>
-            <button>Найти</button>
-        </p>
-    </form>
-</body>
-</html>
+﻿@{
+    ViewData["Title"] = "Поиск автора";
+}
+<h3>Поиск автора</h3>
+<form method="post" action="Result">
+    <p>
+        <input type="text" name="pattern" required />
+        <button>Найти</button>
+    </p>
+</form>

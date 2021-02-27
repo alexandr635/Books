@@ -1,31 +1,26 @@
 ﻿@model List<Application.DTO.GenreDTO>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Жанры</title>
-</head>
-<body>
-    <h3>Жанры</h3>
-    <form method="get" action="~/addGenre">
-        <table>
+@{
+    ViewData["Title"] = "Жанры";
+}
+<h3>Жанры</h3>
+<form method="get" action="~/addGenre">
+    <table>
+        <tr>
+            <td>Id</td>
+            <td>Заголовок</td>
+            <td></td>
+            <td></td>
+        </tr>
+        @foreach (var genre in Model)
+        {
             <tr>
-                <td>Id</td>
-                <td>Заголовок</td>
-                <td></td>
-                <td></td>
+                <td>@genre.Id</td>
+                <td>@genre.GenreName</td>
+                <td><a href="~/Genre/Change/@genre.Id">Изменить</a></td>
+                <td><a href="~/Genre/Delete/@genre.Id">Удалить</a></td>
             </tr>
-            @foreach (var genre in Model)
-            {
-                <tr>
-                    <td>@genre.Id</td>
-                    <td>@genre.GenreName</td>
-                    <td><a href="~/Genre/Change/@genre.Id">Изменить</a></td>
-                    <td><a href="~/Genre/Delete/@genre.Id">Удалить</a></td>
-                </tr>
-            }
-        </table>
-        <br />
-        <button>Добавить жанр</button>
-    </form>
-</body>
-</html>
+        }
+    </table>
+    <br />
+    <button>Добавить жанр</button>
+</form>

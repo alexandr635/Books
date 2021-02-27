@@ -19,4 +19,8 @@
     <ProjectReference Include="..\Data\Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\css\Style.css" />
+  </ItemGroup>
+
 </Project>

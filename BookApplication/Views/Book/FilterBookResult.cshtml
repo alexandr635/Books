@@ -1,41 +1,36 @@
-﻿@using Application.Pagination 
+﻿@using Application.Pagination
 @model IndexViewModel
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Поиск</title>
-</head>
-<body>
-    @if (Model.Books.Count() == 0)
-    {
-        <h3>По вашему запросу ничего не найдено!</h3>
-    }
-    else
-    {
-        <table>
+@{
+    ViewData["Title"] = "Найденные книги";
+}
+@if (Model.Books.Count() == 0)
+{
+    <h3>По вашему запросу ничего не найдено!</h3>
+}
+else
+{
+    <table>
+        <tr>
+            <td>Id</td>
+            <td>Заголовок</td>
+            <td>Описание</td>
+            <td></td>
+        </tr>
+        @foreach (var book in Model.Books)
+        {
             <tr>
-                <td>Id</td>
-                <td>Заголовок</td>
-                <td>Описание</td>
-                <td></td>
+                <td>@book.Id</td>
+                <td><a href="~/Home/Book/@book.Id">@book.Title</a></td>
+                <td>@book.DescriptionShort</td>
             </tr>
-            @foreach (var book in Model.Books)
-            {
-                <tr>
-                    <td>@book.Id</td>
-                    <td><a href="~/Home/Book/@book.Id">@book.Title</a></td>
-                    <td>@book.DescriptionShort</td>
-                </tr>
-            }
-        </table>
-        @if (Model.PageViewModel.HasPreviousPage)
-        {
-            <a asp->Назад</a>
         }
-        @if (Model.PageViewModel.HasNextPage)
-        {
-            <a>Вперед</a>
-        }
+    </table>
+    @if (Model.PageViewModel.HasPreviousPage)
+    {
+        <a asp->Назад</a>
     }
-</body>
-</html>
+    @if (Model.PageViewModel.HasNextPage)
+    {
+        <a>Вперед</a>
+    }
+}

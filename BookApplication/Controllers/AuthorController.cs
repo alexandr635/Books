@@ -1,8 +1,8 @@
 ﻿using Application.DTO;
 using Application.Logic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
@@ -16,6 +16,7 @@ namespace WebAPI.Controllers
             this.AuthorService = AuthorService;
         }
 
+        [Authorize(Roles = "Администратор")]
         public async Task<IActionResult> Index()
         {
             try
@@ -28,8 +29,8 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("author/Change/{Id?}")]
+        [Authorize(Roles = "Администратор")]
+        [HttpGet("author/Change/{Id?}")]
         public async Task<IActionResult> ChangeAuthor(int? id)
         {
             if (id == null)
@@ -44,8 +45,8 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("author/Change/{Id?}")]
+        [Authorize(Roles = "Администратор")]
+        [HttpPost("author/Change/{Id?}")]
         public async Task<string> ChangeAuthor(AuthorDTO authorDTO)
         {
             try
@@ -59,15 +60,15 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("AddAuthor")]
+        [Authorize(Roles = "Администратор")]
+        [HttpGet("AddAuthor")]
         public IActionResult AddAuthor()
         {
             return View();
         }
 
-        [HttpPost]
-        [Route("AddAuthor")]
+        [Authorize(Roles = "Администратор")]
+        [HttpPost("AddAuthor")]
         public async Task<string> AddAuthor(AuthorDTO authorDTO)
         {
             try
@@ -81,22 +82,22 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("SearchAuthor")]
+        [Authorize(Roles = "Администратор")]
+        [HttpGet("SearchAuthor")]
         public IActionResult SearchAuthor()
         {
             return View();
         }
 
-        [HttpPost]
-        [Route("Result")]
+        [Authorize(Roles = "Администратор")]
+        [HttpPost("Result")]
         public async Task<IActionResult> Result(string pattern)
         {
             return View(await AuthorService.GetAuthor(pattern));
         }
 
-        [HttpGet]
-        [Route("author/Delete/{Id?}")]
+        [Authorize(Roles = "Администратор")]
+        [HttpGet("author/Delete/{Id?}")]
         public async Task<string> DeleteAuthor(AuthorDTO authorDTO, int? id)
         {
             if (id == null)

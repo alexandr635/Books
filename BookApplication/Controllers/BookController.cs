@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authorization;
 using System.Linq;
 using Application.Pagination;
 using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
 using System.IO;
 
 namespace WebAPI.Controllers
@@ -72,8 +71,7 @@ namespace WebAPI.Controllers
             }
         }
 
-        [Route("Home/Book/{Id?}")]
-        [HttpGet]
+        [HttpGet("Home/Book/{Id?}")]
         public async Task<IActionResult> Book(int? id)
         {
             if (id == null)
@@ -88,15 +86,13 @@ namespace WebAPI.Controllers
             }
         }
 
-        [Route("FindBook")]
-        [HttpGet]
+        [HttpGet("FindBook")]
         public async Task<IActionResult> FindBook(string pattern)
         {
             return View(await BookService.GetBook(pattern));
         }
 
-        [Route("AddBook")]
-        [HttpGet]
+        [HttpGet("AddBook")]
         [Authorize(Roles = "Писатель, Администратор")]
         public async Task<IActionResult> AddBook()
         {
@@ -110,8 +106,7 @@ namespace WebAPI.Controllers
             return View(listDTO);
         }
 
-        [Route("AddBook")]
-        [HttpPost]
+        [HttpPost("AddBook")]
         [Authorize(Roles = "Администратор")]
         public async Task<string> AddBook(BookDTO book)
         {
@@ -126,8 +121,7 @@ namespace WebAPI.Controllers
             }
         }
 
-        [Route("Home/ChangeBook/{Id?}")]
-        [HttpGet]
+        [HttpGet("Home/ChangeBook/{Id?}")]
         [Authorize(Roles = "Писатель, Администратор")]
         public async Task<IActionResult> ChangeBook(int? id)
         {
@@ -152,8 +146,7 @@ namespace WebAPI.Controllers
             }
         }
 
-        [Route("Home/ChangeBook/{Id?}")]
-        [HttpPost]
+        [HttpPost("Home/ChangeBook/{Id?}")]
         [Authorize(Roles = "Писатель, Администратор")]
         public async Task<IActionResult> Change(BookDTO book, int[] tagsId)
         {
@@ -176,8 +169,7 @@ namespace WebAPI.Controllers
             }
         }
 
-        [Route("Home/DeleteBook/{Id?}")]
-        [HttpGet]
+        [HttpGet("Home/DeleteBook/{Id?}")]
         [Authorize(Roles = "Писатель, Администратор")]
         public async Task<string> DeleteBook(BookDTO bookDTO)
         {
@@ -186,8 +178,7 @@ namespace WebAPI.Controllers
             return "Книга удалена";
         }
 
-        [Route("Home/Book/Filters")]
-        [HttpGet]
+        [HttpGet("Home/Book/Filters")]
         public async Task<IActionResult> FilterBook()
         {
             ListDTO listDTO = new ListDTO()
@@ -199,8 +190,7 @@ namespace WebAPI.Controllers
             return View(listDTO);
         }
 
-        [Route("Home/Book/Filters")]
-        [HttpPost]
+        [HttpPost("Home/Book/Filters")]
         public async Task<IActionResult> FilterBookResult(BookDTO bookDTO, int[] tagsId)
         {
             List<BookToTagDTO> bookToTags = new List<BookToTagDTO>();
@@ -232,8 +222,7 @@ namespace WebAPI.Controllers
             return View(viewModel);
         }
 
-        [Route("Home/ChangeStatus/{Id?}")]
-        [HttpGet]
+        [HttpGet("Home/ChangeStatus/{Id?}")]
         [Authorize(Roles = "Писатель, Администратор, Проверяющий")]
         public async Task<IActionResult> ChangeStatus(int? id)
         {
@@ -251,13 +240,15 @@ namespace WebAPI.Controllers
                     list.BookStatusDTO = await StatusService.GetStatus();
                     list.BookStatusDTO = list.BookStatusDTO.Where(s => s.Id == 1 || s.Id == 2).ToList();
                     break;
+                case "Администратор":
+                    list.BookStatusDTO = await StatusService.GetStatus();
+                    break;
             };
             
             return View(list);
         }
 
-        [Route("Home/ChangeStatus/{Id?}")]
-        [HttpPost]
+        [HttpPost("Home/ChangeStatus/{Id?}")]
         [Authorize(Roles = "Писатель, Администратор, Проверяющий")]
         public async Task<IActionResult> ChangeStatus(BookDTO book)
         {
@@ -266,8 +257,7 @@ namespace WebAPI.Controllers
             return RedirectToAction("Index");
         }
 
-        [Route("Home/Book/{Id?}")]
-        [HttpPost]
+        [HttpPost("Home/Book/{Id?}")]
         [Authorize(Roles = "Администратор")]
         public async Task<IActionResult> AddImage(int? id)
         {

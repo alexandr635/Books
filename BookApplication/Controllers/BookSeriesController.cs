@@ -1,7 +1,7 @@
 ﻿using Application.DTO;
 using Application.Logic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
@@ -17,29 +17,29 @@ namespace WebAPI.Controllers
             this.BookService = BookService;
         }
 
-
+        [Authorize(Roles = "Администратор")]
         public async Task<IActionResult> Index()
         {
             return View(await SeriesService.GetSeries());
         }
 
-        [HttpGet]
-        [Route("AddBookSeries")]
+        [Authorize(Roles = "Администратор")]
+        [HttpGet("AddBookSeries")]
         public async Task<IActionResult> AddBookSeries()
         {
             return View(await BookService.GetBook());
         }
 
-        [HttpPost]
-        [Route("AddBookSeries")]
+        [Authorize(Roles = "Администратор")]
+        [HttpPost("AddBookSeries")]
         public async Task<string> AddBookSeries(BookSeriesDTO bookSeriesDTO)
         {
             await SeriesService.AddSeries(bookSeriesDTO);
             return "Серия добавлена!";
         }
 
-        [HttpGet]
-        [Route("BookSeries/DeleteSeries/{id?}")]
+        [Authorize(Roles = "Администратор")]
+        [HttpGet("BookSeries/DeleteSeries/{id?}")]
         public async Task<string> AddBookSeries(BookSeriesDTO bookSeriesDTO, int? id)
         {
             if (id == null)

@@ -1,0 +1,40 @@
+﻿@using System.Security.Claims 
+@{ 
+    var role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType).Value;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="~/css/Style.css" rel="stylesheet" type="text/css" />
+</head>
+    <body>
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div>
+                    <ul class="nav container">
+                        <li><a href="~/Book/Index" class="navbar-brand">Книги</a></li>
+                        @if (role == "Администратор")
+                        {
+                            <li><a href="~/Author/Index" class="navbar-brand">Авторы</a></li>
+                            <li><a href="~/Genre/Index" class="navbar-brand">Жанры</a></li>
+                            <li><a href="~/BookSeries/Index" class="navbar-brand">Серии</a></li>
+                            <li><a href="~/Tag/Index" class="navbar-brand">Тэги</a></li>
+                        }
+                        <li><a href="~/Account/Index" class="navbar-brand">Авторизация</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container body-content">
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>BookStore - 2021</p>
+            </footer>
+        </div>
+    </body>
+</html>

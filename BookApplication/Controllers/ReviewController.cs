@@ -26,8 +26,7 @@ namespace WebAPI.Controllers
             return View();
         }
 
-        [Route("Home/AddReview/{Id?}")]
-        [HttpGet]
+        [HttpGet("Home/AddReview/{Id?}")]
         [Authorize(Roles = "Читатель, Администратор")]
         public IActionResult AddReview(int? id)
         {
@@ -42,8 +41,7 @@ namespace WebAPI.Controllers
             }
         }
 
-        [Route("Home/AddReview/{Id?}")]
-        [HttpPost]
+        [HttpPost("Home/AddReview/{Id?}")]
         [Authorize(Roles = "Читатель, Администратор")]
         public async Task<string> AddReview(ReviewDTO reviewDTO)
         {

@@ -1,8 +1,8 @@
 ﻿using Application.DTO;
 using Application.Logic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
@@ -21,15 +21,15 @@ namespace WebAPI.Controllers
             return View(await TagService.GetTag());
         }
 
-        [HttpGet]
-        [Route("/AddTag")]
+        [HttpGet("/AddTag")]
+        [Authorize(Roles = "Администратор")]
         public IActionResult AddTag()
         {
             return View();
         }
 
-        [HttpPost]
-        [Route("/AddTag")]
+        [HttpPost("/AddTag")]
+        [Authorize(Roles = "Администратор")]
         public async Task<string> AddTag(TagDTO tagDTO)
         {
             try
@@ -43,8 +43,8 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("Tag/ChangeTag/{Id?}")]
+        [HttpGet("Tag/ChangeTag/{Id?}")]
+        [Authorize(Roles = "Администратор")]
         public async Task<IActionResult> ChangeTag(int? id)
         {
             try
@@ -57,8 +57,8 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("Tag/ChangeTag/{Id?}")]
+        [HttpPost("Tag/ChangeTag/{Id?}")]
+        [Authorize(Roles = "Администратор")]
         public async Task<string> ChangeTag(TagDTO tagDTO)
         {
             try
@@ -72,8 +72,8 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("Tag/DeleteTag/{Id?}")]
+        [HttpGet("Tag/DeleteTag/{Id?}")]
+        [Authorize(Roles = "Администратор")]
         public async Task<string> DeleteTag(TagDTO tagDTO ,int? id)
         {
             if (id == null)

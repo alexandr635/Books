@@ -1,29 +1,24 @@
 ﻿@model List<Application.DTO.AuthorDTO>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Авторы</title>
-</head>
-<body>
-    <h3>Авторы</h3>
-    <form method="get">
-        <table>
+@{
+    ViewData["Title"] = "Найденные авторы";
+}
+<h3>Авторы</h3>
+<form method="get">
+    <table>
+        <tr>
+            <td>Id</td>
+            <td>Имя</td>
+            <td>Фамилия</td>
+            <td>Отчество</td>
+        </tr>
+        @foreach (var author in Model)
+        {
             <tr>
-                <td>Id</td>
-                <td>Имя</td>
-                <td>Фамилия</td>
-                <td>Отчество</td>
+                <td>@author.Id</td>
+                <td>@author.Name</td>
+                <td>@author.LastName</td>
+                <td>@author.Patronymic</td>
             </tr>
-            @foreach (var author in Model)
-            {
-                <tr>
-                    <td>@author.Id</td>
-                    <td>@author.Name</td>
-                    <td>@author.LastName</td>
-                    <td>@author.Patronymic</td>
-                </tr>
-            }
-        </table>
-    </form>
-</body>
-</html>
+        }
+    </table>
+</form>

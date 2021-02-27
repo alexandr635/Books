@@ -1,63 +1,58 @@
 ﻿@model Application.DTO.ListDTO
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Книги</title>
-</head>
-<body>
-    <h3>Добавление книги</h3>
-    <form method="post">
-        <input type="hidden" name="Id" />
-        <p>
-            <label>Title</label>
-            <input type="text" name="Title" required />
-        </p>
-        <p>
-            <label>Short description</label>
-            <input type="text" name="DescriptionShort" required />
-        </p>
-        <p>
-            <label>Long description</label>
-            <input type="text" name="DescriptionLong" required />
-        </p>
-        <p>
-            <label>Genre</label>
-            <select name="GenreId">
-                @foreach (var genre in Model.GenreDTO)
-                {
-                    <option value="@genre.Id">@genre.GenreName</option>
-                }
-            </select>
-        </p>
-        <p>
-            <label>Author</label>
-            <select name="AuthorId">
-                @foreach (var author in Model.AuthorDTO)
-                {
-                    <option value="@author.Id">@author.LastName</option>
-                }
-            </select>
-        </p>
-        <p>
-            <label>Book status</label>
-            <select name="BookStatusId">
-                @foreach (var status in Model.BookStatusDTO)
-                {
-                    <option value="@status.Id">@status.StatusName</option>
-                }
-            </select>
-        </p>
-        <p>
-            <label>Book series</label>
-            <select name="BookSeriesId">
-                @foreach (var series in Model.BookSeriesDTO)
-                {
-                    <option value="@series.Id">@series.SeriesName</option>
-                }
-            </select>
-        </p>
-        <br /><br />
-        <button>Добавить книгу</button>
-    </form>
-</body>
-</html>
+@{
+    ViewData["Title"] = "Добавление книги";
+}
+<h3>Добавление книги</h3>
+<form method="post">
+    <input type="hidden" name="Id" />
+    <p>
+        <label>Title</label>
+        <input type="text" name="Title" required />
+    </p>
+    <p>
+        <label>Short description</label>
+        <input type="text" name="DescriptionShort" required />
+    </p>
+    <p>
+        <label>Long description</label>
+        <input type="text" name="DescriptionLong" required />
+    </p>
+    <p>
+        <label>Genre</label>
+        <select name="GenreId">
+            @foreach (var genre in Model.GenreDTO)
+            {
+                <option value="@genre.Id">@genre.GenreName</option>
+            }
+        </select>
+    </p>
+    <p>
+        <label>Author</label>
+        <select name="AuthorId">
+            @foreach (var author in Model.AuthorDTO)
+            {
+                <option value="@author.Id">@author.LastName</option>
+            }
+        </select>
+    </p>
+    <p>
+        <label>Book status</label>
+        <select name="BookStatusId">
+            @foreach (var status in Model.BookStatusDTO)
+            {
+                <option value="@status.Id">@status.StatusName</option>
+            }
+        </select>
+    </p>
+    <p>
+        <label>Book series</label>
+        <select name="BookSeriesId">
+            @foreach (var series in Model.BookSeriesDTO)
+            {
+                <option value="@series.Id">@series.SeriesName</option>
+            }
+        </select>
+    </p>
+    <br /><br />
+    <button>Добавить книгу</button>
+</form>

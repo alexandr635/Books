@@ -1,8 +1,8 @@
 ﻿using Application.DTO;
 using Application.Logic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
@@ -16,20 +16,21 @@ namespace WebAPI.Controllers
             this.GenreService = GenreService;
         }
 
+        [Authorize(Roles = "Администратор")]
         public async Task<IActionResult> Index()
         {
             return View(await GenreService.GetGenre());
         }
 
-        [HttpGet]
-        [Route("addGenre")]
+        [Authorize(Roles = "Администратор")]
+        [HttpGet("addGenre")]
         public IActionResult AddGenre()
         {
             return View();
         }
 
-        [HttpPost]
-        [Route("addGenre")]
+        [Authorize(Roles = "Администратор")]
+        [HttpPost("addGenre")]
         public async Task<string> AddGenre(GenreDTO genreDTO)
         {
             try
@@ -43,8 +44,8 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("Genre/Change/{Id?}")]
+        [Authorize(Roles = "Администратор")]
+        [HttpGet("Genre/Change/{Id?}")]
         public async Task<IActionResult> ChangeGenre(int? id)
         {
             if (id == null)
@@ -60,8 +61,8 @@ namespace WebAPI.Controllers
             
         }
 
-        [HttpPost]
-        [Route("Genre/Change/{Id?}")]
+        [Authorize(Roles = "Администратор")]
+        [HttpPost("Genre/Change/{Id?}")]
         public async Task<string> ChangeGenre(GenreDTO genreDTO)
         {
             try
@@ -75,8 +76,8 @@ namespace WebAPI.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("Genre/Delete/{Id?}")]
+        [Authorize(Roles = "Администратор")]
+        [HttpGet("Genre/Delete/{Id?}")]
         public async Task<string> DeleteGenre(GenreDTO genreDTO, int? id)
         {
             if (id == null)

@@ -1,48 +1,43 @@
 ﻿@model List<Application.DTO.BookDTO>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Книги</title>
-</head>
-<body>
-    @if ((string)ViewData["role"] == "Администратор")
+@{
+    ViewData["Title"] = "Книги";
+}
+@if ((string)ViewData["role"] == "Администратор")
     {
     <a href="/Home/Book/Filters">Расширенный поиск</a>
     }
     
-    <h3>Книги</h3>
-    <form method="get" action="~/AddBook">
-        <table>
-            <tr>
-                <td>Id</td>
-                <td>Заголовок</td>
-                <td>Описание</td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            @foreach (var book in Model)
-            {
-                <tr>
-                    <td>@book.Id</td>
-                    <td><a href="~/Home/Book/@book.Id">@book.Title</a></td>
-                    <td>@book.DescriptionShort</td>
-                    <td><input type="hidden" value="@book.BookStatusId"/></td>
-                    @if ((string)ViewData["role"] == "Администратор" || (string)ViewData["role"] == "Писатель")
-                    {
-                        <td><a href="~/Home/ChangeBook/@book.Id">Изменить</a></td>
-                        <td><a href="~/Home/DeleteBook/@book.Id">Удалить</a></td>
-                    }
-                    <td><a href="~/Home/ChangeStatus/@book.Id">Статус</a></td>
-                </tr>
-            }
-        </table>
-        <br />
-        @if ((string)ViewData["role"] == "Администратор")
+<h3>Книги</h3>
+<form method="get" action="~/AddBook">
+    <table>
+        <tr>
+            <td>Id</td>
+            <td>Заголовок</td>
+            <td>Описание</td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        @foreach (var book in Model)
         {
-            <button>Добавить книгу</button>
+            <tr>
+                <td>@book.Id</td>
+                <td><a href="~/Home/Book/@book.Id">@book.Title</a></td>
+                <td>@book.DescriptionShort</td>
+                <td><input type="hidden" value="@book.BookStatusId"/></td>
+                @if ((string)ViewData["role"] == "Администратор" || (string)ViewData["role"] == "Писатель")
+                {
+                    <td><a href="~/Home/ChangeBook/@book.Id">Изменить</a></td>
+                    <td><a href="~/Home/DeleteBook/@book.Id">Удалить</a></td>
+                }
+                <td><a href="~/Home/ChangeStatus/@book.Id">Статус</a></td>
+            </tr>
         }
+    </table>
+    <br />
+    @if ((string)ViewData["role"] == "Администратор")
+    {
+        <button>Добавить книгу</button>
+    }
         
-    </form>
-</body>
-</html>
+</form>

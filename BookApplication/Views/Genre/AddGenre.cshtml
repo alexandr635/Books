@@ -1,18 +1,13 @@
-﻿<!DOCTYPE html>
-<html>
-<head>
-    <title>Книги</title>
-</head>
-<body>
-    <h3>Добавление книги</h3>
-    <form method="post">
-        <input type="hidden" name="Id" />
-        <p>
-            <label>Name</label>
-            <input type="text" name="GenreName" required />
-        </p>
-        <br /><br />
-        <button>Добавить книгу</button>
-    </form>
-</body>
-</html>
+﻿@{
+    ViewData["Title"] = "Добавить жанр";
+}
+<h3>Добавление жанра</h3>
+<form method="post">
+    <input type="hidden" name="Id" />
+    <p>
+        <label>Name</label>
+        <input type="text" name="GenreName" required />
+    </p>
+    <br /><br />
+    <button>Добавить жанр</button>
+</form>
