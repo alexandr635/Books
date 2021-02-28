@@ -1,0 +1,36 @@
+﻿@model Application.DTO.UserToRoleDTO
+@{
+    ViewData["Title"] = "Изменить пользователя";
+}
+<form method="post">
+    <p>
+        <label>Name</label>
+        <input type="text" name="Login" value="@Model.User.Login" required />
+    </p>
+    <p>
+        <label>Password</label>
+        <input type="text" name="Password" value="@Model.User.Password" required />
+    </p>
+    <p>
+        <label>Confirm password</label>
+        <input type="text" name="PasswordS" required />
+    </p>
+    <p>
+        <label>Role</label>
+        <select name="RoleId">
+            @foreach (var role in Model.Roles)
+            {
+                if (role.Id == Model.User.RoleId)
+                {
+                    <option selected value="@role.Id">@role.RoleName</option>
+                }
+                else
+                {
+                    <option value="@role.Id">@role.RoleName</option>
+                }
+            }
+        </select>
+    </p>
+
+    <button>Изменить</button>
+</form>

@@ -1,0 +1,26 @@
+﻿@model List<Application.DTO.UserDTO>
+@{ 
+    ViewData["Title"] = "Пользователи";
+}
+<h3>Пользователи</h3>
+<form method="get" action="~/User/AddUser">
+    <table>
+        <tr>
+            <td>Id</td>
+            <td>Логин</td>
+            <td></td>
+            <td></td>
+        </tr>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Id</td>
+                <td>@user.Login</td>
+                <td><a href="~/User/Change/@user.Id">Изменить</a></td>
+                <td><a href="~/User/Delete/@user.Id">Удалить</a></td>
+            </tr>
+        }
+    </table>
+    <br />
+    <button>Добавить Пользователя</button>
+</form>

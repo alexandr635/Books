@@ -11,6 +11,9 @@ using Data.Logic;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Data.Repositories.User;
 using Application.Logic.User;
+using Data.Repositories;
+using Data.Repositories.Role;
+using Application.Logic.Role;
 
 namespace BookApplication
 {
@@ -44,6 +47,8 @@ namespace BookApplication
             services.AddScoped<IStatusRepository, StatusRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IRoleService, RoleService>();
         
             services.AddAutoMapper(typeof(BookService));
 
