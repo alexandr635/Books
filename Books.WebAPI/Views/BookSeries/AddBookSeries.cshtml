@@ -1,0 +1,12 @@
+﻿@model List<Books.Application.DTO.BookDTO>
+@{
+    ViewData["Title"] = "Добавить серию";
+}
+<h3>Серии</h3>
+<form method="post">
+    <p>
+        <label>Name</label>
+        <input type="text" name="SeriesName" required />
+    </p>
+    <button>Добавить серию</button>
+</form>

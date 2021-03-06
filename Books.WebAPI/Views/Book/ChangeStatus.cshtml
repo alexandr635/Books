@@ -1,0 +1,23 @@
+﻿@using Books.Application.DTO
+@model ListDTO
+@{
+    ViewData["Title"] = "Изменение статуса";
+}
+<form method="post">
+    <input type="hidden" value="@Model.BookDTO.Id" name="Id" />
+    <select name="BookStatusId">
+        @foreach (var status in Model.BookStatusDTO)
+        {
+            if (status.Id == Model.BookDTO.BookStatusId)
+            {
+                <option selected value="@status.Id">@status.StatusName</option>
+            }
+            else
+            {
+                <option value="@status.Id">@status.StatusName</option>
+            }
+        }
+    </select>
+
+    <button>Изменить</button>
+</form>

@@ -1,0 +1,23 @@
+﻿@model int?
+@{
+    ViewData["Title"] = "Добавление отзыва";
+}
+<h3>Добавить отзыв</h3>
+<form method="post">
+    <input type="hidden" value="@Model" name="BookId" />
+    <input type="hidden" name="Id" />
+    <p>
+        <label>Pseudonim</label>
+        <input type="text" disabled name="Pseudonim" required value='@ViewData["Name"]' />
+    </p>
+    <p>
+        <label>Review string</label>
+        <input type="text" name="ReviewString" required />
+    </p>
+    <p>
+        <label>Rating</label>
+        <input type="number" min="0" max="5" step="0.1" name="Rating" required />
+    </p>
+    <br />
+    <button>Добавить отзыв</button>
+</form>

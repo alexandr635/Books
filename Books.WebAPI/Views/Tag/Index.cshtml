@@ -1,0 +1,26 @@
+﻿@model List<Books.Application.DTO.TagDTO>
+@{
+    ViewData["Title"] = "Тэги";
+}
+<h3>Тэги</h3>
+<form method="get" action="~/AddTag">
+    <table>
+        <tr>
+            <td>Id</td>
+            <td>Имя тэга</td>
+            <td></td>
+            <td></td>
+        </tr>
+        @foreach (var tagDTO in Model)
+        {
+            <tr>
+                <td>@tagDTO.Id</td>
+                <td>@tagDTO.TagName</td>
+                <td><a href="~/Tag/ChangeTag/@tagDTO.Id">Изменить</a></td>
+                <td><a href="~/Tag/DeleteTag/@tagDTO.Id">Удалить</a></td>
+            </tr>
+        }
+    </table>
+    <br />
+    <button>Добавить тэг</button>
+</form>

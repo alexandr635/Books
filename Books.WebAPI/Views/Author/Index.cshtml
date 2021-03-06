@@ -1,0 +1,32 @@
+﻿@model List<Books.Application.DTO.AuthorDTO>
+@{ 
+    ViewData["Title"] = "Авторы";
+}
+<h3>Авторы</h3>
+<form method="get" action="~/AddAuthor">
+    <table>
+        <tr>
+            <td>Id</td>
+            <td>Имя</td>
+            <td>Фамилия</td>
+            <td>Отчество</td>
+            <td>Изменить</td>
+        </tr>
+        @foreach (var author in Model)
+        {
+            <tr>
+                <td>@author.Id</td>
+                <td>@author.Name</td>
+                <td>@author.LastName</td>
+                <td>@author.Patronymic</td>
+                <td><a href="~/author/Change/@author.Id">Изменить</a></td>
+                <td><a href="~/author/Delete/@author.Id">Удалить</a></td>
+            </tr>
+        }
+    </table>
+    <br />
+    <a href="SearchAuthor">Найти автора</a>
+    <br />
+    <br />
+    <button>Добавить Автора</button>
+</form>

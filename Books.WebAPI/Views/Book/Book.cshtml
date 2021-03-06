@@ -1,0 +1,20 @@
+﻿@model Books.Application.DTO.BookDTO
+@{
+    ViewData["Title"] = Model.Title;
+}
+<h3>@Model.Title</h3>
+<p>@Model.DescriptionLong</p>
+@if (Model.Image.Count() > 0 && Model.Image != null)
+{
+    var img = Convert.ToBase64String(Model.Image);
+    <img src="data:image/jpg;base64,@img" height="200" width="150" />
+}
+else
+{
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" name="Image" />
+        <button>Добавить</button>
+    </form>
+}
+
+<a href="~/Home/AddReview/@Model.Id">Добавить отзыв</a>

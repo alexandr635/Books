@@ -1,0 +1,24 @@
+﻿@model List<Books.Application.DTO.AuthorDTO>
+@{
+    ViewData["Title"] = "Найденные авторы";
+}
+<h3>Авторы</h3>
+<form method="get">
+    <table>
+        <tr>
+            <td>Id</td>
+            <td>Имя</td>
+            <td>Фамилия</td>
+            <td>Отчество</td>
+        </tr>
+        @foreach (var author in Model)
+        {
+            <tr>
+                <td>@author.Id</td>
+                <td>@author.Name</td>
+                <td>@author.LastName</td>
+                <td>@author.Patronymic</td>
+            </tr>
+        }
+    </table>
+</form>

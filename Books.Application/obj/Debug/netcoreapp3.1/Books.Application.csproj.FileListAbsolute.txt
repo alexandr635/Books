@@ -1,0 +1,14 @@
+C:\Users\Alexa\source\repos\Books\Books.Application\obj\Debug\netcoreapp3.1\Books.Application.csprojAssemblyReference.cache
+C:\Users\Alexa\source\repos\Books\Books.Application\obj\Debug\netcoreapp3.1\Books.Application.AssemblyInfoInputs.cache
+C:\Users\Alexa\source\repos\Books\Books.Application\obj\Debug\netcoreapp3.1\Books.Application.AssemblyInfo.cs
+C:\Users\Alexa\source\repos\Books\Books.Application\obj\Debug\netcoreapp3.1\Books.Application.csproj.CoreCompileInputs.cache
+C:\Users\Alexa\source\repos\Books\Books.Application\bin\Debug\netcoreapp3.1\Books.Domain.dll
+C:\Users\Alexa\source\repos\Books\Books.Application\bin\Debug\netcoreapp3.1\Books.Infrastructure.dll
+C:\Users\Alexa\source\repos\Books\Books.Application\bin\Debug\netcoreapp3.1\Books.Domain.pdb
+C:\Users\Alexa\source\repos\Books\Books.Application\bin\Debug\netcoreapp3.1\Books.Application.deps.json
+C:\Users\Alexa\source\repos\Books\Books.Application\bin\Debug\netcoreapp3.1\Books.Application.dll
+C:\Users\Alexa\source\repos\Books\Books.Application\bin\Debug\netcoreapp3.1\Books.Application.pdb
+C:\Users\Alexa\source\repos\Books\Books.Application\bin\Debug\netcoreapp3.1\Books.Infrastructure.pdb
+C:\Users\Alexa\source\repos\Books\Books.Application\obj\Debug\netcoreapp3.1\Books.Application.csproj.CopyComplete
+C:\Users\Alexa\source\repos\Books\Books.Application\obj\Debug\netcoreapp3.1\Books.Application.dll
+C:\Users\Alexa\source\repos\Books\Books.Application\obj\Debug\netcoreapp3.1\Books.Application.pdb

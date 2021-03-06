@@ -1,0 +1,33 @@
+﻿@model Books.Application.DTO.AuthorDTO
+@{
+    ViewData["Title"] = "Изменить автора";
+}
+<h3>Книги</h3>
+<form method="post">
+    <p>
+        <label>Name</label>
+        <input type="text" name="Name" value="@Model.Name" required />
+    </p>
+    <p>
+        <label>Last name</label>
+        <input type="text" name="LastName" value="@Model.LastName" required />
+    </p>
+    <p>
+        <label>Patronymic</label>
+        <input type="text" name="Patronymic" value="@Model.Patronymic" required />
+    </p>
+    <p>
+        <label>Date of birth</label>
+        <input type="date" name="DateOfBirth" value='@Model.DateOfBirth.ToString("yyyy-MM-dd")' required />
+    </p>
+    <p>
+        <label>Place of birth</label>
+        <input type="text" name="PlaceOfBirth" value="@Model.PlaceOfBirth" required />
+    </p>
+    <p>
+        <label>Biography</label>
+        <input type="text" name="Biography" value="@Model.Biography" required />
+    </p>
+    <br />
+    <button>Изменить книгу</button>
+</form>

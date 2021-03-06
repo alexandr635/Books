@@ -1,0 +1,31 @@
+﻿@model List<Books.Application.DTO.RoleDTO>
+@{
+    ViewData["Title"] = "Добвление пользователя";
+}
+<h3>Добавление пользователя</h3>
+<form method="post">
+    <input type="hidden" name="Id" />
+    <p>
+        <label>Login</label>
+        <input type="text" name="Login" required />
+    </p>
+    <p>
+        <label>Password</label>
+        <input type="password" name="Password" required />
+    </p>
+    <p>
+        <label>Confirm Password</label>
+        <input type="password" name="PasswordS" required />
+    </p>
+    <p>
+        <label>Role</label>
+        <select name="RoleId">
+            @foreach (var role in Model)
+            {
+                <option value="@role.Id">@role.RoleName</option>
+            }
+        </select>
+    </p>
+    <br /><br />
+    <button>Добавить Пользователя</button>
+</form>
