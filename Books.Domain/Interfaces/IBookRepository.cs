@@ -9,6 +9,7 @@ namespace Books.Domain.Interfaces
         Task<List<Book>> GetBook();
         Task<List<Book>> GetBook(string pattern);
         Task<Book> GetBook(int? id);
+        Task<List<Book>> GetBook(Book book, string status);
         Task AddBook(Book book);
         Task ChangeBook(Book book);
         Task<List<Book>> GetRatingList(int size);

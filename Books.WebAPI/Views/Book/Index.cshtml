@@ -1,49 +1,178 @@
-﻿@using Microsoft.AspNetCore.Mvc;
-@model List<Books.Application.DTO.BookDTO>
+﻿@using System.Security.Claims; 
+@model Books.Application.DTO.FilterBookDTO
 @{
     ViewData["Title"] = "Книги";
+    string role;
+    try
+    {
+        role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType).Value;
+    }
+    catch
+    {
+        role = "Читатель";
+    }
 }
-@if (ViewData["role"] != null)
+@if (role != null)
 {
-    @if ((string)ViewData["role"] == "Администратор")
+    @if (role == "Администратор")
     {
         <a href="/Home/Book/Filters">Расширенный поиск</a>
     }
 
     <h3>Книги</h3>
-    <form method="get" action="~/AddBook">
-        <table>
-            <tr>
-                <td>Id</td>
-                <td>Заголовок</td>
-                <td>Описание</td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            @foreach (var book in Model)
-            {
-                <tr>
-                    <td>@book.Id</td>
-                    <td><a href="~/Home/Book/@book.Id">@book.Title</a></td>
-                    <td>@book.DescriptionShort</td>
-                    <td><input type="hidden" value="@book.BookStatusId" /></td>
-                    @if ((string)ViewData["role"] == "Администратор" || (string)ViewData["role"] == "Писатель")
-                    {
-                        <td><a href="~/Home/ChangeBook/@book.Id">Изменить</a></td>
-                        <td><a href="~/Home/DeleteBook/@book.Id">Удалить</a></td>
-                    }
-                    <td><a href="~/Home/ChangeStatus/@book.Id">Статус</a></td>
-                </tr>
-            }
-        </table>
-        <br />
-        @if ((string)ViewData["role"] == "Администратор")
-        {
-            <button>Добавить книгу</button>
-        }
+    <div class="container">
+        <form method="get" class="col-sm">
+            
+            <div class="row">
+                <div class="bg-white container border box-shadow mb-3 rounded p-3">
+                    <div class="row">
+                        <div class="col-sm">
+                            <input type="text" class="w-100 form-control" name="title" value="@Model.Title"/>
+                        </div>
+                        <div class="col-sm-3">
+                            <button class="w-100 p-2 btn btn-outline-warning">Найти</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    </form>
+            <div class="row">
+                <div class="col-sm ml-n3">
+                    @if (Model.Books.Count == 0)
+                    {
+                        <div class="bg-white container border box-shadow mb-3 rounded p-3">
+                            <div class="row">
+                                <div class="col-sm">
+                                    По вашему запросу ничего не найдено!
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @foreach (var book in Model.Books)
+                    {
+                        <div class="bg-white container border box-shadow mb-3 rounded p-3">
+                            <div class="row">
+                                <div class="col-sm">
+                                    @{
+                                        string author = book.AuthorDTO.LastName + " " + book.AuthorDTO.Name.Substring(0, 1) + ". ";
+                                        if (book.AuthorDTO.Patronymic != "")
+                                            author += book.AuthorDTO.Patronymic.Substring(0, 1) + ". ";
+                                    }
+                                    <h5>@author</h5>
+                                    <a href="~/Home/Book/@book.Id">@book.Title</a>
+                                    <p>@book.DescriptionShort</p>
+                                </div>
+
+                                <div class="col-sm-3 d-flex align-items-end">
+                                    <button class="p-2 w-100 btn btn-outline-warning">Добавить</button>
+                                </div>
+                            </div>
+                            @if (role == "Администратор" || role == "Писатель")
+                            {
+                                <div class="row">
+                                    <div class="col">
+                                        <a href="~/Home/ChangeBook/@book.Id">Изменить</a>
+                                        <a href="~/Home/DeleteBook/@book.Id">Удалить</a>
+                                        <a href="~/Home/ChangeStatus/@book.Id">Статус</a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+                <div class="col-sm-3 mr-n3">
+                    <div class="bg-white container border box-shadow mb-3 rounded p-3">
+                        <div class="row text-center">
+                            <div class="col-sm">
+                                <h4>Фильтры</h4>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-sm">
+                                <h5>Рейтинг</h5>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-sm">
+                                <input type="number" max="5" min="0" step="0.1" name="rating" class="w-100 form-control" value="@Model.AverageRating"/>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2 text-left">
+
+                            <div class="col-sm">
+                                <select name="genre" class="form-control">
+                                    <option selected value="-1">Выберите жанр</option>
+                                    @foreach (var genre in @Model.Genres)
+                                    {
+                                        if (genre.Id == Model.GenreId)
+                                        {
+                                            <option selected value="@genre.Id">@genre.GenreName</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@genre.Id">@genre.GenreName</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2 text-left">
+
+                            <div class="col-sm">
+                                <select name="author" class="form-control">
+                                    <option selected value="-1">Выберите автора</option>
+                                    @foreach (var author in @Model.Authors)
+                                    {
+                                        if (author.Id == Model.AuthorId)
+                                        {
+                                            <option selected value="@author.Id">@author.LastName</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@author.Id">@author.LastName</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm">
+                                @if (Model.Page > 1)
+                                {
+                                    <a asp-controller="Book"
+                                       asp-action="Index"
+                                       asp-route-title="@(Model.Title)"
+                                       asp-route-rating="@(Model.AverageRating)"
+                                       asp-route-author="@(Model.AuthorId)"
+                                       asp-route-genre="@(Model.GenreId)"
+                                       asp-route-page="@(Model.Page - 1)">Назад</a>
+                                }
+                                @if (Model.Page < Model.PageCount)
+                                {
+                                    <a asp-controller="Book"
+                                       asp-action="Index"
+                                       asp-route-title="@(Model.Title)"
+                                       asp-route-rating="@(Model.AverageRating)"
+                                       asp-route-author="@(Model.AuthorId)"
+                                       asp-route-genre="@(Model.GenreId)"
+                                       asp-route-page="@(Model.Page + 1)">Вперед</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    
 }
 else
 {

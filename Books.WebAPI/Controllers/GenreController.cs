@@ -21,36 +21,36 @@ namespace Books.WebAPI.Controllers
             Mapper = mapper;
         }
 
-        [Authorize(Roles = "Администратор")]
+        [Authorize(Roles = "Проверяющий")]
         public async Task<IActionResult> Index()
         {
             var listDTO = Mapper.Map<List<GenreDTO>>(await GenreRepository.GetGenre());
             return View(listDTO);
         }
 
-        [Authorize(Roles = "Администратор")]
+        [Authorize(Roles = "Проверяющий")]
         [HttpGet("addGenre")]
         public IActionResult AddGenre()
         {
             return View();
         }
 
-        [Authorize(Roles = "Администратор")]
+        [Authorize(Roles = "Проверяющий")]
         [HttpPost("addGenre")]
-        public async Task<string> AddGenre(GenreDTO genreDTO)
+        public async Task<IActionResult> AddGenre(GenreDTO genreDTO)
         {
             try
             {
                 await GenreRepository.AddGenre(Mapper.Map<Genre>(genreDTO));
-                return "Жанр добавлен";
+                return RedirectToAction("Index", "Genre");
             }
-            catch (Exception ex)
+            catch
             {
-                return ex.Message;
+                return StatusCode(403);
             }
         }
 
-        [Authorize(Roles = "Администратор")]
+        [Authorize(Roles = "Проверяющий")]
         [HttpGet("Genre/Change/{Id?}")]
         public async Task<IActionResult> ChangeGenre(int? id)
         {
@@ -58,40 +58,41 @@ namespace Books.WebAPI.Controllers
                 RedirectToAction();
             try
             {
-                return View(await GenreRepository.GetGenre(id));
+                var dto = Mapper.Map<GenreDTO>(await GenreRepository.GetGenre(id));
+                return View(dto);
             }
-            catch (Exception ex)
+            catch
             {
-                return View(ex.Message);
+                return StatusCode(403);
             }
 
         }
 
-        [Authorize(Roles = "Администратор")]
+        [Authorize(Roles = "Проверяющий")]
         [HttpPost("Genre/Change/{Id?}")]
-        public async Task<string> ChangeGenre(GenreDTO genreDTO)
+        public async Task<IActionResult> ChangeGenre(GenreDTO genreDTO)
         {
             try
             {
                 await GenreRepository.ChangeGenre(Mapper.Map<Genre>(genreDTO));
-                return "Жанр изменен";
+                return RedirectToAction("Index", "Genre");
             }
-            catch (Exception ex)
+            catch
             {
-                return ex.Message;
+                return StatusCode(403);
             }
         }
 
-        [Authorize(Roles = "Администратор")]
-        [HttpGet("Genre/Delete/{Id?}")]
-        public async Task<string> DeleteGenre(GenreDTO genreDTO, int? id)
+        [Authorize(Roles = "Проверяющий")]
+        [Route("Genre/Delete/{Id?}")]
+        public async Task<IActionResult> DeleteGenre(int? id)
         {
             if (id == null)
-                return "fuck you";
+                return RedirectToAction("Index", "Account");
             else
             {
-                await GenreRepository.DeleteGenre(Mapper.Map<Genre>(genreDTO));
-                return "Жанр удален!";
+                await GenreRepository.DeleteGenre((int)id);
+                return RedirectToAction("Index", "Genre");
             }
         }
     }

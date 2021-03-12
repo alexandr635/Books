@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Books.WebAPI.Controllers
@@ -21,13 +22,30 @@ namespace Books.WebAPI.Controllers
             Mapper = mapper;
         }
 
-        [Authorize(Roles = "Администратор")]
-        public async Task<IActionResult> Index()
+        [Authorize(Roles = "Проверяющий")]
+        public async Task<IActionResult> Index(DateTime birth, DateTime die, string name = null, int page = 1)
         {
             try
             {
-                var toDTO = Mapper.Map<List<AuthorDTO>>(await AuthorRepository.GetAuthor());
-                return View(toDTO);
+                const int pageSize = 2;
+                if (die == new DateTime(1, 1, 1))
+                    die = DateTime.Now;
+                var author = new Author(name, birth, die);
+                var authors = await AuthorRepository.GetAuthor(author);
+
+                var filter = new FilterAuthorDTO()
+                {
+                    MaxYearOfBirth = await AuthorRepository.GetMaxYear(),
+                    MinYearOfBirth = await AuthorRepository.GetMinYear(),
+                    Authors = Mapper.Map<List<AuthorDTO>>(authors.Skip((page - 1) * pageSize).Take(pageSize)),
+                    PageCount = (int)Math.Ceiling((decimal)authors.Count() / pageSize),
+                    Name = name,
+                    DateOfBirth = birth,
+                    DateOfDie = die,
+                    Page = page
+                };
+                
+                return View(filter);
             }
             catch (Exception ex)
             {
@@ -35,15 +53,16 @@ namespace Books.WebAPI.Controllers
             }
         }
 
-        [Authorize(Roles = "Администратор")]
-        [HttpGet("author/Change/{Id?}")]
+        [Authorize(Roles = "Проверяющий")]
+        [HttpGet("Author/Change/{Id?}")]
         public async Task<IActionResult> ChangeAuthor(int? id)
         {
             if (id == null)
                 return RedirectToAction();
             try
             {
-                return View(await AuthorRepository.GetAuthor(id));
+                var dto = Mapper.Map<AuthorDTO>(await AuthorRepository.GetAuthor(id));
+                return View(dto);
             }
             catch (Exception ex)
             {
@@ -51,67 +70,67 @@ namespace Books.WebAPI.Controllers
             }
         }
 
-        [Authorize(Roles = "Администратор")]
-        [HttpPost("author/Change/{Id?}")]
-        public async Task<string> ChangeAuthor(AuthorDTO authorDTO)
+        [Authorize(Roles = "Проверяющий")]
+        [HttpPost("Author/Change/{Id?}")]
+        public async Task<IActionResult> ChangeAuthor(AuthorDTO authorDTO)
         {
             try
             {
                 await AuthorRepository.ChangeAuthor(Mapper.Map<Author>(authorDTO));
-                return "пользователь изменен";
+                return RedirectToAction("Index", "Author");
             }
-            catch (Exception ex)
+            catch
             {
-                return ex.Message;
+                return StatusCode(403);
             }
         }
 
-        [Authorize(Roles = "Администратор")]
+        [Authorize(Roles = "Проверяющий")]
         [HttpGet("AddAuthor")]
         public IActionResult AddAuthor()
         {
             return View();
         }
 
-        [Authorize(Roles = "Администратор")]
+        [Authorize(Roles = "Проверяющий")]
         [HttpPost("AddAuthor")]
-        public async Task<string> AddAuthor(AuthorDTO authorDTO)
+        public async Task<IActionResult> AddAuthor(AuthorDTO authorDTO)
         {
             try
             {
                 await AuthorRepository.AddAuthor(Mapper.Map<Author>(authorDTO));
-                return "Автор добавлен";
+                return RedirectToAction("Index", "Author");
             }
-            catch (Exception ex)
+            catch
             {
-                return ex.Message;
+                return StatusCode(403);
             }
         }
 
-        [Authorize(Roles = "Администратор")]
+        [Authorize(Roles = "Проверяющий")]
         [HttpGet("SearchAuthor")]
         public IActionResult SearchAuthor()
         {
             return View();
         }
 
-        [Authorize(Roles = "Администратор")]
+        [Authorize(Roles = "Проверяющий")]
         [HttpPost("Result")]
         public async Task<IActionResult> Result(string pattern)
         {
             return View(await AuthorRepository.GetAuthor(pattern));
         }
 
-        [Authorize(Roles = "Администратор")]
-        [HttpGet("author/Delete/{Id?}")]
-        public async Task<string> DeleteAuthor(AuthorDTO authorDTO, int? id)
+        [Authorize(Roles = "Проверяющий")]
+        [HttpGet("Author/Delete/{Id?}")]
+        public async Task<IActionResult> DeleteAuthor(AuthorDTO authorDTO, int? id)
         {
             if (id == null)
-                return "Куда ты мальчик?";
+                return RedirectToAction("Index", "Account");
             else
             {
                 await AuthorRepository.DeleteAuthor(Mapper.Map<Author>(authorDTO));
-                return "Автор удален";
+                return RedirectToAction("Index", "Author");
             }
         }
     }

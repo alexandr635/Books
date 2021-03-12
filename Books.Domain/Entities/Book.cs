@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace Books.Domain.Entities
 {
-    [Serializable]
     public class Book
     {
         public int Id { get; protected set; }
@@ -25,6 +24,7 @@ namespace Books.Domain.Entities
         public BookSeries BookSeries { get; protected set; }
         public List<Review> Reviews { get; protected set; }
         public List<BookToTag> BookToTags { get; protected set; }
+        public List<UserToBook> UserToBooks { get; protected set; }
 
         public Book(int id, string title, string sDesc, string lDesc, DateTime publishDate, double averageRating,
                     int author, int genre, int status, int? series)
@@ -43,6 +43,7 @@ namespace Books.Domain.Entities
 
             Reviews = new List<Review>();
             BookToTags = new List<BookToTag>();
+            UserToBooks = new List<UserToBook>();
         }
 
         public Book(int id)
@@ -50,12 +51,22 @@ namespace Books.Domain.Entities
             Id = id;
             Reviews = new List<Review>();
             BookToTags = new List<BookToTag>();
+            UserToBooks = new List<UserToBook>();
+        }
+
+        public Book(string title, int author, int genre, double rating)
+        {
+            Title = title;
+            AuthorId = author;
+            GenreId = genre;
+            AverageRating = rating;
         }
 
         public Book()
         {
             Reviews = new List<Review>();
             BookToTags = new List<BookToTag>();
+            UserToBooks = new List<UserToBook>();
         }
 
         public void SetTitle(string title)

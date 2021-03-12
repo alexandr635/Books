@@ -9,5 +9,7 @@ namespace Books.Domain.Interfaces
         Task<List<BookSeries>> GetSeries();
         Task AddSeries(BookSeries bookSeries);
         Task DeleteSeries(BookSeries series);
+        Task<BookSeries> GetSeries(int id);
+        Task ChangeSeries(BookSeries series);
     }
 }

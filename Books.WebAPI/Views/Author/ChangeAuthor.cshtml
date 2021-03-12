@@ -2,32 +2,85 @@
 @{
     ViewData["Title"] = "Изменить автора";
 }
-<h3>Книги</h3>
-<form method="post">
-    <p>
-        <label>Name</label>
-        <input type="text" name="Name" value="@Model.Name" required />
-    </p>
-    <p>
-        <label>Last name</label>
-        <input type="text" name="LastName" value="@Model.LastName" required />
-    </p>
-    <p>
-        <label>Patronymic</label>
-        <input type="text" name="Patronymic" value="@Model.Patronymic" required />
-    </p>
-    <p>
-        <label>Date of birth</label>
-        <input type="date" name="DateOfBirth" value='@Model.DateOfBirth.ToString("yyyy-MM-dd")' required />
-    </p>
-    <p>
-        <label>Place of birth</label>
-        <input type="text" name="PlaceOfBirth" value="@Model.PlaceOfBirth" required />
-    </p>
-    <p>
-        <label>Biography</label>
-        <input type="text" name="Biography" value="@Model.Biography" required />
-    </p>
-    <br />
-    <button>Изменить книгу</button>
+
+<form method="post" class="pt-5">
+    <div class="container-fluid" style="text-align: center">
+        <h3 class="text-left">Автор</h3>
+        <div class="d-sm-block bg-white border box-shadow mb-3 rounded p-3">
+            <div class="row mt-2 text-left">
+                <div class="col-sm-4">
+                    <h4>Name</h4>
+                </div>
+                <div class="col-sm">
+                    <input type="text" name="Name" value="@Model.Name" required class="w-100 form-control" />
+                </div>
+            </div>
+
+            <div class="row mt-2 text-left">
+                <div class="col-sm-4">
+                    <h4>Last name</h4>
+                </div>
+                <div class="col-sm">
+                    <input type="text" name="LastName" value="@Model.LastName" required class="w-100 form-control" />
+                </div>
+            </div>
+
+            <div class="row mt-2 text-left">
+                <div class="col-sm-4">
+                    <h4>Patronymic</h4>
+                </div>
+                <div class="col-sm">
+                    <input type="text" name="Patronymic" value="@Model.Patronymic" required class="w-100 form-control" />
+                </div>
+            </div>
+
+            <div class="row mt-2 text-left">
+                <div class="col-sm-4">
+                    <h4>Date of birth</h4>
+                </div>
+                <div class="col-sm">
+                    <input type="date" name="DateOfBirth" value='@Model.DateOfBirth.ToString("yyyy-MM-dd")' required class="w-100 form-control" />
+                </div>
+            </div>
+
+            <div class="row mt-2 text-left">
+                <div class="col-sm-4">
+                    <h4>Date of die</h4>
+                </div>
+                <div class="col-sm">
+                    @if (Model.DateOfDie != null)
+                    {
+                        <input type="date" name="DateOfDie" value='@Model.DateOfDie.GetValueOrDefault().ToString("yyyy-MM-dd")' required class="w-100 form-control" />
+                    }
+                    else
+                    {
+                        <input type="date" name="DateOfDie" required class="w-100 form-control" />
+                    }
+                </div>
+            </div>
+
+            <div class="row mt-2 text-left">
+                <div class="col-sm-4">
+                    <h4>Place of birth</h4>
+                </div>
+                <div class="col-sm">
+                    <input type="text" name="PlaceOfBirth" value="@Model.PlaceOfBirth" required class="w-100 form-control" />
+                </div>
+            </div>
+
+            <div class="row mt-2 text-left">
+                <div class="col-sm-4">
+                    <h4>Biography</h4>
+                </div>
+                <div class="col-sm">
+                    <input type="text" name="Biography" value="@Model.Biography" required class="w-100 form-control" />
+                </div>
+            </div>
+
+            <div class="row mt-2 text-left">
+                <button class="m-4 p-2 col-sm btn btn-outline-warning">Изменить автора</button>
+            </div>
+        </div>
+    </div>
+            
 </form>

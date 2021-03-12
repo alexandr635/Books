@@ -2,112 +2,167 @@
 @{
     ViewData["Title"] = "Изменение книги";
 }
-<h3>Изменение книги</h3>
-<form method="post">
-    <input type="hidden" value="@Model.BookDTO.Id" name="Id" />
-    <p>
-        <label>Title</label>
-        <input type="text" value="@Model.BookDTO.Title" name="Title" required />
-    </p>
-    <p>
-        <label>Short description</label>
-        <input type="text" value="@Model.BookDTO.DescriptionShort" name="DescriptionShort" required />
-    </p>
-    <p>
-        <label>Long description</label>
-        <input type="text" value="@Model.BookDTO.DescriptionLong" name="DescriptionLong" required />
-    </p>
-    <p>
-        <label>Average rating</label>
-        <input type="number" max="5" min="0" step="0.1" value="@Model.BookDTO.AverageRating" name="AverageRating" required />
-    </p>
-    <p>
-        <label>Genre</label>
-        <select name="GenreId">
-            @foreach (var genre in @Model.GenreDTO)
-            {
-                if (genre.Id == Model.BookDTO.GenreId)
-                {
-                    <option selected value="@genre.Id">@genre.GenreName</option>
-                }
-                else
-                {
-                    <option value="@genre.Id">@genre.GenreName</option>
-                }
 
-            }
-        </select>
-    </p>
-    <p>
-        <label>Author</label>
-        <select name="AuthorId">
-            @foreach (var author in Model.AuthorDTO)
-            {
-                if (author.Id == Model.BookDTO.AuthorId)
-                {
-                    <option selected value="@author.Id">@author.LastName</option>
-                }
-                else
-                {
-                    <option value="@author.Id">@author.LastName</option>
-                }
-            }
-        </select>
-    </p>
-    <p>
-        <label>Book status</label>
-        <select name="BookStatusId">
-            @foreach (var status in Model.BookStatusDTO)
-            {
-                if (status.Id == Model.BookDTO.BookStatusId)
-                {
-                    <option selected value="@status.Id">@status.StatusName</option>
-                }
-                else
-                {
-                    <option value="@status.Id">@status.StatusName</option>
-                }
-            }
-        </select>
-    </p>
-    <p>
-        <label>Book series</label>
-        <select name="BookSeriesId">
-            @foreach (var series in Model.BookSeriesDTO)
-            {
-                if (series.Id == Model.BookDTO.BookSeriesId)
-                {
-                    <option selected value="@series.Id">@series.SeriesName</option>
-                }
-                else
-                {
-                    <option value="@series.Id">@series.SeriesName</option>
+<form method="post" class="pt-2">
+    <div class="container-fluid" style="text-align: center">
+        <h3 class="text-left">Книга</h3>
+        <div class="d-sm-block bg-white border box-shadow mb-3 rounded p-3">
 
-                }
-            }
-        </select>
-    </p>
-    <p>
-        <label>Tags</label><br />
-        @foreach (var tag in Model.TagDTO)
-        {
-            if (Model.BookDTO.BookToTagsDTO != null)
-            {
-                if (Model.BookDTO.BookToTagsDTO.Any(t => t.TagId == tag.Id))
-                {
-                    <input type="checkbox" checked name="tagsId" value="@tag.Id" />@tag.TagName<br />
-                }
-                else
-                {
-                    <input type="checkbox" name="tagsId" value="@tag.Id" />@tag.TagName<br />
-                }
-            }
-            else
-            {
-                <input type="checkbox" name="tagsId" value="@tag.Id" />@tag.TagName<br />
-            }
-        }
-    </p>
-    <br /><br />
-    <button>Изменить книгу</button>
+            <input type="hidden" value="@Model.BookDTO.Id" name="Id" />
+
+            <div class="row mt-2 text-left">
+                <div class="col-sm-4">
+                    <h4>Title</h4>
+                </div>
+                <div class="col-sm">
+                    <input type="text" name="Title" value="@Model.BookDTO.Title" required class="w-100 form-control" />
+                </div>
+            </div>
+
+            <div class="row mt-2 text-left">
+                <div class="col-sm-4">
+                    <h4>Short description</h4>
+                </div>
+                <div class="col-sm">
+                    <input type="text" name="DescriptionShort" value="@Model.BookDTO.DescriptionShort" required class="w-100 form-control" />
+                </div>
+            </div>
+
+            <div class="row mt-2 text-left">
+                <div class="col-sm-4">
+                    <h4>Average rating</h4>
+                </div>
+                <div class="col-sm">
+                    <input type="number" max="5" min="0" step="0.1" name="AverageRating" value="@Model.BookDTO.AverageRating" required class="w-100 form-control" />
+                </div>
+            </div>
+
+            <div class="row mt-2 text-left">
+                <div class="col-sm-4">
+                    <h4>Genre</h4>
+                </div>
+                <div class="col-sm">
+                    <select name="GenreId" class="form-control">
+                        @foreach (var genre in @Model.GenreDTO)
+                        {
+                            if (genre.Id == Model.BookDTO.GenreId)
+                            {
+                                <option selected value="@genre.Id">@genre.GenreName</option>
+                            }
+                            else
+                            {
+                                <option value="@genre.Id">@genre.GenreName</option>
+                            }
+
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mt-2 text-left">
+                <div class="col-sm-4">
+                    <h4>Author</h4>
+                </div>
+                <div class="col-sm">
+                    <select name="AuthorId" class="form-control">
+                        @foreach (var author in Model.AuthorDTO)
+                        {
+                            if (author.Id == Model.BookDTO.AuthorId)
+                            {
+                                <option selected value="@author.Id">@author.LastName</option>
+                            }
+                            else
+                            {
+                                <option value="@author.Id">@author.LastName</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mt-2 text-left">
+                <div class="col-sm-4">
+                    <h4>Book status</h4>
+                </div>
+                <div class="col-sm">
+                    <select name="BookStatusId" class="form-control">
+                        @foreach (var status in Model.BookStatusDTO)
+                        {
+                            if (status.Id == Model.BookDTO.BookStatusId)
+                            {
+                                <option selected value="@status.Id">@status.StatusName</option>
+                            }
+                            else
+                            {
+                                <option value="@status.Id">@status.StatusName</option>
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mt-2 text-left">
+                <div class="col-sm-4">
+                    <h4>Book series</h4>
+                </div>
+                <div class="col-sm">
+                    <select name="BookSeriesId" class="form-control">
+                        @foreach (var series in Model.BookSeriesDTO)
+                        {
+                            if (series.Id == Model.BookDTO.BookSeriesId)
+                            {
+                                <option selected value="@series.Id">@series.SeriesName</option>
+                            }
+                            else
+                            {
+                                <option value="@series.Id">@series.SeriesName</option>
+
+                            }
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-sm">
+                    <h4>Tags</h4>
+                </div>
+            </div>
+            <div class="row mt-4 text-left">
+                <div class="col-sm-3">
+                    
+                        @foreach (var tag in Model.TagDTO)
+                        {
+                            <div class="form-check">
+                            @{ 
+                                if (Model.BookDTO.BookToTagsDTO != null)
+                                {
+                                    if (Model.BookDTO.BookToTagsDTO.Any(t => t.TagId == tag.Id))
+                                    {
+                                        <input type="checkbox" checked name="tagsId" value="@tag.Id" class="form-check-input" />
+                                        <label class="form-check-label">@tag.TagName</label>
+                                    }
+                                    else
+                                    {
+                                        <input type="checkbox" name="tagsId" value="@tag.Id" class="form-check-input" />
+                                        <label class="form-check-label">@tag.TagName</label>
+                                    }
+                                }
+                                else
+                                {
+                                    <input type="checkbox" name="tagsId" value="@tag.Id" class="form-check-input" />
+                                    <label class="form-check-label">@tag.TagName</label>
+                                }
+                            }
+                            </div>
+                        }
+                    
+                </div>
+            </div>
+
+            <div class="row mt-2 text-left">
+                <button class="m-4 p-2 col-sm btn btn-outline-warning">Изменить книгу</button>
+            </div>
+        </div>
+    </div>
 </form>

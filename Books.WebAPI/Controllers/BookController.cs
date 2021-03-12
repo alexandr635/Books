@@ -20,34 +20,53 @@ namespace Books.WebAPI.Controllers
         IMapper Mapper { get; set; }
         IListService ListService {get; set;}
         IPaginationService PaginationService { get; set; }
-
-        List<BookDTO> BookForPagination { get; set; }
+        IAuthorRepository AuthorRepository { get; set; }
+        IGenreRepository GenreRepository { get; set; }
 
         public BookController(IBookService bookService, IMapper mapper, 
                               IListService listService, IBookRepository bookRepository,
-                              IPaginationService paginationService)
+                              IPaginationService paginationService, IAuthorRepository authorRepository,
+                              IGenreRepository genreRepository)
         {
             BookService = bookService;
             Mapper = mapper;
             ListService = listService;
             BookRepository = bookRepository;
             PaginationService = paginationService;
+            AuthorRepository = authorRepository;
+            GenreRepository = genreRepository;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string title = null, double rating = 0, int author = -1, int genre = -1, int page = 1)
         {
+            string role;
             try
-            {
-                var role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType).Value;
-                ViewData["role"] = role;
-                var books = Mapper.Map<List<BookDTO>>(await BookService.GetBooksByRole(role));
-
-                return View(books);
+            { 
+                role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType).Value;
             }
             catch
             {
-                return RedirectToAction("Index", "Account");
+                role = "Читатель";
             }
+                
+            const int pageSize = 3;
+            var book = new Book(title, author, genre, rating);
+            var books = await BookService.GetBooksByFilter(book, role);
+
+            var filter = new FilterBookDTO()
+            {
+                Books = Mapper.Map<List<BookDTO>>(books.Skip((page - 1) * pageSize).Take(pageSize)),
+                Authors = Mapper.Map<List<AuthorDTO>>(await AuthorRepository.GetAuthor()),
+                Genres = Mapper.Map<List<GenreDTO>>(await GenreRepository.GetGenre()),
+                PageCount = (int)Math.Ceiling((decimal)books.Count() / pageSize),
+                Page = page,
+                AuthorId = author,
+                GenreId = genre,
+                AverageRating = rating,
+                Title = title
+            };
+
+            return View(filter);
         }
 
         [HttpGet("Home/Book/{Id?}")]

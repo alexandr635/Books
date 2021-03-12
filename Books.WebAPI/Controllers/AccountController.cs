@@ -16,24 +16,30 @@ namespace Books.WebAPI.Controllers
         IUserRepository UserRepository { get; set; }
         IClaimService ClaimService { get; set; }
         IMapper Mapper { get; set; }
+        IUserService UserService { get; set; }
 
         public AccountController(IUserRepository userRepository, IClaimService claimService,
-                                 IMapper mapper)
+                                 IMapper mapper, IUserService userService)
         {
             UserRepository = userRepository;
             ClaimService = claimService;
             Mapper = mapper;
+            UserService = userService;
         }
 
-        [HttpGet]
-        [Route("Account/Index")]
+        [HttpGet("Account/Index")]
         public IActionResult Index()
         {
             return View();
         }
 
-        [Route("Account/Index")]
-        [HttpPost]
+        public async Task<IActionResult> Out()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Account");
+        }
+
+        [HttpPost("Account/Index")]
         public async Task<IActionResult> Index(UserDTO user)
         {
             try
@@ -45,11 +51,11 @@ namespace Books.WebAPI.Controllers
                     return RedirectToAction("Index", "Book");
                 }
                 else
-                    return StatusCode(401);
+                    return View((object)user.Login);
             }
             catch
             {
-                return StatusCode(503);
+                return StatusCode(403);
             }
         }
 
@@ -57,6 +63,32 @@ namespace Books.WebAPI.Controllers
         {
             var id = ClaimService.Authenticate(user);
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
+        }
+
+        [HttpGet("Account/Registration")]
+        public IActionResult Registration()
+        {
+            return View();
+        }
+
+        [HttpPost("Account/Registration")]
+        public async Task<IActionResult> Registration(UserDTO dto)
+        {
+            var confirm = Request.Form["PasswordC"].ToString();
+            if (confirm == dto.Password)
+            {
+                var user = await UserService.AddUser(Mapper.Map<User>(dto));
+
+                if (user != null)
+                {
+                    await Authenticate(user);
+                    return RedirectToAction("Index", "Book");
+                }
+                else
+                    return View(new RegistrationError("Registration error: A user with this login already exists. Come up with a new login", ""));
+            }
+            else
+                return View(new RegistrationError("Registration error: Password mismatch. Enter your password again", dto.Login));
         }
     }
 }

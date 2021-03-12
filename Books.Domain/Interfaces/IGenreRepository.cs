@@ -11,5 +11,6 @@ namespace Books.Domain.Interfaces
         Task ChangeGenre(Genre genre);
         Task<Genre> GetGenre(int? id);
         Task DeleteGenre(Genre genre);
+        Task DeleteGenre(int id);
     }
 }

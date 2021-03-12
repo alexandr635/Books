@@ -1,32 +1,177 @@
-﻿@model List<Books.Application.DTO.AuthorDTO>
-@{ 
+﻿@model Books.Application.DTO.FilterAuthorDTO
+@{
     ViewData["Title"] = "Авторы";
 }
 <h3>Авторы</h3>
-<form method="get" action="~/AddAuthor">
-    <table>
-        <tr>
-            <td>Id</td>
-            <td>Имя</td>
-            <td>Фамилия</td>
-            <td>Отчество</td>
-            <td>Изменить</td>
-        </tr>
-        @foreach (var author in Model)
-        {
-            <tr>
-                <td>@author.Id</td>
-                <td>@author.Name</td>
-                <td>@author.LastName</td>
-                <td>@author.Patronymic</td>
-                <td><a href="~/author/Change/@author.Id">Изменить</a></td>
-                <td><a href="~/author/Delete/@author.Id">Удалить</a></td>
-            </tr>
-        }
-    </table>
-    <br />
-    <a href="SearchAuthor">Найти автора</a>
-    <br />
-    <br />
-    <button>Добавить Автора</button>
-</form>
+<div class="container">
+    <form method="get" class="col-sm">
+
+        <div class="row">
+            <div class="bg-white container border box-shadow mb-3 rounded p-3">
+                <div class="row">
+                    <div class="col-sm">
+                        <input type="text" class="w-100 form-control" name="name" value="@Model.Name"/>
+                    </div>
+                    <div class="col-sm-3">
+                        <button class="w-100 p-2 btn btn-outline-warning">Найти</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm ml-n3">
+                @if (Model.Authors.Count == 0)
+                {
+                    <div class="bg-white container border box-shadow mb-3 rounded p-3">
+                        <div class="row">
+                            <div class="col-sm">
+                                По вашему запросу ничего не найдено!
+                            </div>
+                        </div>
+                    </div>
+                }
+                @foreach (var author in Model.Authors)
+                {
+                <div class="bg-white container border box-shadow mb-3 rounded p-3">
+                    <div class="row">
+                        <div class="col-sm">
+                            @{
+                                string fullName = author.LastName + " " + author.Name.Substring(0, 1) + ". ";
+                                if (author.Patronymic != "")
+                                    fullName += author.Patronymic.Substring(0, 1) + ". ";
+                            }
+                            <h5>@fullName</h5>
+                        </div>
+
+                        <div class="col-sm">
+                            @{
+                                string dateString = $"[{author.DateOfBirth.ToShortDateString()}";
+                                if (author.DateOfDie != null)
+                                {
+                                    dateString += $" - {author.DateOfDie.GetValueOrDefault().ToShortDateString()}]";
+                                }
+                                else
+                                {
+                                    dateString += " - скоро]";
+                                }
+                            }
+                            <p>@dateString</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <p>Место рождения - @author.PlaceOfBirth</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <p>@author.Biography</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <a href="~/Author/Change/@author.Id">Изменить</a>
+                            <a href="~/Author/Delete/@author.Id">Удалить</a>
+                        </div>
+                    </div>
+                </div>
+                }
+            </div>
+            <div class="col-sm-3 mr-n3">
+                <div class="bg-white container border box-shadow mb-3 rounded p-3">
+                    <div class="row text-center">
+                        <div class="col-sm">
+                            <h4>Фильтры</h4>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-sm">
+                            <h5>Годы жизни:</h5>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2 text-left">
+                        <div class="col-2 pt-2">
+                            <p>С:</p>
+                        </div>
+                        <div class="col-sm">
+                            <select name="birth" class="form-control">
+                                @{
+                                    DateTime date = new DateTime(Model.MinYearOfBirth, 01, 01);
+                                }
+                                <option selected value="@Model.MinYearOfBirth">Выберите дату</option>
+                                @for (int i = Model.MinYearOfBirth; i < Model.MaxYearOfBirth; i++)
+                                {
+                                    date = new DateTime(i, 01, 01);
+                                    if (date == Model.DateOfBirth)
+                                    {
+                                        <option selected value="@date">@i</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@date">@i</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2 text-left">
+                        <div class="col-2 pt-2">
+                            <p>По:</p>
+                        </div>
+                        <div class="col-sm">
+                            <select name="die" class="form-control">
+                                @{
+                                    date = new DateTime(Model.MaxYearOfBirth, 01, 01);
+                                }
+                                <option selected value="@date">Выберите дату</option>
+                                @for (int i = Model.MinYearOfBirth + 1; i <= Model.MaxYearOfBirth; i++)
+                                {
+                                    date = new DateTime(i, 01, 01);
+                                    if (date == Model.DateOfDie)
+                                    {
+                                        <option selected value="@date">@i</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@date">@i</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm">
+                            @if (Model.Page > 1)
+                            {
+                                <a asp-controller="Author"
+                                   asp-action="Index"
+                                   asp-route-name="@(Model.Name)"
+                                   asp-route-birth="@(Model.DateOfBirth)"
+                                   asp-route-die="@(Model.DateOfDie)"
+                                   asp-route-page="@(Model.Page - 1)">Назад</a>
+                            }
+                            @if (Model.Page < Model.PageCount)
+                            {
+                                <a asp-controller="Author"
+                                   asp-action="Index"
+                                   asp-route-name="@(Model.Name)"
+                                   asp-route-birth="@(Model.DateOfBirth)"
+                                   asp-route-die="@(Model.DateOfDie)"
+                                   asp-route-page="@(Model.Page + 1)">Вперед</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>

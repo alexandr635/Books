@@ -2,19 +2,47 @@
 @{
     ViewData["Title"] = Model.Title;
 }
-<h3>@Model.Title</h3>
-<p>@Model.DescriptionLong</p>
-@if (Model.Image.Count() > 0 && Model.Image != null)
-{
-    var img = Convert.ToBase64String(Model.Image);
-    <img src="data:image/jpg;base64,@img" height="200" width="150" />
-}
-else
-{
-    <form method="post" enctype="multipart/form-data">
-        <input type="file" name="Image" />
-        <button>Добавить</button>
-    </form>
-}
+
+<div class="bg-white container border box-shadow mb-3 rounded p-3">
+    <div class="row pl-2 pr-2">
+        <div class="col-sm-3 bg-primary">
+            @if (Model.Image.Count() > 0 && Model.Image != null)
+            {
+                var img = Convert.ToBase64String(Model.Image);
+                <img src="data:image/jpg;base64,@img" height="200" width="150" />
+            }
+            else
+            {
+                var path = System.IO.Path.GetFullPath("Resources/noPhoto.png");
+                var res = System.IO.Directory.GetCurrentDirectory();
+                <img src="img/noPhoto.png" />
+            }
+        </div>
+        <div class="col-sm bg-danger">
+            <p>@Model.Title</p>
+            <p>@Model.DescriptionLong</p>
+            <p>@Model.AverageRating</p>
+        </div>
+    </div>
+    
+</div>
+
+@*		path	"C:\\Users\\Alexa\\source\\repos\\Books\\Books.WebAPI\\Resources\\noPhoto.png"	string
+            res	"C:\\Users\\Alexa\\source\\repos\\Books\\Books.WebAPI"	string
+
+        <h3>@Model.Title</h3>
+    <p>@Model.DescriptionLong</p>
+    @if (Model.Image.Count() > 0 && Model.Image != null)
+    {
+        var img = Convert.ToBase64String(Model.Image);
+        <img src="data:image/jpg;base64,@img" height="200" width="150" />
+    }
+    else
+    {
+        <form method="post" enctype="multipart/form-data">
+            <input type="file" name="Image" />
+            <button>Добавить</button>
+        </form>
+    }*@
 
 <a href="~/Home/AddReview/@Model.Id">Добавить отзыв</a>

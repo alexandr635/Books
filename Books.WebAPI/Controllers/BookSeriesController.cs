@@ -23,38 +23,71 @@ namespace Books.WebAPI.Controllers
             Mapper = mapper;
         }
 
-        [Authorize(Roles = "Администратор")]
+        [Authorize(Roles = "Проверяющий")]
         public async Task<IActionResult> Index()
         {
             var listDTO = Mapper.Map<List<BookSeriesDTO>>(await BookSeriesRepository.GetSeries());
             return View(listDTO);
         }
 
-        [Authorize(Roles = "Администратор")]
-        [HttpGet("AddBookSeries")]
+        [Authorize(Roles = "Проверяющий")]
+        [HttpGet("BookSeries/AddBookSeries")]
         public async Task<IActionResult> AddBookSeries()
         {
-            return View(await BookRepository.GetBook());
+            var dto = Mapper.Map<List<BookDTO>>(await BookRepository.GetBook());
+            return View(dto);
         }
 
-        [Authorize(Roles = "Администратор")]
-        [HttpPost("AddBookSeries")]
-        public async Task<string> AddBookSeries(BookSeriesDTO bookSeriesDTO)
+        [Authorize(Roles = "Проверяющий")]
+        [HttpPost("BookSeries/AddBookSeries")]
+        public async Task<IActionResult> AddBookSeries(BookSeriesDTO bookSeriesDTO)
         {
             await BookSeriesRepository.AddSeries(Mapper.Map<BookSeries>(bookSeriesDTO));
-            return "Серия добавлена!";
+            return RedirectToAction("Index", "BookSeries");
         }
 
-        [Authorize(Roles = "Администратор")]
-        [HttpGet("BookSeries/DeleteSeries/{id?}")]
-        public async Task<string> AddBookSeries(BookSeriesDTO bookSeriesDTO, int? id)
+        [Authorize(Roles = "Проверяющий")]
+        [HttpGet("BookSeries/ChangeSeries/{Id?}")]
+        public async Task<IActionResult> Change(int? id)
         {
             if (id == null)
-                return "потеряйся";
+                RedirectToAction();
+            try
+            {
+                var dto = Mapper.Map<BookSeriesDTO>(await BookSeriesRepository.GetSeries((int)id));
+                return View(dto);
+            }
+            catch
+            {
+                return StatusCode(403);
+            }
+        }
+
+        [Authorize(Roles = "Проверяющий")]
+        [HttpPost("BookSeries/ChangeSeries/{Id?}")]
+        public async Task<IActionResult> Change(BookSeriesDTO series)
+        {
+            try
+            {
+                await BookSeriesRepository.ChangeSeries(Mapper.Map<BookSeries>(series));
+                return RedirectToAction("Index", "BookSeries");
+            }
+            catch
+            {
+                return StatusCode(403);
+            }
+        }
+
+        [Authorize(Roles = "Проверяющий")]
+        [HttpGet("BookSeries/DeleteSeries/{id?}")]
+        public async Task<IActionResult> DeleteBookSeries(BookSeriesDTO bookSeriesDTO, int? id)
+        {
+            if (id == null)
+                return RedirectToAction("Index", "Account");
             else
             {
                 await BookSeriesRepository.DeleteSeries(Mapper.Map<BookSeries>(bookSeriesDTO));
-                return "Серия удалена";
+                return RedirectToAction("Index", "BookSeries");
             }
         }
     }

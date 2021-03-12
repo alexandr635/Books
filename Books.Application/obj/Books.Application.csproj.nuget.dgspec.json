@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Alexa\\source\\repos\\Books\\Books.Application\\Books.Application.csproj": {}
+    "D:\\repositories\\Books\\Books.Application\\Books.Application.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Alexa\\source\\repos\\Books\\Books.Application\\Books.Application.csproj": {
+    "D:\\repositories\\Books\\Books.Application\\Books.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Alexa\\source\\repos\\Books\\Books.Application\\Books.Application.csproj",
+        "projectUniqueName": "D:\\repositories\\Books\\Books.Application\\Books.Application.csproj",
         "projectName": "Books.Application",
-        "projectPath": "C:\\Users\\Alexa\\source\\repos\\Books\\Books.Application\\Books.Application.csproj",
+        "projectPath": "D:\\repositories\\Books\\Books.Application\\Books.Application.csproj",
         "packagesPath": "C:\\Users\\Alexa\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Alexa\\source\\repos\\Books\\Books.Application\\obj\\",
+        "outputPath": "D:\\repositories\\Books\\Books.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"
@@ -32,11 +32,11 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\Alexa\\source\\repos\\Books\\Books.Domain\\Books.Domain.csproj": {
-                "projectPath": "C:\\Users\\Alexa\\source\\repos\\Books\\Books.Domain\\Books.Domain.csproj"
+              "D:\\repositories\\Books\\Books.Domain\\Books.Domain.csproj": {
+                "projectPath": "D:\\repositories\\Books\\Books.Domain\\Books.Domain.csproj"
               },
-              "C:\\Users\\Alexa\\source\\repos\\Books\\Books.Infrastructure\\Books.Infrastructure.csproj": {
-                "projectPath": "C:\\Users\\Alexa\\source\\repos\\Books\\Books.Infrastructure\\Books.Infrastructure.csproj"
+              "D:\\repositories\\Books\\Books.Infrastructure\\Books.Infrastructure.csproj": {
+                "projectPath": "D:\\repositories\\Books\\Books.Infrastructure\\Books.Infrastructure.csproj"
               }
             }
           }
@@ -79,18 +79,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.104\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Alexa\\source\\repos\\Books\\Books.Domain\\Books.Domain.csproj": {
+    "D:\\repositories\\Books\\Books.Domain\\Books.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Alexa\\source\\repos\\Books\\Books.Domain\\Books.Domain.csproj",
+        "projectUniqueName": "D:\\repositories\\Books\\Books.Domain\\Books.Domain.csproj",
         "projectName": "Books.Domain",
-        "projectPath": "C:\\Users\\Alexa\\source\\repos\\Books\\Books.Domain\\Books.Domain.csproj",
+        "projectPath": "D:\\repositories\\Books\\Books.Domain\\Books.Domain.csproj",
         "packagesPath": "C:\\Users\\Alexa\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Alexa\\source\\repos\\Books\\Books.Domain\\obj\\",
+        "outputPath": "D:\\repositories\\Books\\Books.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"
@@ -137,18 +137,18 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.104\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Alexa\\source\\repos\\Books\\Books.Infrastructure\\Books.Infrastructure.csproj": {
+    "D:\\repositories\\Books\\Books.Infrastructure\\Books.Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Alexa\\source\\repos\\Books\\Books.Infrastructure\\Books.Infrastructure.csproj",
+        "projectUniqueName": "D:\\repositories\\Books\\Books.Infrastructure\\Books.Infrastructure.csproj",
         "projectName": "Books.Infrastructure",
-        "projectPath": "C:\\Users\\Alexa\\source\\repos\\Books\\Books.Infrastructure\\Books.Infrastructure.csproj",
+        "projectPath": "D:\\repositories\\Books\\Books.Infrastructure\\Books.Infrastructure.csproj",
         "packagesPath": "C:\\Users\\Alexa\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Alexa\\source\\repos\\Books\\Books.Infrastructure\\obj\\",
+        "outputPath": "D:\\repositories\\Books\\Books.Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"
@@ -169,8 +169,8 @@
           "netcoreapp3.1": {
             "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\Alexa\\source\\repos\\Books\\Books.Domain\\Books.Domain.csproj": {
-                "projectPath": "C:\\Users\\Alexa\\source\\repos\\Books\\Books.Domain\\Books.Domain.csproj"
+              "D:\\repositories\\Books\\Books.Domain\\Books.Domain.csproj": {
+                "projectPath": "D:\\repositories\\Books\\Books.Domain\\Books.Domain.csproj"
               }
             }
           }
@@ -205,7 +205,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.104\\RuntimeIdentifierGraph.json"
         }
       }
     }

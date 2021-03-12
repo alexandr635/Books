@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "tO+sQy4NnVEN9Af0cjjMq6gtcKr5oJCl98ZDzP/6Szg0d1AmEePnGNscjaZyBpUVIpD3P8EftvhskGnPuOfp1A==",
+  "dgSpecHash": "foGuXIVV8Z0ZpDJuGQsQdwBw4ODQz1jLB+VmsdYXW+y9r1CqhhBYyjTOUAS+3h137uazmtXfUhSt7CCQjBCo+g==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Alexa\\source\\repos\\Books\\Books.Application\\Books.Application.csproj",
+  "projectFilePath": "D:\\repositories\\Books\\Books.Application\\Books.Application.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Alexa\\.nuget\\packages\\automapper\\10.1.1\\automapper.10.1.1.nupkg.sha512",
     "C:\\Users\\Alexa\\.nuget\\packages\\microsoft.aspnetcore.http.features\\5.0.3\\microsoft.aspnetcore.http.features.5.0.3.nupkg.sha512",

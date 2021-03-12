@@ -12,3 +12,17 @@ C:\Users\Alexa\source\repos\Books\Books.Application\bin\Debug\netcoreapp3.1\Book
 C:\Users\Alexa\source\repos\Books\Books.Application\obj\Debug\netcoreapp3.1\Books.Application.csproj.CopyComplete
 C:\Users\Alexa\source\repos\Books\Books.Application\obj\Debug\netcoreapp3.1\Books.Application.dll
 C:\Users\Alexa\source\repos\Books\Books.Application\obj\Debug\netcoreapp3.1\Books.Application.pdb
+D:\repositories\Books\Books.Application\bin\Debug\netcoreapp3.1\Books.Application.deps.json
+D:\repositories\Books\Books.Application\bin\Debug\netcoreapp3.1\Books.Application.dll
+D:\repositories\Books\Books.Application\bin\Debug\netcoreapp3.1\Books.Application.pdb
+D:\repositories\Books\Books.Application\bin\Debug\netcoreapp3.1\Books.Domain.dll
+D:\repositories\Books\Books.Application\bin\Debug\netcoreapp3.1\Books.Infrastructure.dll
+D:\repositories\Books\Books.Application\bin\Debug\netcoreapp3.1\Books.Domain.pdb
+D:\repositories\Books\Books.Application\bin\Debug\netcoreapp3.1\Books.Infrastructure.pdb
+D:\repositories\Books\Books.Application\obj\Debug\netcoreapp3.1\Books.Application.csprojAssemblyReference.cache
+D:\repositories\Books\Books.Application\obj\Debug\netcoreapp3.1\Books.Application.AssemblyInfoInputs.cache
+D:\repositories\Books\Books.Application\obj\Debug\netcoreapp3.1\Books.Application.AssemblyInfo.cs
+D:\repositories\Books\Books.Application\obj\Debug\netcoreapp3.1\Books.Application.csproj.CoreCompileInputs.cache
+D:\repositories\Books\Books.Application\obj\Debug\netcoreapp3.1\Books.Application.csproj.CopyComplete
+D:\repositories\Books\Books.Application\obj\Debug\netcoreapp3.1\Books.Application.dll
+D:\repositories\Books\Books.Application\obj\Debug\netcoreapp3.1\Books.Application.pdb

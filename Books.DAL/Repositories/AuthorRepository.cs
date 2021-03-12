@@ -22,6 +22,16 @@ namespace Books.DAL.Repositories
             return await Context.Authors.ToListAsync();
         }
 
+        public async Task<int> GetMaxYear()
+        {
+            return (await Context.Authors.MaxAsync(a => a.DateOfBirth)).Year;
+        }
+
+        public async Task<int> GetMinYear()
+        {
+            return (await Context.Authors.MinAsync(a => a.DateOfBirth)).Year;
+        }
+
         public async Task<List<Author>> GetAuthor(string pattern)
         {
             try
@@ -46,6 +56,32 @@ namespace Books.DAL.Repositories
             return await Context.Authors
                 .AsNoTracking()
                 .FirstOrDefaultAsync(a => a.Id == id);
+        }
+
+        public async Task<List<Author>> GetAuthor(Author author)
+        {
+            List<Author> authors = new List<Author>();
+            if (author.Name != null)
+            {
+                authors = await Context.Authors.
+                    Where(a =>
+                               (a.Name.Contains(author.Name) ||
+                                a.LastName.Contains(author.Name) ||
+                                a.Patronymic.Contains(author.Name)) &&
+                               a.DateOfBirth >= author.DateOfBirth &&
+                               (a.DateOfDie <= author.DateOfDie ||
+                                (a.DateOfDie == null && a.DateOfBirth < author.DateOfDie)))
+                    .ToListAsync();
+            }
+            else
+                authors = await Context.Authors.
+                    Where(a =>
+                               a.DateOfBirth >= author.DateOfBirth &&
+                               (a.DateOfDie <= author.DateOfDie ||
+                                (a.DateOfDie == null && a.DateOfBirth < author.DateOfDie)))
+                    .ToListAsync();
+
+            return authors;
         }
 
         public async Task AddAuthor(Author author)

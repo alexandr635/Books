@@ -19,5 +19,19 @@ namespace Books.Application.Services
             User user = new User(id);
             await UserRepository.DeleteUser(user);
         }
+
+        public async Task<User> AddUser(User user)
+        {
+            var check = await UserRepository.GetUser(user.Login);
+            if (check != null)
+                return null;
+            else
+            {
+                user.SetRole(4);
+                await UserRepository.AddUser(user);
+                var res = await UserRepository.GetUser(user.Login);
+                return res;
+            }
+        }
     }
 }

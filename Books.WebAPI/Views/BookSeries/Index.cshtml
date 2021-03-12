@@ -2,30 +2,49 @@
 @{
     ViewData["Title"] = "Серии";
 }
-<h3>Серии</h3>
-<form method="get" action="~/addBookSeries">
-    <table>
-        <tr>
-            <td>Id</td>
-            <td>Серия</td>
-            <td></td>
-            <td></td>
-        </tr>
-        @foreach (var series in Model)
-        {
-            <tr>
-                <td>@series.Id</td>
-                <td>
-                    @series.SeriesName<br />
-                @foreach (var book in series.BooksDTO)
-                {
-                    <pre>     @book.Title</pre>
-                }
-            </td>
-            <td><a href="~/BookSeries/DeleteSeries/@series.Id">Удалить</a></td>
-        </tr>
-    }
-    </table>
-    <br />
-    <button>Добавить серию</button>
-</form>
+<div class="container">
+    <div class="row mb-3">
+        <div class="col-sm">
+            <h3>Серии</h3>
+        </div>
+        <div class="col-sm-3">
+            <form method="get" class="col-sm" action="~/BookSeries/AddBookSeries">
+                <button class="w-100 p-2 btn btn-outline-warning">Добавить</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                    @foreach (var series in Model)
+                    {
+                        <div class="bg-white container border box-shadow mb-3 rounded p-3">
+                            <div class="row">
+                                <div class="col-sm">
+                                    <h5>@series.SeriesName</h5>
+                                    @foreach (var book in series.BooksDTO)
+                                    {
+                                        <pre>     @book.Title</pre>
+                                    }
+                                </div>
+
+                                <div class="col-sm-3 align-items-end">
+                                    <div class="row text-center">
+                                        <div class="col-sm">
+                                            <a href="~/BookSeries/ChangeSeries/@series.Id">Изменить</a>
+                                        </div>
+                                        <div class="col-sm">
+                                            <a href="~/BookSeries/DeleteSeries/@series.Id">Удалить</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

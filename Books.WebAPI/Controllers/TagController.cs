@@ -28,34 +28,35 @@ namespace Books.WebAPI.Controllers
         }
 
         [HttpGet("/AddTag")]
-        [Authorize(Roles = "Администратор")]
+        [Authorize(Roles = "Проверяющий")]
         public IActionResult AddTag()
         {
             return View();
         }
 
         [HttpPost("/AddTag")]
-        [Authorize(Roles = "Администратор")]
-        public async Task<string> AddTag(TagDTO tagDTO)
+        [Authorize(Roles = "Проверяющий")]
+        public async Task<IActionResult> AddTag(TagDTO tagDTO)
         {
             try
             {
                 await TagRepository.AddTag(Mapper.Map<Tag>(tagDTO));
-                return "Тэг добавлен";
+                return RedirectToAction("Index", "Tag");
             }
-            catch (Exception ex)
+            catch
             {
-                return ex.Message;
+                return StatusCode(403);
             }
         }
 
         [HttpGet("Tag/ChangeTag/{Id?}")]
-        [Authorize(Roles = "Администратор")]
+        [Authorize(Roles = "Проверяющий")]
         public async Task<IActionResult> ChangeTag(int? id)
         {
             try
             {
-                return View(await TagRepository.GetTag(id));
+                var dto = Mapper.Map<TagDTO>(await TagRepository.GetTag(id));
+                return View(dto);
             }
             catch (Exception ex)
             {
@@ -64,30 +65,30 @@ namespace Books.WebAPI.Controllers
         }
 
         [HttpPost("Tag/ChangeTag/{Id?}")]
-        [Authorize(Roles = "Администратор")]
-        public async Task<string> ChangeTag(TagDTO tagDTO)
+        [Authorize(Roles = "Проверяющий")]
+        public async Task<IActionResult> ChangeTag(TagDTO tagDTO)
         {
             try
             {
                 await TagRepository.ChangeTag(Mapper.Map<Tag>(tagDTO));
-                return "Тэг изменен";
+                return RedirectToAction("Index", "Tag");
             }
-            catch (Exception ex)
+            catch
             {
-                return ex.Message;
+                return StatusCode(403);
             }
         }
 
         [HttpGet("Tag/DeleteTag/{Id?}")]
-        [Authorize(Roles = "Администратор")]
-        public async Task<string> DeleteTag(TagDTO tagDTO, int? id)
+        [Authorize(Roles = "Проверяющий")]
+        public async Task<IActionResult> DeleteTag(TagDTO tagDTO, int? id)
         {
             if (id == null)
-                return "go away";
+                return StatusCode(403);
             else
             {
                 await TagRepository.DeleteTag(Mapper.Map<Tag>(tagDTO));
-                return "Тэг удален!";
+                return RedirectToAction("Index", "Tag");
             }
         }
     }

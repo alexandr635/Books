@@ -12,5 +12,8 @@ namespace Books.Domain.Interfaces
         Task AddAuthor(Author author);
         Task ChangeAuthor(Author author);
         Task DeleteAuthor(Author author);
+        Task<int> GetMaxYear();
+        Task<int> GetMinYear();
+        Task<List<Author>> GetAuthor(Author author);
     }
 }

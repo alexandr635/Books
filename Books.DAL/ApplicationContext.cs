@@ -9,7 +9,6 @@ namespace Books.DAL
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             :base(options)
         {
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -180,5 +179,6 @@ namespace Books.DAL
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<BookToTag> BookToTags { get; set; }
+        public DbSet<UserToBook> UserToBooks { get; set; }
     }
 }

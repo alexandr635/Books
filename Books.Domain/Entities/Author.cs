@@ -36,6 +36,13 @@ namespace Books.Domain.Entities
             Books = new List<Book>();
         }
 
+        public Author(string name, DateTime birth, DateTime die)
+        {
+            Name = name;
+            DateOfBirth = birth;
+            DateOfDie = die;
+        }
+
         public void SetName(string name)
         {
             Name = name;

@@ -24,7 +24,9 @@ namespace Books.DAL.Repositories
 
         public async Task<User> GetUser(string login)
         {
-            return await Context.Users.FirstOrDefaultAsync(u => u.Login == login);
+            return await Context.Users
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync(u => u.Login == login);
         }
 
         public async Task<List<User>> GetUser()
@@ -42,6 +44,12 @@ namespace Books.DAL.Repositories
         public async Task ChangeUser(User user)
         {
             Context.Users.Update(user);
+            await Context.SaveChangesAsync();
+        }
+
+        public async Task ChangeUserRole(User user)
+        {
+            Context.Entry(user).Property(u => u.RoleId == user.RoleId).IsModified = true;
             await Context.SaveChangesAsync();
         }
 

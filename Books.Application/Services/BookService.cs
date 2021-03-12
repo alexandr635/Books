@@ -44,6 +44,32 @@ namespace Books.Application.Services
             return books;
         }
 
+        public async Task<List<Book>> GetBooksByFilter(Book book, string role)
+        {
+            List<Book> books = new List<Book>();
+            switch (role)
+            {
+                case "Администратор":
+                    books = await BookRepository.GetBook(book, "");
+                    break;
+                case "Проверяющий":
+                    books = await BookRepository.GetBook(book, "На рассмотрении");
+                    books.AddRange(await BookRepository.GetBook(book, "Опубликовано"));
+                    books.AddRange(await BookRepository.GetBook(book, "Снято с публикации"));
+                    books.OrderBy(b => b.Id);
+                    break;
+                case "Писатель":
+                    books = await BookRepository.GetBook(book, "");
+                    break;
+
+                default:
+                    books = await BookRepository.GetBook(book, "Опубликовано");
+                    break;
+            }
+
+            return books;
+        }
+
         public async Task ChangeBook(Book book, int[] tagsId)
         {
             List<BookToTag> tags = new List<BookToTag>();

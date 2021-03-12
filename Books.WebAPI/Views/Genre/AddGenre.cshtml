@@ -1,13 +1,23 @@
 ﻿@{
     ViewData["Title"] = "Добавить жанр";
 }
-<h3>Добавление жанра</h3>
-<form method="post">
-    <input type="hidden" name="Id" />
-    <p>
-        <label>Name</label>
-        <input type="text" name="GenreName" required />
-    </p>
-    <br /><br />
-    <button>Добавить жанр</button>
+<form method="post" class="pt-2">
+    <div class="container-fluid" style="text-align: center">
+        <h3 class="text-left">Добавление жанра</h3>
+        <div class="d-sm-block bg-white border box-shadow mb-3 rounded p-3">
+            <input type="hidden" name="Id" />
+            <div class="row mt-2 text-left">
+                <div class="col-sm-4">
+                    <h4>Name</h4>
+                </div>
+                <div class="col-sm">
+                    <input type="text" name="GenreName" required class="w-100 form-control" />
+                </div>
+            </div>
+
+            <div class="row mt-2 text-left">
+                <button class="m-4 p-2 col-sm btn btn-outline-warning">Добавить жанр</button>
+            </div>
+        </div>
+    </div>
 </form>

@@ -64,15 +64,18 @@ namespace Books.Application.Services
         {
             ListEntities list = new ListEntities();
             list.Book = await BookRepository.GetBook(id);
+            const byte statusDraft = 1;
+            const byte statusPending = 2;
+
             switch (role)
             {
                 case "Проверяющий":
                     list.BookStatus = await BookStatusRepository.GetStatus();
-                    list.BookStatus = list.BookStatus.Where(s => s.Id != 1).ToList();
+                    list.BookStatus = list.BookStatus.Where(s => s.Id != statusDraft).ToList();
                     break;
                 case "Писатель":
                     list.BookStatus = await BookStatusRepository.GetStatus();
-                    list.BookStatus = list.BookStatus.Where(s => s.Id == 1 || s.Id == 2).ToList();
+                    list.BookStatus = list.BookStatus.Where(s => s.Id == statusDraft || s.Id == statusPending).ToList();
                     break;
                 case "Администратор":
                     list.BookStatus = await BookStatusRepository.GetStatus();

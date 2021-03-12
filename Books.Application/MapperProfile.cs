@@ -12,6 +12,7 @@ namespace Books.Application
         {
             CreateMap<Book, BookDTO>()
                 .ForMember(b => b.BookToTagsDTO, opt => opt.MapFrom(src => src.BookToTags))
+                .ForMember(b => b.AuthorDTO, opt => opt.MapFrom(src => src.Author))
                 .ReverseMap();
 
             CreateMap<Author, AuthorDTO>()
@@ -60,6 +61,12 @@ namespace Books.Application
                 .ReverseMap();
 
             CreateMap<SortDTO, Book>()
+                .ReverseMap();
+
+            CreateMap<FilterBookDTO, Book>()
+                .ReverseMap();
+
+            CreateMap<FilterAuthorDTO, Author>()
                 .ReverseMap();
         }
     }

@@ -18,16 +18,18 @@ namespace Books.DAL.Repositories
 
         public async Task<List<Book>> GetBook()
         {
-            return await BookContext.Books
+            var res = await BookContext.Books
                 .Include(b => b.Author)
                 .Include(b => b.Genre)
                 .Include(b => b.BookStatus)
                 .ToListAsync();
+            return res;
         }
 
         public async Task<List<Book>> GetBook(string pattern)
         {
             return await BookContext.Books
+                .Include(b => b.Author)
                 .Where(b => b.BookStatus.StatusName == pattern)
                 .ToListAsync();
         }
@@ -57,6 +59,36 @@ namespace Books.DAL.Repositories
                     b.AverageRating >= book.AverageRating &&
                     b.BookToTags.Any(tag => book.BookToTags.Any()))
                 .ToListAsync();
+
+            return books;
+        }
+
+        public async Task<List<Book>> GetBook(Book book, string status)
+        {
+            List<Book> books;
+            if (book.Title != null)
+                books = await BookContext.Books
+                .Include(b => b.Author)
+                .Where(b => b.Title.Contains(book.Title) &&
+                            b.BookStatus.StatusName.Contains(status) &&
+                            b.AverageRating >= book.AverageRating)
+                .ToListAsync();
+            else
+                books = await BookContext.Books
+                .Include(b => b.Author)
+                .Where(b => b.BookStatus.StatusName.Contains(status) &&
+                            b.AverageRating >= book.AverageRating)
+                .ToListAsync();
+
+            if (book.AuthorId != -1)
+            {
+                books = books.Where(b => b.AuthorId == book.AuthorId).ToList();
+            }
+
+            if (book.GenreId != -1)
+            {
+                books = books.Where(b => b.GenreId == book.GenreId).ToList();
+            }
 
             return books;
         }

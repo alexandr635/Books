@@ -2,25 +2,45 @@
 @{
     ViewData["Title"] = "Жанры";
 }
-<h3>Жанры</h3>
-<form method="get" action="~/addGenre">
-    <table>
-        <tr>
-            <td>Id</td>
-            <td>Заголовок</td>
-            <td></td>
-            <td></td>
-        </tr>
-        @foreach (var genre in Model)
-        {
-            <tr>
-                <td>@genre.Id</td>
-                <td>@genre.GenreName</td>
-                <td><a href="~/Genre/Change/@genre.Id">Изменить</a></td>
-                <td><a href="~/Genre/Delete/@genre.Id">Удалить</a></td>
-            </tr>
-        }
-    </table>
-    <br />
-    <button>Добавить жанр</button>
-</form>
+<div class="container">
+    <div class="row mb-3">
+        <div class="col-sm">
+            <h3>Серии</h3>
+        </div>
+        <div class="col-sm-3">
+            <form method="get" class="col-sm" action="~/addGenre">
+                <button class="w-100 p-2 btn btn-outline-warning">Добавить жанр</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                    @foreach (var genre in Model)
+                    {
+                        <div class="bg-white container border box-shadow mb-3 rounded p-3">
+                            <div class="row">
+                                <div class="col-sm">
+                                    <h5>@genre.GenreName</h5>
+                                </div>
+
+                                <div class="col-sm-3 align-items-end">
+                                    <div class="row text-center">
+                                        <div class="col-sm">
+                                            <a href="~/Genre/Change/@genre.Id">Изменить</a>
+                                        </div>
+                                        <div class="col-sm">
+                                            <a href="~/Genre/Delete/@genre.Id">Удалить</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -52,16 +52,9 @@ namespace Books.WebAPI.Controllers
         [HttpPost("~/User/Change/{Id?}")]
         public async Task<string> Change(UserDTO user)
         {
-            var confirm = Request.Form["PasswordS"];
-            if (user.Password == confirm)
-            {
-                await UserRepository.ChangeUser(Mapper.Map<User>(user));
-                return "Пользователь изменен";
-            }
-            else
-            {
-                return "Пароли не совпадают";
-            }
+            await UserRepository.ChangeUserRole(Mapper.Map<User>(user));
+            //await UserRepository.ChangeUser(Mapper.Map<User>(user));
+            return "Пользователь изменен";
         }
 
         [Authorize(Roles = "Администратор")]

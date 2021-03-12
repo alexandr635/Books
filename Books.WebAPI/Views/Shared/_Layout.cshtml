@@ -1,9 +1,20 @@
 ﻿@using System.Security.Claims;
 @{ 
-    var role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType).Value;
+    string role;
+    string name;
+    try
+    {
+        role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType).Value;
+        name = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultNameClaimType).Value;
+    }
+    catch
+    {
+        role = "";
+        name = "";
+    }
 }
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -28,6 +39,12 @@
                         @if (role == "Администратор")
                         {
                             <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Пользователи</a>
+                            </li>
+                        }
+                        else if (role == "Проверяющий")
+                        {
+                            <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Author" asp-action="Index">Авторы</a>
                             </li>
                             <li class="nav-item">
@@ -39,13 +56,35 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Tag" asp-action="Index">Тэги</a>
                             </li>
+                        }
+                    </ul>
+                    
+                    <ul class="navbar-nav flex-grow-1 justify-content-end">
+                        @if (role == "")
+                        {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="Index">Пользователи</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Registration">Регистрация</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Index">Авторизация</a>
                             </li>
                         }
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Index">Авторизация</a>
-                        </li>
+                        else
+                        {
+                            string str = $"{name}({role})";
+                            <li class="nav-item dropdown">
+                                <a class="nav-link text-dark dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@str</a>
+                                <div class="dropdown-menu" >
+                                    <a class="dropdown-item" href="#">Профиль</a>
+                                    @if (role == "Пользователь")
+                                    {
+                                        <a class="dropdown-item" href="#">Мои книги</a>
+                                    }
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Out">Выйти</a>
+                                </div>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

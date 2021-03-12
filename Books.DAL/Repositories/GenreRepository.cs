@@ -44,5 +44,12 @@ namespace Books.DAL.Repositories
             Context.Genres.Remove(genre);
             await Context.SaveChangesAsync();
         }
+
+        public async Task DeleteGenre(int id)
+        {
+            var genre = await Context.Genres.FirstOrDefaultAsync(g => g.Id == id);
+            Context.Genres.Remove(genre);
+            await Context.SaveChangesAsync();
+        }
     }
 }

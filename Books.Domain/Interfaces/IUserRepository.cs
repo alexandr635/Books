@@ -11,6 +11,7 @@ namespace Books.Domain.Interfaces
         Task<List<User>> GetUser();
         Task<User> GetUser(int id);
         Task ChangeUser(User user);
+        Task ChangeUserRole(User user);
         Task DeleteUser(User user);
         Task AddUser(User user);
     }
