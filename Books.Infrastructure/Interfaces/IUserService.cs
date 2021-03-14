@@ -7,5 +7,7 @@ namespace Books.Infrastructure.Interfaces
     {
         Task DeleteUser(int id);
         Task<User> AddUser(User user);
+        Task<User> AddUserRent(int id, string name);
+        Task<User> AddUserFavorite(int id, string name);
     }
 }

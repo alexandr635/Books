@@ -9,6 +9,8 @@ namespace Books.DAL
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             :base(options)
         {
+            //Database.EnsureDeleted();
+            //Database.EnsureCreated();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -180,5 +182,6 @@ namespace Books.DAL
         public DbSet<Role> Roles { get; set; }
         public DbSet<BookToTag> BookToTags { get; set; }
         public DbSet<UserToBook> UserToBooks { get; set; }
+        public DbSet<BookRent> BookRents { get; set; }
     }
 }

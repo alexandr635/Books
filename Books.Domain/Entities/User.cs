@@ -13,18 +13,21 @@ namespace Books.Domain.Entities
         public Role Role { get; protected set; }
         public List<Review> Reviews { get; protected set; }
         public List<UserToBook> UserToBooks { get; protected set; }
+        public List<BookRent> BookRents { get; protected set; }
 
         public User(int id)
         {
             Id = id;
             Reviews = new List<Review>();
             UserToBooks = new List<UserToBook>();
+            BookRents = new List<BookRent>();
         }
 
         public User()
         {
             Reviews = new List<Review>();
             UserToBooks = new List<UserToBook>();
+            BookRents = new List<BookRent>();
         }
 
         public User(int id, string login, string password, int role)
@@ -36,6 +39,7 @@ namespace Books.Domain.Entities
 
             Reviews = new List<Review>();
             UserToBooks = new List<UserToBook>();
+            BookRents = new List<BookRent>();
         }
 
         public void SetLogin(string login)

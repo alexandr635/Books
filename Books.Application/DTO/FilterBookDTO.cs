@@ -11,6 +11,8 @@ namespace Books.Application.DTO
         public int PageCount { get; set; }
         public int Page { get; set; }
 
+        public UserDTO User { get; set; }
+
         public List<BookDTO> Books { get; set; }
         public List<AuthorDTO> Authors { get; set; }
         public List<GenreDTO> Genres { get; set; }

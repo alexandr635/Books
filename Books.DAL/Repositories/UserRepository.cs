@@ -2,6 +2,7 @@
 using Books.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Books.DAL.Repositories
@@ -26,7 +27,23 @@ namespace Books.DAL.Repositories
         {
             return await Context.Users
                 .Include(u => u.Role)
+                .Include(u => u.BookRents)
+                .Include(u => u.UserToBooks)
                 .FirstOrDefaultAsync(u => u.Login == login);
+        }
+
+        public async Task<User> GetUserWithBooks(string login)
+        {
+            var user = await Context.Users
+                .Include(u => u.Role)
+                .Include(u => u.BookRents)
+                .Include(u => u.UserToBooks)
+                .FirstOrDefaultAsync(u => u.Login == login);
+
+            foreach (var book in user.UserToBooks)
+                book.SetBook(await Context.Books.FirstOrDefaultAsync(b => b.Id == book.Id));
+
+            return user;
         }
 
         public async Task<List<User>> GetUser()
@@ -62,6 +79,18 @@ namespace Books.DAL.Repositories
         public async Task AddUser(User user)
         {
             Context.Users.Add(user);
+            await Context.SaveChangesAsync();
+        }
+
+        public async Task AddUserRent(BookRent rent)
+        {
+            Context.Users.FirstOrDefault(u => u.Id == rent.UserId).BookRents.Add(rent);
+            await Context.SaveChangesAsync();
+        }
+
+        public async Task AddUserFavorite(UserToBook favorite)
+        {
+            Context.Users.FirstOrDefault(u => u.Id == favorite.UserId).UserToBooks.Add(favorite);
             await Context.SaveChangesAsync();
         }
     }

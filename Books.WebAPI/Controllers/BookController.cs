@@ -22,11 +22,12 @@ namespace Books.WebAPI.Controllers
         IPaginationService PaginationService { get; set; }
         IAuthorRepository AuthorRepository { get; set; }
         IGenreRepository GenreRepository { get; set; }
+        IUserRepository UserRepository { get; set; }
 
         public BookController(IBookService bookService, IMapper mapper, 
                               IListService listService, IBookRepository bookRepository,
                               IPaginationService paginationService, IAuthorRepository authorRepository,
-                              IGenreRepository genreRepository)
+                              IGenreRepository genreRepository, IUserRepository userRepository)
         {
             BookService = bookService;
             Mapper = mapper;
@@ -35,6 +36,7 @@ namespace Books.WebAPI.Controllers
             PaginationService = paginationService;
             AuthorRepository = authorRepository;
             GenreRepository = genreRepository;
+            UserRepository = userRepository;
         }
 
         public async Task<IActionResult> Index(string title = null, double rating = 0, int author = -1, int genre = -1, int page = 1)
@@ -48,10 +50,13 @@ namespace Books.WebAPI.Controllers
             {
                 role = "Читатель";
             }
-                
+
+            var name = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultNameClaimType).Value;
+
             const int pageSize = 3;
             var book = new Book(title, author, genre, rating);
             var books = await BookService.GetBooksByFilter(book, role);
+            var user = await UserRepository.GetUserWithBooks(name);
 
             var filter = new FilterBookDTO()
             {
@@ -63,7 +68,8 @@ namespace Books.WebAPI.Controllers
                 AuthorId = author,
                 GenreId = genre,
                 AverageRating = rating,
-                Title = title
+                Title = title,
+                User = Mapper.Map<UserDTO>(user)
             };
 
             return View(filter);

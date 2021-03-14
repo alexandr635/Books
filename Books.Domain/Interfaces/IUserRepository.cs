@@ -14,5 +14,8 @@ namespace Books.Domain.Interfaces
         Task ChangeUserRole(User user);
         Task DeleteUser(User user);
         Task AddUser(User user);
+        Task AddUserRent(BookRent rent);
+        Task AddUserFavorite(UserToBook favorite);
+        Task<User> GetUserWithBooks(string login);
     }
 }

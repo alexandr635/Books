@@ -6,7 +6,9 @@ using Books.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using System;
 
 namespace Books.WebAPI.Controllers
 {
@@ -53,7 +55,6 @@ namespace Books.WebAPI.Controllers
         public async Task<string> Change(UserDTO user)
         {
             await UserRepository.ChangeUserRole(Mapper.Map<User>(user));
-            //await UserRepository.ChangeUser(Mapper.Map<User>(user));
             return "Пользователь изменен";
         }
 
@@ -91,6 +92,48 @@ namespace Books.WebAPI.Controllers
             {
                 return "Пароли не совпадают";
             }
+        }
+
+        [HttpGet("User/AddFavorite/{Id?}")]
+        public async Task<bool> AddFavorite(int? id)
+        {
+            var name = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultNameClaimType).Value;
+            var userDTO = Mapper.Map<UserDTO>(await UserService.AddUserFavorite((int)id, name));
+
+            return true;
+        }
+
+        [HttpGet("User/AddRent/{Id?}")]
+        public async Task<bool> AddRent(int? id)
+        {
+            var name = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultNameClaimType).Value;
+            var userDTO = Mapper.Map<UserDTO>(await UserService.AddUserRent((int)id, name));
+
+            return true;
+        }
+
+        [HttpGet("User/Favorite/{Id?}")]
+        public async Task<IActionResult> GetFavorite(int? id)
+        {
+            if (id == null)
+                return RedirectToAction("Index", "Book");
+
+            var name = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultNameClaimType).Value;
+            var userDTO = Mapper.Map<UserDTO>(await UserRepository.GetUserWithBooks(name));
+
+            return View(userDTO);
+        }
+
+        [HttpGet("User/Rent/{Id?}")]
+        public async Task<IActionResult> GetRent(int? id)
+        {
+            if (id == null)
+                return RedirectToAction("Index", "Book");
+
+            var name = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultNameClaimType).Value;
+            var userDTO = Mapper.Map<UserDTO>(await UserRepository.GetUserWithBooks(name));
+
+            return View(userDTO);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Books.Application.DTO
+﻿using System.Collections.Generic;
+
+namespace Books.Application.DTO
 {
     public class UserDTO
     {
@@ -9,5 +11,8 @@
         public int RoleId { get; set; }
 
         public RoleDTO RoleDTO { get; set; }
+
+        public List<BookRentDTO> BookRents { get; protected set; }
+        public List<UserToBookDTO> UserToBooks { get; protected set; }
     }
 }

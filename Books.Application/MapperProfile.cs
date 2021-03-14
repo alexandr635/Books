@@ -68,6 +68,12 @@ namespace Books.Application
 
             CreateMap<FilterAuthorDTO, Author>()
                 .ReverseMap();
+
+            CreateMap<BookRentDTO, BookRent>()
+                .ReverseMap();
+
+            CreateMap<UserToBookDTO, UserToBook>()
+                .ReverseMap();
         }
     }
 }

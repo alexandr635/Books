@@ -1,4 +1,4 @@
-﻿@using System.Security.Claims; 
+﻿@using System.Security.Claims;
 @model Books.Application.DTO.FilterBookDTO
 @{
     ViewData["Title"] = "Книги";
@@ -22,12 +22,12 @@
     <h3>Книги</h3>
     <div class="container">
         <form method="get" class="col-sm">
-            
+
             <div class="row">
                 <div class="bg-white container border box-shadow mb-3 rounded p-3">
                     <div class="row">
                         <div class="col-sm">
-                            <input type="text" class="w-100 form-control" name="title" value="@Model.Title"/>
+                            <input type="text" class="w-100 form-control" name="title" value="@Model.Title" />
                         </div>
                         <div class="col-sm-3">
                             <button class="w-100 p-2 btn btn-outline-warning">Найти</button>
@@ -63,8 +63,35 @@
                                     <p>@book.DescriptionShort</p>
                                 </div>
 
-                                <div class="col-sm-3 d-flex align-items-end">
-                                    <button class="p-2 w-100 btn btn-outline-warning">Добавить</button>
+                                <div class="col-sm-3 d-flex align-items-center">
+                                    <div class="row">
+                                        <div class="col mb-3">
+                                            @{
+                                                string ident = "addRent" + book.Id;
+                                            }
+                                            @if (Model.User.BookRents.Any(b => b.BookId == book.Id))
+                                            {
+                                                <input type="button" class="btn btn-outline-primary p-2 w-100" id="@ident" value="На прочтении!" />
+                                            }
+                                            else
+                                            {
+                                                <input type="button" class="btn btn-outline-warning p-2 w-100" id="@ident" onclick="AddRent(@book.Id)" value="Добавить" />
+                                            }
+                                        </div>
+                                        <div class="col">
+                                            @{ 
+                                                ident = "addFavorite" + book.Id;
+                                            }
+                                            @if (Model.User.UserToBooks.Any(b => b.BookId == book.Id))
+                                            {
+                                                <input type="button" class="btn btn-outline-primary p-2 w-100" id="@ident" value="В избранном!" />
+                                            }
+                                            else
+                                            {
+                                                <input type="button" class="btn btn-outline-warning p-2 w-100" id="@ident" onclick="AddFavorite(@book.Id)" value="В избранное" />
+                                            }
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             @if (role == "Администратор" || role == "Писатель")
@@ -96,7 +123,7 @@
 
                         <div class="row mb-4">
                             <div class="col-sm">
-                                <input type="number" max="5" min="0" step="0.1" name="rating" class="w-100 form-control" value="@Model.AverageRating"/>
+                                <input type="number" max="5" min="0" step="0.1" name="rating" class="w-100 form-control" value="@Model.AverageRating" />
                             </div>
                         </div>
 
@@ -172,7 +199,33 @@
             </div>
         </form>
     </div>
-    
+    <script type="text/javascript">
+        function AddFavorite(val) {
+            $.ajax({
+                type: 'GET',
+                url: 'User/AddFavorite/' + val,
+                success: function (result) {
+                    var ident = 'addFavorite' + val;
+                    document.getElementById(ident).classList.remove('btn-outline-warning');
+                    document.getElementById(ident).classList.add('btn-outline-primary');
+                    document.getElementById(ident).value = "В избранном!";
+                }
+            });
+        }
+
+        function AddRent(val) {
+            $.ajax({
+                type: 'GET',
+                url: 'User/AddRent/' + val,
+                success: function (result) {
+                    var ident = 'addRent' + val;
+                    document.getElementById(ident).classList.remove('btn-outline-warning');
+                    document.getElementById(ident).classList.add('btn-outline-primary');
+                    document.getElementById(ident).value = "На прочтении!";
+                }
+            });
+        }
+    </script>
 }
 else
 {

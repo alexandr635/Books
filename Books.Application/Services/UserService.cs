@@ -1,6 +1,7 @@
 ﻿using Books.Domain.Entities;
 using Books.Domain.Interfaces;
 using Books.Infrastructure.Interfaces;
+using System;
 using System.Threading.Tasks;
 
 namespace Books.Application.Services
@@ -8,10 +9,12 @@ namespace Books.Application.Services
     public class UserService : IUserService
     {
         IUserRepository UserRepository { get; set; }
+        IBookRepository BookRepository { get; set; }
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IBookRepository bookRepository)
         {
             UserRepository = userRepository;
+            BookRepository = bookRepository;
         }
 
         public async Task DeleteUser(int id)
@@ -32,6 +35,36 @@ namespace Books.Application.Services
                 var res = await UserRepository.GetUser(user.Login);
                 return res;
             }
+        }
+
+        public async Task<User> AddUserRent(int id, string name)
+        {
+            var user = await UserRepository.GetUserWithBooks(name);
+            var book = await BookRepository.GetBook(id);
+            var rent = new BookRent(user.Id, book.Id, new DateTime().AddMonths(3));
+
+            foreach(var userRent in user.BookRents)
+                if (userRent.BookId == id)
+                    return user;
+
+            await UserRepository.AddUserRent(rent);
+
+            return user;
+        }
+
+        public async Task<User> AddUserFavorite(int id, string name)
+        {
+            var user = await UserRepository.GetUserWithBooks(name);
+            var book = await BookRepository.GetBook(id);
+            var favorite = new UserToBook(book.Id, user.Id, book, user);
+
+            foreach(var fav in user.UserToBooks)
+                if (fav.BookId == id)
+                    return user;
+
+            await UserRepository.AddUserFavorite(favorite);
+
+            return user;
         }
     }
 }
