@@ -41,7 +41,7 @@ namespace Books.Application.Services
         {
             var user = await UserRepository.GetUserWithBooks(name);
             var book = await BookRepository.GetBook(id);
-            var rent = new BookRent(user.Id, book.Id, new DateTime().AddMonths(3));
+            var rent = new BookRent(user.Id, book.Id, DateTime.Now.AddMonths(3));
 
             foreach(var userRent in user.BookRents)
                 if (userRent.BookId == id)

@@ -4,20 +4,49 @@
     ViewData["Title"] = "Изменение статуса";
 }
 <form method="post">
-    <input type="hidden" value="@Model.BookDTO.Id" name="Id" />
-    <select name="BookStatusId">
-        @foreach (var status in Model.BookStatusDTO)
-        {
-            if (status.Id == Model.BookDTO.BookStatusId)
-            {
-                <option selected value="@status.Id">@status.StatusName</option>
-            }
-            else
-            {
-                <option value="@status.Id">@status.StatusName</option>
-            }
-        }
-    </select>
-
-    <button>Изменить</button>
+    <div class="bg-white container border box-shadow mb-3 rounded p-3">
+        <div class="row pl-2 pr-2">
+            <div class="col-sm">
+                <input type="hidden" value="@Model.BookDTO.Id" name="Id" />
+                <select name="BookStatusId" class="form-control h-100">
+                    @foreach (var status in Model.BookStatusDTO)
+                    {
+                        if (status.Id == Model.BookDTO.BookStatusId)
+                        {
+                            <option selected value="@status.Id">@status.StatusName</option>
+                        }
+                        else
+                        {
+                            <option value="@status.Id">@status.StatusName</option>
+                        }
+                    }
+                </select>
+            </div>
+            <div class="col-sm-3">
+                <button class="p-2 col-sm btn btn-outline-warning">Изменить</button>
+            </div>
+        </div>
+        </div>
+    <div class="bg-white container border box-shadow mb-3 rounded p-3">
+        <div class="row pl-2 pr-2">
+            <div class="col-sm">
+                <h5>@Model.BookDTO.Title</h5>
+            </div>
+        </div>
+        <div class="row pl-2 pr-2">
+            <div class="col-sm">
+                @{
+                    string author = Model.BookDTO.AuthorDTO.LastName + " " + Model.BookDTO.AuthorDTO.Name.Substring(0, 1) + ". ";
+                    if (Model.BookDTO.AuthorDTO.Patronymic != "")
+                        author += Model.BookDTO.AuthorDTO.Patronymic.Substring(0, 1) + ". ";
+                }
+                <p>@author</p>
+            </div>
+        </div>
+        <div class="row pl-2 pr-2">
+            <div class="col-sm">
+                <p>@Model.BookDTO.DescriptionShort</p>
+            </div>
+        </div>
+    </div>
 </form>

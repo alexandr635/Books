@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System;
+using System.Linq;
 
 namespace Books.WebAPI.Controllers
 {
@@ -19,23 +20,36 @@ namespace Books.WebAPI.Controllers
         IRoleRepository RoleRepository { get; set; }
         IMapper Mapper { get; set; }
         IListService ListService { get; set; }
+        IReviewRepository ReviewRepository { get; set; }
 
         public UserController(IUserService userService, IUserRepository userRepository,
                               IRoleRepository roleRepository, IMapper mapper,
-                              IListService listService)
+                              IListService listService, IReviewRepository reviewRepository)
         {
             UserService = userService;
             UserRepository = userRepository;
             RoleRepository = roleRepository;
             Mapper = mapper;
             ListService = listService;
+            ReviewRepository = reviewRepository;
         }
 
         [Authorize(Roles = "Администратор")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string login = null, int page = 1)
         {
-            var listDTO = Mapper.Map<List<UserDTO>>(await UserRepository.GetUser());
-            return View(listDTO);
+            var users = Mapper.Map<List<UserDTO>>(await UserRepository.GetFilterUser(login));
+            const int pageSize = 4;
+
+            var filter = new FilterUserDTO()
+            {
+                Login = login,
+                Page = page,
+                PageCount = (int)Math.Ceiling((decimal)users.Count / pageSize),
+                Users = Mapper.Map<List<UserDTO>>(users.Skip((page - 1) * pageSize).Take(pageSize))
+            };
+
+
+            return View(filter);
         }
 
         [Authorize(Roles = "Администратор")]
@@ -52,10 +66,10 @@ namespace Books.WebAPI.Controllers
 
         [Authorize(Roles = "Администратор")]
         [HttpPost("~/User/Change/{Id?}")]
-        public async Task<string> Change(UserDTO user)
+        public async Task<IActionResult> Change(UserDTO user)
         {
             await UserRepository.ChangeUserRole(Mapper.Map<User>(user));
-            return "Пользователь изменен";
+            return RedirectToAction("Index", "User");
         }
 
         [Authorize(Roles = "Администратор")]
@@ -112,26 +126,29 @@ namespace Books.WebAPI.Controllers
             return true;
         }
 
-        [HttpGet("User/Favorite/{Id?}")]
-        public async Task<IActionResult> GetFavorite(int? id)
+        [HttpGet("User/Favorite")]
+        public async Task<IActionResult> GetFavorite()
         {
-            if (id == null)
-                return RedirectToAction("Index", "Book");
-
             var name = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultNameClaimType).Value;
             var userDTO = Mapper.Map<UserDTO>(await UserRepository.GetUserWithBooks(name));
 
             return View(userDTO);
         }
 
-        [HttpGet("User/Rent/{Id?}")]
-        public async Task<IActionResult> GetRent(int? id)
+        [HttpGet("User/Rent")]
+        public async Task<IActionResult> GetRent()
         {
-            if (id == null)
-                return RedirectToAction("Index", "Book");
-
             var name = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultNameClaimType).Value;
             var userDTO = Mapper.Map<UserDTO>(await UserRepository.GetUserWithBooks(name));
+
+            return View(userDTO);
+        }
+
+        [HttpGet("User/Review")]
+        public async Task<IActionResult> GetReview()
+        {
+            var name = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultNameClaimType).Value;
+            var userDTO = Mapper.Map<List<ReviewDTO>>(await ReviewRepository.GetReview(name));
 
             return View(userDTO);
         }

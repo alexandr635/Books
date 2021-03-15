@@ -32,6 +32,22 @@ namespace Books.DAL.Repositories
                 .FirstOrDefaultAsync(u => u.Login == login);
         }
 
+        public async Task<List<User>> GetFilterUser(string login)
+        {
+            List<User> res;
+            if(login != null)
+                res = await Context.Users
+                    .Include(u => u.Role)
+                    .Where(u => u.Login.Contains(login))
+                    .ToListAsync();
+            else
+                res = await Context.Users
+                    .Include(u => u.Role)
+                    .ToListAsync();
+
+            return res;
+        }
+
         public async Task<User> GetUserWithBooks(string login)
         {
             var user = await Context.Users
@@ -41,14 +57,27 @@ namespace Books.DAL.Repositories
                 .FirstOrDefaultAsync(u => u.Login == login);
 
             foreach (var book in user.UserToBooks)
-                book.SetBook(await Context.Books.FirstOrDefaultAsync(b => b.Id == book.Id));
+                book.SetBook(
+                    await Context.Books
+                    .Include(b => b.Author)
+                    .FirstOrDefaultAsync(b => b.Id == book.BookId)
+                );
+
+            foreach (var book in user.BookRents)
+                book.SetBook(
+                    await Context.Books
+                    .Include(b => b.Author)
+                    .FirstOrDefaultAsync(b => b.Id == book.BookId)
+                );
 
             return user;
         }
 
         public async Task<List<User>> GetUser()
         {
-            return await Context.Users.ToListAsync();
+            return await Context.Users
+                .Include(u => u.Role)
+                .ToListAsync();
         }
 
         public async Task<User> GetUser(int id)
@@ -66,7 +95,7 @@ namespace Books.DAL.Repositories
 
         public async Task ChangeUserRole(User user)
         {
-            Context.Entry(user).Property(u => u.RoleId == user.RoleId).IsModified = true;
+            Context.Entry(user).Property(u => u.RoleId).IsModified = true;
             await Context.SaveChangesAsync();
         }
 

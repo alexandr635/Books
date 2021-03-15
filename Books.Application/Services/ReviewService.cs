@@ -20,7 +20,6 @@ namespace Books.Application.Services
         {
             var user = await UserRepository.GetUser(name);
             review.SetUser(user.Id);
-            review.SetPseudonim(name);
             await ReviewRepository.AddReview(review);
         }
     }

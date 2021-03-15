@@ -1,0 +1,78 @@
+﻿@model Books.Application.DTO.UserDTO;
+@{
+    ViewData["Title"] = "Ваши книги";
+}
+<div class="container">
+    <form>
+        <div class="row">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm">
+                        @if (Model.UserToBooks.Count() == 0)
+                        {
+                            <div class="bg-white container border box-shadow mb-3 rounded p-3">
+                                <div class="row">
+                                    <div class="col-sm">
+                                        У вас еще нет избранных книг!
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        @foreach (var favorite in Model.UserToBooks)
+                        {
+                            <div class="bg-white container border box-shadow mb-3 rounded p-3">
+                                <div class="row">
+                                    <div class="col-sm">
+                                        @{
+                                            string author = favorite.Book.AuthorDTO.LastName + " " + favorite.Book.AuthorDTO.Name.Substring(0, 1) + ". ";
+                                            if (favorite.Book.AuthorDTO.Patronymic != "")
+                                                author += favorite.Book.AuthorDTO.Patronymic.Substring(0, 1) + ". ";
+                                        }
+                                        <h5>@author</h5>
+                                        <a href="~/Home/Book/@favorite.BookId">@favorite.Book.Title</a>
+                                        <p>@favorite.Book.DescriptionShort</p>
+                                    </div>
+
+                                    <div class="col-sm-3 d-flex align-items-center">
+                                        <div class="row w-100">
+                                            <div class="col mb-3">
+                                                @{
+                                                    string ident = "addRent" + favorite.BookId;
+                                                }
+                                                @if (Model.BookRents.Any(b => b.BookId == favorite.BookId))
+                                                {
+                                                    <input type="button" class="btn btn-outline-primary p-2 w-100" id="@ident" value="На прочтении!" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="button" class="btn btn-outline-warning p-2 w-100" id="@ident" onclick="AddRent(@favorite.BookId)" value="Добавить" />
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    function AddRent(val) {
+        $.ajax({
+            type: 'GET',
+            url: '/User/AddRent/' + val,
+            success: function (result) {
+                var ident = 'addRent' + val;
+                document.getElementById(ident).classList.remove('btn-outline-warning');
+                document.getElementById(ident).classList.add('btn-outline-primary');
+                document.getElementById(ident).value = "На прочтении!";
+            }
+        });
+    }
+</script>

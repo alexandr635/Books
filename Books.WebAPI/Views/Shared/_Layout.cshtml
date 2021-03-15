@@ -80,10 +80,11 @@
                                 <a class="nav-link text-dark dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@str</a>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" href="#">Профиль</a>
-                                    @if (role == "Пользователь")
+                                    @if (role == "Читатель")
                                     {
-                                        <a class="dropdown-item" asp-controller="User" asp-action="Out">Мои книги</a>
-                                        <a class="dropdown-item" asp-controller="User" asp-action="Out">Избранное</a>
+                                        <a class="dropdown-item" asp-area="" asp-controller="User" asp-action="GetRent">Мои книги</a>
+                                        <a class="dropdown-item" asp-area="" asp-controller="User" asp-action="GetFavorite">Избранное</a>
+                                        <a class="dropdown-item" asp-area="" asp-controller="User" asp-action="GetReview">Отзывы</a>
                                     }
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Out">Выйти</a>

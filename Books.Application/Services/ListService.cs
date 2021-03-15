@@ -71,7 +71,7 @@ namespace Books.Application.Services
             {
                 case "Проверяющий":
                     list.BookStatus = await BookStatusRepository.GetStatus();
-                    list.BookStatus = list.BookStatus.Where(s => s.Id != statusDraft).ToList();
+                    list.BookStatus = list.BookStatus.ToList();
                     break;
                 case "Писатель":
                     list.BookStatus = await BookStatusRepository.GetStatus();

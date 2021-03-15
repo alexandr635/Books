@@ -42,28 +42,37 @@ namespace Books.WebAPI.Controllers
         public async Task<IActionResult> Index(string title = null, double rating = 0, int author = -1, int genre = -1, int page = 1)
         {
             string role;
+            string name;
             try
             { 
                 role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType).Value;
+                name = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultNameClaimType).Value;
             }
             catch
             {
                 role = "Читатель";
+                name = "";
             }
-
-            var name = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultNameClaimType).Value;
 
             const int pageSize = 3;
             var book = new Book(title, author, genre, rating);
             var books = await BookService.GetBooksByFilter(book, role);
-            var user = await UserRepository.GetUserWithBooks(name);
+            User user;
+            try
+            {
+                user = await UserRepository.GetUserWithBooks(name);
+            }
+            catch
+            {
+                user = null;
+            }
 
             var filter = new FilterBookDTO()
             {
                 Books = Mapper.Map<List<BookDTO>>(books.Skip((page - 1) * pageSize).Take(pageSize)),
                 Authors = Mapper.Map<List<AuthorDTO>>(await AuthorRepository.GetAuthor()),
                 Genres = Mapper.Map<List<GenreDTO>>(await GenreRepository.GetGenre()),
-                PageCount = (int)Math.Ceiling((decimal)books.Count() / pageSize),
+                PageCount = (int)Math.Ceiling((decimal)books.Count / pageSize),
                 Page = page,
                 AuthorId = author,
                 GenreId = genre,
@@ -174,7 +183,7 @@ namespace Books.WebAPI.Controllers
             if (tagsId == null)
                 tagsId = Request.Form["tags"].ToString();
 
-            SortDTO pattern = new SortDTO()
+            SortDTO pattern = new()
             {
                 AverageRating = rating,
                 AuthorId = author,
@@ -192,7 +201,7 @@ namespace Books.WebAPI.Controllers
         public async Task<IActionResult> ChangeStatus(int? id)
         {
             string role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType).Value;
-            var list = await ListService.GetListBookAndStatus(role, (int)id);
+            var list = Mapper.Map<ListDTO>(await ListService.GetListBookAndStatus(role, (int)id));
 
             return View(list);
         }

@@ -17,5 +17,6 @@ namespace Books.Domain.Interfaces
         Task AddUserRent(BookRent rent);
         Task AddUserFavorite(UserToBook favorite);
         Task<User> GetUserWithBooks(string login);
+        Task<List<User>> GetFilterUser(string login);
     }
 }

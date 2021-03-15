@@ -45,6 +45,7 @@ namespace Books.DAL.Repositories
         {
             return await BookContext.Books
                 .Include(b => b.BookToTags)
+                .Include(b => b.Author)
                 .FirstOrDefaultAsync(b => b.Id == id);
         }
 
@@ -69,6 +70,7 @@ namespace Books.DAL.Repositories
             if (book.Title != null)
                 books = await BookContext.Books
                 .Include(b => b.Author)
+                .Include(b => b.BookStatus)
                 .Where(b => b.Title.Contains(book.Title) &&
                             b.BookStatus.StatusName.Contains(status) &&
                             b.AverageRating >= book.AverageRating)
@@ -76,6 +78,7 @@ namespace Books.DAL.Repositories
             else
                 books = await BookContext.Books
                 .Include(b => b.Author)
+                .Include(b => b.BookStatus)
                 .Where(b => b.BookStatus.StatusName.Contains(status) &&
                             b.AverageRating >= book.AverageRating)
                 .ToListAsync();

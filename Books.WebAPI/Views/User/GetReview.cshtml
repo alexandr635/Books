@@ -1,0 +1,46 @@
+﻿@model List<Books.Application.DTO.ReviewDTO>
+@{
+    ViewData["Title"] = "Ваши оценки";
+}
+<div class="container">
+    <div class="row">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                    @if (Model.Count() == 0)
+                    {
+                        <div class="bg-white container border box-shadow mb-3 rounded p-3">
+                            <div class="row">
+                                <div class="col-sm">
+                                    Вы еще не оставляли комментарии!
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    @foreach (var review in Model)
+                    {
+                        <div class="bg-white container border box-shadow mb-3 rounded p-3">
+                            <div class="row">
+                                <div class="col-sm">
+                                    <h6>@review.BookDTO.Title</h6>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm">
+                                    <p>Оценка - @review.Rating</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm">
+                                    <p>Отзыв: @review.ReviewString</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
