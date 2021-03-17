@@ -8,6 +8,7 @@
         <div class="row pl-2 pr-2">
             <div class="col-sm">
                 <input type="hidden" value="@Model.BookDTO.Id" name="Id" />
+                <input type="hidden" value="@Model.BookDTO.ConfirmId" name="ConfirmId" />
                 <select name="BookStatusId" class="form-control h-100">
                     @foreach (var status in Model.BookStatusDTO)
                     {

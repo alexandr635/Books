@@ -30,6 +30,15 @@
 
             <div class="row mt-2 text-left">
                 <div class="col-sm-4">
+                    <h4>Long description</h4>
+                </div>
+                <div class="col-sm">
+                    <input type="text" name="DescriptionLong" value="@Model.BookDTO.DescriptionLong" required class="w-100 form-control" />
+                </div>
+            </div>
+
+            <div class="row mt-2 text-left">
+                <div class="col-sm-4">
                     <h4>Average rating</h4>
                 </div>
                 <div class="col-sm">
@@ -130,11 +139,11 @@
             </div>
             <div class="row mt-4 text-left">
                 <div class="col-sm-3">
-                    
-                        @foreach (var tag in Model.TagDTO)
-                        {
-                            <div class="form-check">
-                            @{ 
+
+                    @foreach (var tag in Model.TagDTO)
+                    {
+                        <div class="form-check">
+                            @{
                                 if (Model.BookDTO.BookToTagsDTO != null)
                                 {
                                     if (Model.BookDTO.BookToTagsDTO.Any(t => t.TagId == tag.Id))
@@ -154,9 +163,9 @@
                                     <label class="form-check-label">@tag.TagName</label>
                                 }
                             }
-                            </div>
-                        }
-                    
+                        </div>
+                    }
+
                 </div>
             </div>
 

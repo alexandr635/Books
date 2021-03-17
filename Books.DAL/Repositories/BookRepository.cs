@@ -113,6 +113,7 @@ namespace Books.DAL.Repositories
         public async Task ChangeBookStatus(Book book)
         {
             BookContext.Entry(book).Property(b => b.BookStatusId).IsModified = true;
+            BookContext.Entry(book).Property(b => b.ConfirmId).IsModified = true;
             await BookContext.SaveChangesAsync();
         }
 

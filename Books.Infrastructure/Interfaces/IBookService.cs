@@ -11,5 +11,6 @@ namespace Books.Infrastructure.Interfaces
         Task<List<Book>> GetBooksByFilter(Book book, string role);
         Task ChangeBook(Book book, int[] tagsId);
         Task AddBookImage(int id, IFormFile file);
+        Task ChangeBookStatus(Book book, string role);
     }
 }

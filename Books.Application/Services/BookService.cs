@@ -78,7 +78,30 @@ namespace Books.Application.Services
                 tags.Add(new BookToTag(book.Id, tagId));
 
             book.SetBookToTags(tags);
-            await BookRepository.ChangeBook(book);
+
+            const byte draftStatus = 1;
+            const byte pendingStatus = 2;
+            const byte publishedStatus = 3;
+            const byte removePublicationStatus = 4;
+
+            switch (book.BookStatusId)
+            {
+                case draftStatus:
+                case pendingStatus:
+                    await BookRepository.ChangeBook(book);
+                    break;
+                case publishedStatus:
+                    book.SetConfirm(book.Id);
+                    book.SetId(0);
+                    book.SetStatusId(pendingStatus);
+                    await BookRepository.AddBook(book);
+                    break;
+                case removePublicationStatus:
+                    await BookRepository.DeleteBook(book);
+                    book.SetId(0);
+                    await BookRepository.AddBook(book);
+                    break;
+            }            
         }
         
         public async Task AddBookImage(int id, IFormFile file)
@@ -92,6 +115,32 @@ namespace Books.Application.Services
             }
             
             await BookRepository.ChangeBookImage(book);
+        }
+
+        public async Task ChangeBookStatus(Book book, string role)
+        {
+            if (book.ConfirmId != 0 && role == "Проверяющий")
+            {
+                var changeBook = await BookRepository.GetBook(book.ConfirmId);
+                var currentBook = await BookRepository.GetBook(book.Id);
+                
+                changeBook.SetConfirm(0);
+                changeBook.SetStatusId(book.BookStatusId);
+                changeBook.SetAuthorId(currentBook.AuthorId);
+                changeBook.SetAverageRating(currentBook.AverageRating);
+                changeBook.SetBookToTags(currentBook.BookToTags);
+                changeBook.SetGenreId(currentBook.GenreId);
+                changeBook.SetLongDescription(currentBook.DescriptionLong);
+                changeBook.SetShortDescription(currentBook.DescriptionShort);
+                changeBook.SetTitle(currentBook.Title);
+                changeBook.SetSeriesId(currentBook.BookSeriesId);
+
+                await BookRepository.ChangeBook(changeBook);
+                var res = await BookRepository.GetBook(book.ConfirmId);
+                await BookRepository.DeleteBook(currentBook);
+            }
+            else 
+                await BookRepository.ChangeBookStatus(book);
         }
     }
 }

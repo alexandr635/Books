@@ -210,7 +210,8 @@ namespace Books.WebAPI.Controllers
         [Authorize(Roles = "Писатель, Администратор, Проверяющий")]
         public async Task<IActionResult> ChangeStatus(BookDTO book)
         {
-            await BookRepository.ChangeBookStatus(Mapper.Map<Book>(book));
+            string role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType).Value;
+            await BookService.ChangeBookStatus(Mapper.Map<Book>(book), role);
             return RedirectToAction("Index");
         }
 

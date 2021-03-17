@@ -191,6 +191,8 @@
                                    asp-route-genre="@(Model.GenreId)"
                                    asp-route-page="@(Model.Page - 1)">Назад</a>
                             }
+                            </div>
+                        <div class="col-sm text-right">
                             @if (Model.Page < Model.PageCount)
                             {
                                 <a asp-controller="Book"

@@ -16,6 +16,8 @@ namespace Books.Application.DTO
         public int BookStatusId { get; set; }
         public int? BookSeriesId { get; set; }
 
+        public int ConfirmId { get; set; }
+
         public AuthorDTO AuthorDTO { get; set; }
         public GenreDTO GenreDTO { get; set; }
         public List<BookToTagDTO> BookToTagsDTO { get; set; }

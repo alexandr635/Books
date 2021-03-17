@@ -18,6 +18,8 @@ namespace Books.Domain.Entities
         public int BookStatusId { get; protected set; }
         public int? BookSeriesId { get; protected set; }
 
+        public int ConfirmId { get; protected set; }
+
         public Author Author { get; protected set; }
         public Genre Genre { get; protected set; }
         public BookStatus BookStatus { get; protected set; }
@@ -69,6 +71,11 @@ namespace Books.Domain.Entities
             UserToBooks = new List<UserToBook>();
         }
 
+        public void SetId(int id)
+        {
+            Id = id;
+        }
+
         public void SetTitle(string title)
         {
             Title = title;
@@ -89,7 +96,7 @@ namespace Books.Domain.Entities
             PublishDate = date;
         }
 
-        public void SetAverageRating(int rating)
+        public void SetAverageRating(double rating)
         {
             AverageRating = rating;
         }
@@ -122,6 +129,11 @@ namespace Books.Domain.Entities
         public void SetBookToTags(List<BookToTag> list)
         {
             BookToTags = list;
+        }
+
+        public void SetConfirm(int id)
+        {
+            ConfirmId = id;
         }
     }
 }
