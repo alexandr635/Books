@@ -103,7 +103,23 @@ namespace Books.Application.Services
                     break;
             }            
         }
-        
+
+        public async Task AddBook(Book book, int[] tagsId)
+        {
+            List<BookToTag> tags = new List<BookToTag>();
+
+            foreach (int tagId in tagsId)
+                tags.Add(new BookToTag(book.Id, tagId));
+
+            book.SetBookToTags(tags);
+
+            if (book.BookSeriesId == -1)
+                book.SetSeriesId(null);
+
+            await BookRepository.AddBook(book);
+        }
+
+
         public async Task AddBookImage(int id, IFormFile file)
         {
             Book book = new Book(id);
@@ -136,7 +152,6 @@ namespace Books.Application.Services
                 changeBook.SetSeriesId(currentBook.BookSeriesId);
 
                 await BookRepository.ChangeBook(changeBook);
-                var res = await BookRepository.GetBook(book.ConfirmId);
                 await BookRepository.DeleteBook(currentBook);
             }
             else 

@@ -40,9 +40,9 @@ namespace Books.WebAPI
             services.AddScoped<IBookService, BookService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IClaimService, ClaimService>();
-            services.AddScoped<IListService, ListService>();
             services.AddScoped<IReviewService, ReviewService>();
-            services.AddScoped<IPaginationService, PaginationService>();
+            services.AddScoped<IConverterService, ConverterService>();
+            services.AddScoped<IBookStatusService, BookStatusService>();
 
             services.AddAutoMapper(typeof(Application.MapperProfile));
 

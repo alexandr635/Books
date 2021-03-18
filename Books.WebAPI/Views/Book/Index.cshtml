@@ -15,228 +15,240 @@
         name = "";
     }
 }
-<h3>Книги</h3>
 <div class="container">
-    <form method="get" class="col-sm">
-
-        <div class="row">
-            <div class="bg-white container border box-shadow mb-3 rounded p-3">
-                <div class="row">
-                    <div class="col-sm">
-                        <input type="text" class="w-100 form-control" name="title" value="@Model.Title" />
-                    </div>
-                    <div class="col-sm-3">
-                        <button class="w-100 p-2 btn btn-outline-warning">Найти</button>
-                    </div>
-                </div>
-            </div>
+    <div class="row mb-3">
+        <div class="col-sm">
+            <h3>Книги</h3>
         </div>
+        <div class="col-sm-3">
+            <form method="get" class="col-sm" action="~/AddBook">
+                <button class="w-100 p-2 btn btn-outline-warning">Добавить книгу</button>
+            </form>
+        </div>
+    </div>
 
-        <div class="row">
-            <div class="col-sm ml-n3">
-                @if (Model.Books.Count == 0)
-                {
-                    <div class="bg-white container border box-shadow mb-3 rounded p-3">
-                        <div class="row">
-                            <div class="col-sm">
-                                По вашему запросу ничего не найдено!
-                            </div>
-                        </div>
-                    </div>
-                }
-                @foreach (var book in Model.Books)
-                {
-                    <div class="bg-white container border box-shadow mb-3 rounded p-3">
-                        <div class="row">
-                            <div class="col-sm">
-                                @{
-                                    string author = book.AuthorDTO.LastName + " " + book.AuthorDTO.Name.Substring(0, 1) + ". ";
-                                    if (book.AuthorDTO.Patronymic != "")
-                                        author += book.AuthorDTO.Patronymic.Substring(0, 1) + ". ";
-                                }
-                                <h5>@author</h5>
-                                <a href="~/Home/Book/@book.Id">@book.Title</a>
-                                <p>@book.DescriptionShort</p>
-                            </div>
+    <div class="container">
+        <form method="get" class="col-sm">
 
-                            <div class="col-sm-3 d-flex align-items-center">
-                                <div class="row w-100">
-                                    @if (role == "Читатель" && name != "")
-                                    {
-                                        <div class="col mb-3">
-                                            @{
-                                                string ident = "addRent" + book.Id;
-                                            }
-                                            @if (Model.User.BookRents.Any(b => b.BookId == book.Id))
-                                            {
-                                                <input type="button" class="btn btn-outline-primary p-2 w-100" id="@ident" value="На прочтении!" />
-                                            }
-                                            else
-                                            {
-                                                <input type="button" class="btn btn-outline-warning p-2 w-100" id="@ident" onclick="AddRent(@book.Id)" value="Добавить" />
-                                            }
-                                        </div>
-                                        <div class="col">
-                                            @{
-                                                ident = "addFavorite" + book.Id;
-                                            }
-                                            @if (Model.User.UserToBooks.Any(b => b.BookId == book.Id))
-                                            {
-                                                <input type="button" class="btn btn-outline-primary p-2 w-100" id="@ident" value="В избранном!" />
-                                            }
-                                            else
-                                            {
-                                                <input type="button" class="btn btn-outline-warning p-2 w-100" id="@ident" onclick="AddFavorite(@book.Id)" value="В избранное" />
-                                            }
-                                        </div>
-                                    }
-                                    else if (role == "Проверяющий" || role == "Писатель")
-                                    {
-                                        <div class="col mb-3">
-                                            <div class="row">
-                                                <p>[@book.BookStatusDTO.StatusName]</p>
-                                            </div>
-                                            <div class="row">
-                                                <a href="Home/ChangeStatus/@book.Id" class="btn btn-outline-warning p-2 w-100">Статус</a>
-                                            </div>
-                                        </div>
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                        @if (role == "Администратор" || role == "Писатель")
-                        {
-                            <div class="row">
-                                <div class="col">
-                                    <a href="~/Home/ChangeBook/@book.Id">Изменить</a>
-                                    <a href="~/Home/DeleteBook/@book.Id">Удалить</a>
-                                </div>
-                            </div>
-                        }
-                    </div>
-                }
-            </div>
-            <div class="col-sm-3 mr-n3">
+            <div class="row">
                 <div class="bg-white container border box-shadow mb-3 rounded p-3">
-                    <div class="row text-center">
-                        <div class="col-sm">
-                            <h4>Фильтры</h4>
-                        </div>
-                    </div>
-
-                    <div class="row mt-3">
-                        <div class="col-sm">
-                            <h5>Рейтинг</h5>
-                        </div>
-                    </div>
-
-                    <div class="row mb-4">
-                        <div class="col-sm">
-                            <input type="number" max="5" min="0" step="0.1" name="rating" class="w-100 form-control" value="@Model.AverageRating" />
-                        </div>
-                    </div>
-
-                    <div class="row mt-2 text-left">
-
-                        <div class="col-sm">
-                            <select name="genre" class="form-control">
-                                <option selected value="-1">Выберите жанр</option>
-                                @foreach (var genre in @Model.Genres)
-                                {
-                                    if (genre.Id == Model.GenreId)
-                                    {
-                                        <option selected value="@genre.Id">@genre.GenreName</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="@genre.Id">@genre.GenreName</option>
-                                    }
-                                }
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="row mt-2 text-left">
-
-                        <div class="col-sm">
-                            <select name="author" class="form-control">
-                                <option selected value="-1">Выберите автора</option>
-                                @foreach (var author in @Model.Authors)
-                                {
-                                    if (author.Id == Model.AuthorId)
-                                    {
-                                        <option selected value="@author.Id">@author.LastName</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="@author.Id">@author.LastName</option>
-                                    }
-                                }
-                            </select>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="container">
                     <div class="row">
                         <div class="col-sm">
-                            @if (Model.Page > 1)
-                            {
-                                <a asp-controller="Book"
-                                   asp-action="Index"
-                                   asp-route-title="@(Model.Title)"
-                                   asp-route-rating="@(Model.AverageRating)"
-                                   asp-route-author="@(Model.AuthorId)"
-                                   asp-route-genre="@(Model.GenreId)"
-                                   asp-route-page="@(Model.Page - 1)">Назад</a>
-                            }
-                            </div>
-                        <div class="col-sm text-right">
-                            @if (Model.Page < Model.PageCount)
-                            {
-                                <a asp-controller="Book"
-                                   asp-action="Index"
-                                   asp-route-title="@(Model.Title)"
-                                   asp-route-rating="@(Model.AverageRating)"
-                                   asp-route-author="@(Model.AuthorId)"
-                                   asp-route-genre="@(Model.GenreId)"
-                                   asp-route-page="@(Model.Page + 1)">Вперед</a>
-                            }
+                            <input type="text" class="w-100 form-control" name="title" value="@Model.Title" />
+                        </div>
+                        <div class="col-sm-3">
+                            <button class="w-100 p-2 btn btn-outline-warning">Найти</button>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
-</div>
-@if (role == "Читатель")
-{
-    <script type="text/javascript">
-        function AddFavorite(val) {
-            $.ajax({
-                type: 'GET',
-                url: 'User/AddFavorite/' + val,
-                success: function (result) {
-                    var ident = 'addFavorite' + val;
-                    document.getElementById(ident).classList.remove('btn-outline-warning');
-                    document.getElementById(ident).classList.add('btn-outline-primary');
-                    document.getElementById(ident).value = "В избранном!";
-                }
-            });
-        }
 
-        function AddRent(val) {
-            $.ajax({
-                type: 'GET',
-                url: 'User/AddRent/' + val,
-                success: function (result) {
-                    var ident = 'addRent' + val;
-                    document.getElementById(ident).classList.remove('btn-outline-warning');
-                    document.getElementById(ident).classList.add('btn-outline-primary');
-                    document.getElementById(ident).value = "На прочтении!";
-                }
-            });
-        }
-    </script>
-}
+            <div class="row">
+                <div class="col-sm ml-n3">
+                    @if (Model.Books.Count == 0)
+                    {
+                        <div class="bg-white container border box-shadow mb-3 rounded p-3">
+                            <div class="row">
+                                <div class="col-sm">
+                                    По вашему запросу ничего не найдено!
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @foreach (var book in Model.Books)
+                    {
+                        <div class="bg-white container border box-shadow mb-3 rounded p-3">
+                            <div class="row">
+                                <div class="col-sm">
+                                    @{
+                                        string author = book.AuthorDTO.LastName + " " + book.AuthorDTO.Name.Substring(0, 1) + ". ";
+                                        if (book.AuthorDTO.Patronymic != "")
+                                            author += book.AuthorDTO.Patronymic.Substring(0, 1) + ". ";
+                                    }
+                                    <h5>@author</h5>
+                                    <a href="~/Home/Book/@book.Id">@book.Title</a>
+                                    <p>@book.DescriptionShort</p>
+                                </div>
+
+                                <div class="col-sm-3 d-flex align-items-center">
+                                    <div class="row w-100">
+                                        @if (role == "Читатель" && name != "")
+                                        {
+                                            <div class="col mb-3">
+                                                @{
+                                                    string ident = "addRent" + book.Id;
+                                                }
+                                                @if (Model.User.BookRents.Any(b => b.BookId == book.Id))
+                                                {
+                                                    <input type="button" class="btn btn-outline-primary p-2 w-100" id="@ident" value="На прочтении!" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="button" class="btn btn-outline-warning p-2 w-100" id="@ident" onclick="AddRent(@book.Id)" value="Добавить" />
+                                                }
+                                            </div>
+                                            <div class="col">
+                                                @{
+                                                    ident = "addFavorite" + book.Id;
+                                                }
+                                                @if (Model.User.UserToBooks.Any(b => b.BookId == book.Id))
+                                                {
+                                                    <input type="button" class="btn btn-outline-primary p-2 w-100" id="@ident" value="В избранном!" />
+                                                }
+                                                else
+                                                {
+                                                    <input type="button" class="btn btn-outline-warning p-2 w-100" id="@ident" onclick="AddFavorite(@book.Id)" value="В избранное" />
+                                                }
+                                            </div>
+                                        }
+                                        else if (role == "Проверяющий" || role == "Писатель")
+                                        {
+                                            <div class="col mb-3">
+                                                <div class="row">
+                                                    <p>[@book.BookStatusDTO.StatusName]</p>
+                                                </div>
+                                                <div class="row">
+                                                    <a href="Home/ChangeStatus/@book.Id" class="btn btn-outline-warning p-2 w-100">Статус</a>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            @if (role == "Администратор" || role == "Писатель")
+                            {
+                                <div class="row">
+                                    <div class="col">
+                                        <a href="~/Home/ChangeBook/@book.Id">Изменить</a>
+                                        <a href="~/Home/DeleteBook/@book.Id">Удалить</a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                </div>
+                <div class="col-sm-3 mr-n3">
+                    <div class="bg-white container border box-shadow mb-3 rounded p-3">
+                        <div class="row text-center">
+                            <div class="col-sm">
+                                <h4>Фильтры</h4>
+                            </div>
+                        </div>
+
+                        <div class="row mt-3">
+                            <div class="col-sm">
+                                <h5>Рейтинг</h5>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-sm">
+                                <input type="number" max="5" min="0" step="0.1" name="rating" class="w-100 form-control" value="@Model.AverageRating" />
+                            </div>
+                        </div>
+
+                        <div class="row mt-2 text-left">
+
+                            <div class="col-sm">
+                                <select name="genre" class="form-control">
+                                    <option selected value="-1">Выберите жанр</option>
+                                    @foreach (var genre in @Model.Genres)
+                                    {
+                                        if (genre.Id == Model.GenreId)
+                                        {
+                                            <option selected value="@genre.Id">@genre.GenreName</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@genre.Id">@genre.GenreName</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2 text-left">
+
+                            <div class="col-sm">
+                                <select name="author" class="form-control">
+                                    <option selected value="-1">Выберите автора</option>
+                                    @foreach (var author in @Model.Authors)
+                                    {
+                                        if (author.Id == Model.AuthorId)
+                                        {
+                                            <option selected value="@author.Id">@author.LastName</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@author.Id">@author.LastName</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-sm">
+                                @if (Model.Page > 1)
+                                {
+                                    <a asp-controller="Book"
+                                       asp-action="Index"
+                                       asp-route-title="@(Model.Title)"
+                                       asp-route-rating="@(Model.AverageRating)"
+                                       asp-route-author="@(Model.AuthorId)"
+                                       asp-route-genre="@(Model.GenreId)"
+                                       asp-route-page="@(Model.Page - 1)">Назад</a>
+                                }
+                            </div>
+                            <div class="col-sm text-right">
+                                @if (Model.Page < Model.PageCount)
+                                {
+                                    <a asp-controller="Book"
+                                       asp-action="Index"
+                                       asp-route-title="@(Model.Title)"
+                                       asp-route-rating="@(Model.AverageRating)"
+                                       asp-route-author="@(Model.AuthorId)"
+                                       asp-route-genre="@(Model.GenreId)"
+                                       asp-route-page="@(Model.Page + 1)">Вперед</a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+    @if (role == "Читатель")
+    {
+        <script type="text/javascript">
+            function AddFavorite(val) {
+                $.ajax({
+                    type: 'GET',
+                    url: 'User/AddFavorite/' + val,
+                    success: function (result) {
+                        var ident = 'addFavorite' + val;
+                        document.getElementById(ident).classList.remove('btn-outline-warning');
+                        document.getElementById(ident).classList.add('btn-outline-primary');
+                        document.getElementById(ident).value = "В избранном!";
+                    }
+                });
+            }
+
+            function AddRent(val) {
+                $.ajax({
+                    type: 'GET',
+                    url: 'User/AddRent/' + val,
+                    success: function (result) {
+                        var ident = 'addRent' + val;
+                        document.getElementById(ident).classList.remove('btn-outline-warning');
+                        document.getElementById(ident).classList.add('btn-outline-primary');
+                        document.getElementById(ident).value = "На прочтении!";
+                    }
+                });
+            }
+        </script>
+    }

@@ -9,7 +9,7 @@
         <div class="d-sm-block bg-white border box-shadow mb-3 rounded p-3">
             <div class="row mt-2 text-left">
                 <div class="col-sm-4">
-                    <h4>Name</h4>
+                    <h4>Имя</h4>
                 </div>
                 <div class="col-sm">
                     <input type="text" name="Name" value="@Model.Name" required class="w-100 form-control" />
@@ -18,7 +18,7 @@
 
             <div class="row mt-2 text-left">
                 <div class="col-sm-4">
-                    <h4>Last name</h4>
+                    <h4>Фамилия</h4>
                 </div>
                 <div class="col-sm">
                     <input type="text" name="LastName" value="@Model.LastName" required class="w-100 form-control" />
@@ -27,7 +27,7 @@
 
             <div class="row mt-2 text-left">
                 <div class="col-sm-4">
-                    <h4>Patronymic</h4>
+                    <h4>Отчество</h4>
                 </div>
                 <div class="col-sm">
                     <input type="text" name="Patronymic" value="@Model.Patronymic" required class="w-100 form-control" />
@@ -36,7 +36,7 @@
 
             <div class="row mt-2 text-left">
                 <div class="col-sm-4">
-                    <h4>Date of birth</h4>
+                    <h4>Родился</h4>
                 </div>
                 <div class="col-sm">
                     <input type="date" name="DateOfBirth" value='@Model.DateOfBirth.ToString("yyyy-MM-dd")' required class="w-100 form-control" />
@@ -45,7 +45,7 @@
 
             <div class="row mt-2 text-left">
                 <div class="col-sm-4">
-                    <h4>Date of die</h4>
+                    <h4>Умер</h4>
                 </div>
                 <div class="col-sm">
                     @if (Model.DateOfDie != null)
@@ -61,7 +61,7 @@
 
             <div class="row mt-2 text-left">
                 <div class="col-sm-4">
-                    <h4>Place of birth</h4>
+                    <h4>Место рождения</h4>
                 </div>
                 <div class="col-sm">
                     <input type="text" name="PlaceOfBirth" value="@Model.PlaceOfBirth" required class="w-100 form-control" />
@@ -70,7 +70,7 @@
 
             <div class="row mt-2 text-left">
                 <div class="col-sm-4">
-                    <h4>Biography</h4>
+                    <h4>Биография</h4>
                 </div>
                 <div class="col-sm">
                     <input type="text" name="Biography" value="@Model.Biography" required class="w-100 form-control" />

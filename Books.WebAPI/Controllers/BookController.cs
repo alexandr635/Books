@@ -18,70 +18,84 @@ namespace Books.WebAPI.Controllers
         IBookService BookService { get; set; }
         IBookRepository BookRepository { get; set; }
         IMapper Mapper { get; set; }
-        IListService ListService {get; set;}
-        IPaginationService PaginationService { get; set; }
         IAuthorRepository AuthorRepository { get; set; }
         IGenreRepository GenreRepository { get; set; }
         IUserRepository UserRepository { get; set; }
+        IBookStatusService BookStatusService { get; set; }
+        ITagRepository TagRepository { get; set; }
+        IBookStatusRepository BookStatusRepository { get; set; }
+        IBookSeriesRepository BookSeriesRepository { get; set; }
+        IConverterService ConverterService { get; set; }
 
-        public BookController(IBookService bookService, IMapper mapper, 
-                              IListService listService, IBookRepository bookRepository,
-                              IPaginationService paginationService, IAuthorRepository authorRepository,
-                              IGenreRepository genreRepository, IUserRepository userRepository)
+        public BookController(IBookService bookService, IMapper mapper, IBookRepository bookRepository,
+                              IAuthorRepository authorRepository, IConverterService converterService,
+                              IGenreRepository genreRepository, IUserRepository userRepository,
+                              IBookStatusService bookStatusService, ITagRepository tagRepository,
+                              IBookStatusRepository bookStatusRepository, IBookSeriesRepository bookSeriesRepository)
         {
             BookService = bookService;
             Mapper = mapper;
-            ListService = listService;
             BookRepository = bookRepository;
-            PaginationService = paginationService;
             AuthorRepository = authorRepository;
             GenreRepository = genreRepository;
             UserRepository = userRepository;
+            BookStatusService = bookStatusService;
+            TagRepository = tagRepository;
+            BookStatusRepository = bookStatusRepository;
+            BookSeriesRepository = bookSeriesRepository;
+            ConverterService = converterService;
         }
 
         public async Task<IActionResult> Index(string title = null, double rating = 0, int author = -1, int genre = -1, int page = 1)
         {
-            string role;
-            string name;
             try
-            { 
-                role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType).Value;
-                name = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultNameClaimType).Value;
+            {
+                string role;
+                string name;
+                try
+                {
+                    role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType).Value;
+                    name = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultNameClaimType).Value;
+                }
+                catch
+                {
+                    role = "Читатель";
+                    name = "";
+                }
+
+                const int pageSize = 3;
+                var book = new Book(title, author, genre, rating);
+                var books = await BookService.GetBooksByFilter(book, role);
+                User user;
+                try
+                {
+                    user = await UserRepository.GetUserWithBooks(name);
+                }
+                catch
+                {
+                    user = null;
+                }
+
+                var filter = new FilterBookDTO()
+                {
+                    Books = Mapper.Map<List<BookDTO>>(books.Skip((page - 1) * pageSize).Take(pageSize)),
+                    Authors = Mapper.Map<List<AuthorDTO>>(await AuthorRepository.GetAuthor()),
+                    Genres = Mapper.Map<List<GenreDTO>>(await GenreRepository.GetGenre()),
+                    PageCount = (int)Math.Ceiling((decimal)books.Count / pageSize),
+                    Page = page,
+                    AuthorId = author,
+                    GenreId = genre,
+                    AverageRating = rating,
+                    Title = title,
+                    User = Mapper.Map<UserDTO>(user)
+                };
+
+                return View(filter);
             }
             catch
             {
-                role = "Читатель";
-                name = "";
+                return StatusCode(500);
             }
-
-            const int pageSize = 3;
-            var book = new Book(title, author, genre, rating);
-            var books = await BookService.GetBooksByFilter(book, role);
-            User user;
-            try
-            {
-                user = await UserRepository.GetUserWithBooks(name);
-            }
-            catch
-            {
-                user = null;
-            }
-
-            var filter = new FilterBookDTO()
-            {
-                Books = Mapper.Map<List<BookDTO>>(books.Skip((page - 1) * pageSize).Take(pageSize)),
-                Authors = Mapper.Map<List<AuthorDTO>>(await AuthorRepository.GetAuthor()),
-                Genres = Mapper.Map<List<GenreDTO>>(await GenreRepository.GetGenre()),
-                PageCount = (int)Math.Ceiling((decimal)books.Count / pageSize),
-                Page = page,
-                AuthorId = author,
-                GenreId = genre,
-                AverageRating = rating,
-                Title = title,
-                User = Mapper.Map<UserDTO>(user)
-            };
-
-            return View(filter);
         }
 
         [HttpGet("Home/Book/{Id?}")]
@@ -94,39 +108,49 @@ namespace Books.WebAPI.Controllers
                 var toDTO = Mapper.Map<BookDTO>(await BookRepository.GetBook(id));
                 return View(toDTO);
             }
-            catch (Exception ex)
+            catch
             {
-                return View(ex.Message);
+                return StatusCode(500);
             }
-        }
-
-        [HttpGet("FindBook")]
-        public async Task<IActionResult> FindBook(string pattern)
-        {
-            var toDTO = Mapper.Map<BookDTO>(await BookRepository.GetBook(pattern));
-            return View(toDTO);
         }
 
         [HttpGet("AddBook")]
         [Authorize(Roles = "Писатель, Администратор")]
         public async Task<IActionResult> AddBook()
         {
-            var toDTO = Mapper.Map<ListDTO>(await ListService.GetListEntities());
-            return View(toDTO);
+            try
+            {
+                ListDTO list = new()
+                {
+                    GenreDTO = Mapper.Map<List<GenreDTO>>(await GenreRepository.GetGenre()),
+                    AuthorDTO = Mapper.Map<List<AuthorDTO>>(await AuthorRepository.GetAuthor()),
+                    BookStatusDTO = Mapper.Map<List<BookStatusDTO>>(await BookStatusRepository.GetStatus()),
+                    BookSeriesDTO = Mapper.Map<List<BookSeriesDTO>>(await BookSeriesRepository.GetSeries()),
+                    TagDTO = Mapper.Map<List<TagDTO>>(await TagRepository.GetTag())
+                };
+
+                return View(list);
+            }
+            catch
+            {
+                return StatusCode(500);
+            }
         }
 
         [HttpPost("AddBook")]
         [Authorize(Roles = "Администратор")]
-        public async Task<string> AddBook(BookDTO book)
+        public async Task<IActionResult> AddBook(BookDTO book, int[] tagsId)
         {
             try
             {
-                await BookRepository.AddBook(Mapper.Map<Book>(book));
-                return "Книга добавлена";
+                if (Request.Form.Files.Count != 0)
+                    book.Image = await ConverterService.ImageToByte(Request.Form.Files[0]);
+                await BookService.AddBook(Mapper.Map<Book>(book), tagsId);
+                return RedirectToAction("Index", "Book");
             }
-            catch (Exception ex)
+            catch
             {
-                return ex.Message;
+                return RedirectToAction("Error", "Shared");
             }
         }
 
@@ -138,12 +162,21 @@ namespace Books.WebAPI.Controllers
                 return RedirectToAction("Index");
             try
             {
-                var toDTO = Mapper.Map<ListDTO>(await ListService.GetFullListEntities((int)id));
-                return View(toDTO);
+                ListDTO list = new()
+                {
+                    GenreDTO = Mapper.Map<List<GenreDTO>>(await GenreRepository.GetGenre()),
+                    AuthorDTO = Mapper.Map<List<AuthorDTO>>(await AuthorRepository.GetAuthor()),
+                    BookStatusDTO = Mapper.Map<List<BookStatusDTO>>(await BookStatusRepository.GetStatus()),
+                    BookSeriesDTO = Mapper.Map<List<BookSeriesDTO>>(await BookSeriesRepository.GetSeries()),
+                    TagDTO = Mapper.Map<List<TagDTO>>(await TagRepository.GetTag()),
+                    BookDTO = Mapper.Map<BookDTO>(await BookRepository.GetBook(id))
+                };
+
+                return View(list);
             }
-            catch (Exception ex)
+            catch
             {
-                return View(ex.Message);
+                return StatusCode(500);
             }
         }
 
@@ -156,44 +189,18 @@ namespace Books.WebAPI.Controllers
                 await BookService.ChangeBook(Mapper.Map<Book>(book), tagsId);
                 return RedirectToAction("Index");
             }
-            catch (Exception ex)
+            catch
             {
-                return View(ex.Message);
+                return StatusCode(500);
             }
         }
 
         [HttpGet("Home/DeleteBook/{Id?}")]
         [Authorize(Roles = "Писатель, Администратор")]
-        public async Task<string> DeleteBook(BookDTO bookDTO)
+        public async Task<IActionResult> DeleteBook(BookDTO bookDTO)
         {
             await BookRepository.DeleteBook(Mapper.Map<Book>(bookDTO));
-            return "Книга удалена";
-        }
-
-        [HttpGet("Home/Book/Filters")]
-        public async Task<IActionResult> FilterBook()
-        {
-            var list = Mapper.Map<ListDTO>(await ListService.GetListAuthorAndTag());
-            return View(list);
-        }
-
-        [Route("Home/BookResult")]
-        public async Task<IActionResult> FilterBookResult(double rating, int author, string title, string tagsId, int page = 1)
-        {
-            if (tagsId == null)
-                tagsId = Request.Form["tags"].ToString();
-
-            SortDTO pattern = new()
-            {
-                AverageRating = rating,
-                AuthorId = author,
-                Title = title
-            };
-
-            var book = Mapper.Map<Book>(pattern);
-            var viewModel = await PaginationService.GetPaginationModel(book, tagsId, page);
-
-            return View(viewModel);
+            return RedirectToAction("Index", "Book");
         }
 
         [HttpGet("Home/ChangeStatus/{Id?}")]
@@ -201,7 +208,12 @@ namespace Books.WebAPI.Controllers
         public async Task<IActionResult> ChangeStatus(int? id)
         {
             string role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType).Value;
-            var list = Mapper.Map<ListDTO>(await ListService.GetListBookAndStatus(role, (int)id));
+
+            ListDTO list = new()
+            {
+                BookDTO = Mapper.Map<BookDTO>(await BookRepository.GetBook(id)),
+                BookStatusDTO = Mapper.Map<List<BookStatusDTO>>(await BookStatusService.GetStatusByRole(role))
+            };
 
             return View(list);
         }

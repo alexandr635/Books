@@ -9,5 +9,6 @@ namespace Books.Infrastructure.Interfaces
         Task<User> AddUser(User user);
         Task<User> AddUserRent(int id, string name);
         Task<User> AddUserFavorite(int id, string name);
+        Task<string> ChangeUser(User user, string newPassword, string confirmPassword);
     }
 }

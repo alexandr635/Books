@@ -2,32 +2,77 @@
 @{
     ViewData["Title"] = "Добавление автора";
 }
-<h3>Авторы</h3>
-<form method="post">
-    <p>
-        <label>Name</label>
-        <input type="text" name="Name" required />
-    </p>
-    <p>
-        <label>Last name</label>
-        <input type="text" name="LastName" required />
-    </p>
-    <p>
-        <label>Patronymic</label>
-        <input type="text" name="Patronymic" required />
-    </p>
-    <p>
-        <label>Date of birth</label>
-        <input type="date" name="DateOfBirth" required />
-    </p>
-    <p>
-        <label>Place of birth</label>
-        <input type="text" name="PlaceOfBirth" required />
-    </p>
-    <p>
-        <label>Biography</label>
-        <input type="text" name="Biography" required />
-    </p>
-    <br />
-    <button>Добавить Автора</button>
+<form method="post" class="pt-2" enctype="multipart/form-data">
+    <div class="container-fluid" style="text-align: center">
+        <h3 class="text-left">Добавление автора</h3>
+        <div class="d-sm-block bg-white border box-shadow mb-3 rounded p-3">
+
+            <div class="row mt-4 text-left">
+                <div class="col-sm-4">
+                    <h4>Имя</h4>
+                </div>
+                <div class="col-sm">
+                    <input type="text" name="Name" required class="w-100 form-control" />
+                </div>
+            </div>
+
+            <div class="row mt-4 text-left">
+                <div class="col-sm-4">
+                    <h4>Фамилия</h4>
+                </div>
+                <div class="col-sm">
+                    <input type="text" name="LastName" required class="w-100 form-control" />
+                </div>
+            </div>
+
+            <div class="row mt-4 text-left">
+                <div class="col-sm-4">
+                    <h4>Отчество</h4>
+                </div>
+                <div class="col-sm">
+                    <input type="text" name="Patronymic" required class="w-100 form-control" />
+                </div>
+            </div>
+
+            <div class="row mt-4 text-left">
+                <div class="col-sm-4">
+                    <h4>Родился</h4>
+                </div>
+                <div class="col-sm">
+                    <input type="date" name="DateOfBirth" required class="w-100 form-control" />
+                </div>
+            </div>
+
+            <div class="row mt-4 text-left">
+                <div class="col-sm-4">
+                    <h4>Умер</h4>
+                </div>
+                <div class="col-sm">
+                    <input type="date" name="DateOfDie" class="w-100 form-control" />
+                </div>
+            </div>
+
+            <div class="row mt-4 text-left">
+                <div class="col-sm-4">
+                    <h4>Место рождения</h4>
+                </div>
+                <div class="col-sm">
+                    <input type="text" name="PlaceOfBirth" required class="w-100 form-control" />
+                </div>
+            </div>
+
+            <div class="row mt-4 text-left">
+                <div class="col-sm-4">
+                    <h4>Биография</h4>
+                </div>
+                <div class="col-sm">
+                    <input type="text" name="Biography" required class="w-100 form-control" />
+                </div>
+            </div>
+
+            <div class="row mt-2 text-left">
+                <button class="m-4 p-2 col-sm btn btn-outline-warning">Добавить автора</button>
+            </div>
+        </div>
+    </div>
 </form>

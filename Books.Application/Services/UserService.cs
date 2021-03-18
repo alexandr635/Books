@@ -66,5 +66,28 @@ namespace Books.Application.Services
 
             return user;
         }
+
+        public async Task<string> ChangeUser(User user, string newPassword, string confirmPassword)
+        {
+            var currentUser = await UserRepository.GetUser(user.Login);
+            if (currentUser != null && currentUser.Password == user.Password)
+            {
+                if (newPassword != "")
+                {
+                    if (newPassword != confirmPassword)
+                        return "Registration error: Password mismatch. Enter your password again";
+                    else
+                        currentUser.SetPassword(newPassword);
+                }
+
+                if (user.Image != null && user.Image.Length != 0)
+                    currentUser.SetImage(user.Image);
+
+                await UserRepository.ChangeUser(currentUser);
+                return null;
+            }
+            else
+                return "Registration error: Old password incorrect. Enter your password again";
+        }
     }
 }

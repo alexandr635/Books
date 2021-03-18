@@ -9,6 +9,7 @@ namespace Books.Domain.Entities
         public string Password { get; protected set; }
 
         public int RoleId { get; protected set; }
+        public byte[] Image { get; protected set; }
 
         public Role Role { get; protected set; }
         public List<Review> Reviews { get; protected set; }
@@ -55,6 +56,11 @@ namespace Books.Domain.Entities
         public void SetRole(int role)
         {
             RoleId = role;
+        }
+
+        public void SetImage(byte[] image)
+        {
+            Image = image;
         }
     }
 }

@@ -6,6 +6,7 @@ using Books.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -17,14 +18,17 @@ namespace Books.WebAPI.Controllers
         IClaimService ClaimService { get; set; }
         IMapper Mapper { get; set; }
         IUserService UserService { get; set; }
+        IConverterService ConverterService { get; set; }
 
         public AccountController(IUserRepository userRepository, IClaimService claimService,
-                                 IMapper mapper, IUserService userService)
+                                 IMapper mapper, IUserService userService,
+                                 IConverterService converterService)
         {
             UserRepository = userRepository;
             ClaimService = claimService;
             Mapper = mapper;
             UserService = userService;
+            ConverterService = converterService;
         }
 
         [HttpGet("Account/Index")]
@@ -85,10 +89,44 @@ namespace Books.WebAPI.Controllers
                     return RedirectToAction("Index", "Book");
                 }
                 else
-                    return View(new RegistrationError("Registration error: A user with this login already exists. Come up with a new login", ""));
+                    ViewData["Error"] = "Registration error: A user with this login already exists. Come up with a new login";
             }
             else
-                return View(new RegistrationError("Registration error: Password mismatch. Enter your password again", dto.Login));
+                ViewData["Error"] = "Registration error: Password mismatch. Enter your password again";
+
+            return View(dto.Login);
+        }
+
+        [HttpGet("Account/ChangeProfile")]
+        public async Task<IActionResult> ChangeProfile()
+        {
+            try
+            {
+                var name = User.FindFirst(u => u.Type == ClaimsIdentity.DefaultNameClaimType).Value.ToString();
+                var user = Mapper.Map<UserDTO>(await UserRepository.GetUser(name));
+                return View(user);
+            }
+            catch
+            {
+                return RedirectToAction("Index", "Account");
+            }
+        }
+
+        [HttpPost("Account/ChangeProfile")]
+        public async Task<IActionResult> ChangeProfile(UserDTO user)
+        {       
+            var newPass = Request.Form["NPassword"].ToString();
+            var confirmPass = Request.Form["CPassword"].ToString();
+            var name = User.FindFirst(u => u.Type == ClaimsIdentity.DefaultNameClaimType).Value.ToString();
+            user.Login = name;
+
+            if (Request.Form.Files.Count != 0)
+                user.Image = await ConverterService.ImageToByte(Request.Form.Files[0]);
+
+            ViewData["Error"] = await UserService.ChangeUser(Mapper.Map<User>(user), newPass, confirmPass);
+            user = Mapper.Map<UserDTO>(await UserRepository.GetUser(name));
+
+            return View(user);
         }
     }
 }

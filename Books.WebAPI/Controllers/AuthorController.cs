@@ -47,9 +47,9 @@ namespace Books.WebAPI.Controllers
                 
                 return View(filter);
             }
-            catch (Exception ex)
+            catch
             {
-                return View(ex.Message);
+                return StatusCode(500);
             }
         }
 
@@ -64,9 +64,9 @@ namespace Books.WebAPI.Controllers
                 var dto = Mapper.Map<AuthorDTO>(await AuthorRepository.GetAuthor(id));
                 return View(dto);
             }
-            catch (Exception ex)
+            catch
             {
-                return View(ex.Message);
+                return StatusCode(500);
             }
         }
 
@@ -105,20 +105,6 @@ namespace Books.WebAPI.Controllers
             {
                 return StatusCode(403);
             }
-        }
-
-        [Authorize(Roles = "Проверяющий")]
-        [HttpGet("SearchAuthor")]
-        public IActionResult SearchAuthor()
-        {
-            return View();
-        }
-
-        [Authorize(Roles = "Проверяющий")]
-        [HttpPost("Result")]
-        public async Task<IActionResult> Result(string pattern)
-        {
-            return View(await AuthorRepository.GetAuthor(pattern));
         }
 
         [Authorize(Roles = "Проверяющий")]

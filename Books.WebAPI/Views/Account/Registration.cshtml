@@ -1,4 +1,4 @@
-﻿@model Books.Application.DTO.RegistrationError
+﻿@model string
 @{
     ViewData["Title"] = "Регистрация";
 }
@@ -7,12 +7,12 @@
         <div class="d-inline-block bg-white border box-shadow mb-3 rounded p-3">
             <div class="row mt-2 text-left mb-4">
                 <div class="col-sm-4">
-                    <h4>Login</h4>
+                    <h4>Логин</h4>
                 </div>
                 <div class="col-sm">
                     @if (Model != null)
                     {
-                        <input type="text" name="Login" class="w-100 form-control" required value="@Model.Parameter" />
+                        <input type="text" name="Login" class="w-100 form-control" required value="@Model" />
                     }
                     else
                     {
@@ -23,7 +23,7 @@
 
             <div class="row mt-2 text-left mb-4">
                 <div class="col-sm-4">
-                    <h4>Password</h4>
+                    <h4>Пароль</h4>
                 </div>
                 <div class="col-sm">
                     <input type="password" name="Password" class="w-100 form-control" required />
@@ -32,18 +32,18 @@
 
             <div class="row mt-2 text-left">
                 <div class="col-sm-4">
-                    <h4>Confirm Password</h4>
+                    <h4>Подтвердите пароль</h4>
                 </div>
                 <div class="col-sm">
                     <input type="password" name="PasswordC" class="w-100 form-control" required />
                 </div>
             </div>
 
-            @if (Model != null)
+            @if (ViewData["Error"] != null)
             {
                 <div class="row">
                     <div class="col-sm pt-3 text-danger">
-                        <p>@Model.Error</p>
+                        <p>@ViewData["Error"]</p>
                     </div>
                 </div>
             }

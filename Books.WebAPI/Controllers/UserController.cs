@@ -19,18 +19,15 @@ namespace Books.WebAPI.Controllers
         IUserRepository UserRepository { get; set; }
         IRoleRepository RoleRepository { get; set; }
         IMapper Mapper { get; set; }
-        IListService ListService { get; set; }
         IReviewRepository ReviewRepository { get; set; }
 
         public UserController(IUserService userService, IUserRepository userRepository,
-                              IRoleRepository roleRepository, IMapper mapper,
-                              IListService listService, IReviewRepository reviewRepository)
+                              IRoleRepository roleRepository, IMapper mapper, IReviewRepository reviewRepository)
         {
             UserService = userService;
             UserRepository = userRepository;
             RoleRepository = roleRepository;
             Mapper = mapper;
-            ListService = listService;
             ReviewRepository = reviewRepository;
         }
 
@@ -60,7 +57,12 @@ namespace Books.WebAPI.Controllers
                 return RedirectToAction("Index");
             else
             {
-                return View(Mapper.Map<UserToRoleDTO>(await ListService.GetListUserAndRole((int)id)));
+                UserToRoleDTO list = new()
+                {
+                    User = Mapper.Map<UserDTO>(await UserRepository.GetUser((int)id)),
+                    Roles = Mapper.Map<List<RoleDTO>>(await RoleRepository.GetRole())
+                };
+                return View(list);
             }
         }
 

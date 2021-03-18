@@ -11,6 +11,7 @@ namespace Books.Application.DTO
         public int RoleId { get; set; }
 
         public RoleDTO RoleDTO { get; set; }
+        public byte[] Image { get; set; }
 
         public List<BookRentDTO> BookRents { get; protected set; }
         public List<UserToBookDTO> UserToBooks { get; protected set; }
