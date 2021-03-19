@@ -43,10 +43,16 @@ namespace Books.DAL.Repositories
 
         public async Task<Book> GetBook(int? id)
         {
-            return await BookContext.Books
+            var res = await BookContext.Books
                 .Include(b => b.BookToTags)
                 .Include(b => b.Author)
+                .Include(b => b.Reviews)
                 .FirstOrDefaultAsync(b => b.Id == id);
+
+            foreach(var review in res.Reviews)
+                review.SetUser(await BookContext.Users.FirstOrDefaultAsync(u => u.Id == review.UserId));
+
+            return res;
         }
 
         public async Task<List<Book>> GetBook(Book book)

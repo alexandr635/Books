@@ -6,19 +6,22 @@
     <div class="container-fluid">
         <div class="bg-white border box-shadow mb-3 rounded p-3">
             <div class="row pt-3">
-                <div class="col-sm-4">
+                <div class="col-sm-3">
                     <div class="container">
-                        <div class="row">
-                            <div class="col-sm">
-                                <input type="file" accept="image/*" class="w-100 form-control-file" name="newImage" id="file" />
-                            </div>
-                        </div>
                         @if (Model.Image != null && Model.Image.Length != 0)
                         {
                             var img = Convert.ToBase64String(Model.Image);
                             <div class="row">
                                 <div class="col-sm">
-                                    <img src="data:image/jpg;base64,@img" />
+                                    <img src="data:image/jpg;base64,@img" style="width: 100%;" />
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="row">
+                                <div class="col-sm">
+                                    <img src="~/img/noPhoto.png" style="width: 100%;" />
                                 </div>
                             </div>
                         }
@@ -26,24 +29,32 @@
                 </div>
 
                 <div class="col-sm">
-                    <div class="row mb-2">
-                        <div class="col-sm-3">
+                    <div class="row mb-3">
+                        <div class="col-sm-4">
                             <h5>Логин</h5>
                         </div>
                         <div class="col-sm">
                             <input type="text" class="w-100 form-control" value="@Model.Login" disabled />
                         </div>
                     </div>
-                    <div class="row mb-2">
-                        <div class="col-sm-3">
+                    <div class="row mb-3">
+                        <div class="col-sm-4">
                             <h5>Пароль</h5>
                         </div>
                         <div class="col-sm">
-                            <input type="password" name="Password" class="w-100 form-control" required/>
+                            <input type="password" name="Password" class="w-100 form-control" required />
                         </div>
                     </div>
-                    <div class="row mb-2">
-                        <div class="col-sm-3">
+                    <div class="row mb-3">
+                        <div class="col-sm-4">
+                            <h5>Аватар</h5>
+                        </div>
+                        <div class="col-sm">
+                            <input type="file" accept="image/*" class="w-100 form-control-file" name="newImage" id="file" />
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-4">
                             <h5>Новый пароль</h5>
                         </div>
                         <div class="col-sm">
@@ -51,7 +62,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-3">
+                        <div class="col-sm-4">
                             <h5>Подтвердите пароль</h5>
                         </div>
                         <div class="col-sm">
@@ -71,7 +82,7 @@
             }
 
             <div class="row">
-                <div class="col-sm p-4">
+                <div class="col-sm p-3">
                     <button class="w-100 p-2 btn btn-outline-warning">Изменить</button>
                 </div>
             </div>

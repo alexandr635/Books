@@ -20,11 +20,14 @@
         <div class="col-sm">
             <h3>Книги</h3>
         </div>
-        <div class="col-sm-3">
-            <form method="get" class="col-sm" action="~/AddBook">
-                <button class="w-100 p-2 btn btn-outline-warning">Добавить книгу</button>
-            </form>
-        </div>
+        @if (role != "Читатель")
+        {
+            <div class="col-sm-3">
+                <form method="get" class="col-sm" action="~/AddBook">
+                    <button class="w-100 p-2 btn btn-outline-warning">Добавить книгу</button>
+                </form>
+            </div>
+        }
     </div>
 
     <div class="container">
@@ -59,6 +62,10 @@
                     {
                         <div class="bg-white container border box-shadow mb-3 rounded p-3">
                             <div class="row">
+                                <div class="col-sm-2">
+                                    <img src="~/img/book.png" class="w-100" />
+                                </div>
+
                                 <div class="col-sm">
                                     @{
                                         string author = book.AuthorDTO.LastName + " " + book.AuthorDTO.Name.Substring(0, 1) + ". ";
@@ -72,7 +79,7 @@
 
                                 <div class="col-sm-3 d-flex align-items-center">
                                     <div class="row w-100">
-                                        @if (role == "Читатель" && name != "")
+                                        @if (name != "")
                                         {
                                             <div class="col mb-3">
                                                 @{
@@ -120,7 +127,7 @@
                                 <div class="row">
                                     <div class="col">
                                         <a href="~/Home/ChangeBook/@book.Id">Изменить</a>
-                                        <a href="~/Home/DeleteBook/@book.Id">Удалить</a>
+                                        <a href="~/Home/DeleteBook/@book.Id" class="ml-2">Удалить</a>
                                     </div>
                                 </div>
                             }
@@ -222,7 +229,7 @@
         </form>
     </div>
 </div>
-    @if (role == "Читатель")
+    @if (name != "")
     {
         <script type="text/javascript">
             function AddFavorite(val) {

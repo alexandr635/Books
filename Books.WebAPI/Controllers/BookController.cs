@@ -106,6 +106,7 @@ namespace Books.WebAPI.Controllers
             try
             {
                 var toDTO = Mapper.Map<BookDTO>(await BookRepository.GetBook(id));
+                ViewData["Name"] = User.FindFirst(u => u.Type == ClaimsIdentity.DefaultNameClaimType).Value;
                 return View(toDTO);
             }
             catch
@@ -150,7 +151,7 @@ namespace Books.WebAPI.Controllers
             }
             catch
             {
-                return RedirectToAction("Error", "Shared");
+                return StatusCode(500);
             }
         }
 

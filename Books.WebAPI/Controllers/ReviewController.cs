@@ -44,17 +44,17 @@ namespace Books.WebAPI.Controllers
 
         [HttpPost("Home/AddReview/{Id?}")]
         [Authorize(Roles = "Читатель, Администратор")]
-        public async Task<string> AddReview(ReviewDTO reviewDTO)
+        public async Task<IActionResult> AddReview(ReviewDTO reviewDTO)
         {
             try
             {
                 string name = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultNameClaimType).Value;
                 await ReviewService.AddReview(name, Mapper.Map<Review>(reviewDTO));
-                return "Отзыв добавлен";
+                return RedirectToAction("Book", "Book", new { Id = reviewDTO.BookId});
             }
-            catch (Exception ex)
+            catch
             {
-                return ex.Message;
+                return StatusCode(500);
             }
         }
     }

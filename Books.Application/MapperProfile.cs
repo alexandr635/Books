@@ -13,6 +13,7 @@ namespace Books.Application
                 .ForMember(b => b.BookToTagsDTO, opt => opt.MapFrom(src => src.BookToTags))
                 .ForMember(b => b.AuthorDTO, opt => opt.MapFrom(src => src.Author))
                 .ForMember(b => b.BookStatusDTO, opt => opt.MapFrom(src => src.BookStatus))
+                .ForMember(b => b.ReviewsDTO, opt => opt.MapFrom(src => src.Reviews))
                 .ReverseMap();
 
             CreateMap<Author, AuthorDTO>()

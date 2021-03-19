@@ -10,11 +10,14 @@ namespace Books.Application.Services
     {
         IUserRepository UserRepository { get; set; }
         IBookRepository BookRepository { get; set; }
+        IHashService HashService { get; set; }
 
-        public UserService(IUserRepository userRepository, IBookRepository bookRepository)
+        public UserService(IUserRepository userRepository, IBookRepository bookRepository,
+                           IHashService hashService)
         {
             UserRepository = userRepository;
             BookRepository = bookRepository;
+            HashService = hashService;
         }
 
         public async Task DeleteUser(int id)
@@ -31,6 +34,7 @@ namespace Books.Application.Services
             else
             {
                 user.SetRole(4);
+                user.SetPassword(HashService.GetHashPassword(user.Password));
                 await UserRepository.AddUser(user);
                 var res = await UserRepository.GetUser(user.Login);
                 return res;
@@ -70,6 +74,7 @@ namespace Books.Application.Services
         public async Task<string> ChangeUser(User user, string newPassword, string confirmPassword)
         {
             var currentUser = await UserRepository.GetUser(user.Login);
+            user.SetPassword(HashService.GetHashPassword(user.Password));
             if (currentUser != null && currentUser.Password == user.Password)
             {
                 if (newPassword != "")
@@ -77,7 +82,10 @@ namespace Books.Application.Services
                     if (newPassword != confirmPassword)
                         return "Registration error: Password mismatch. Enter your password again";
                     else
+                    {
+                        newPassword = HashService.GetHashPassword(newPassword);
                         currentUser.SetPassword(newPassword);
+                    }
                 }
 
                 if (user.Image != null && user.Image.Length != 0)

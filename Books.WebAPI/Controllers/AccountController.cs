@@ -6,7 +6,6 @@ using Books.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -19,15 +18,17 @@ namespace Books.WebAPI.Controllers
         IMapper Mapper { get; set; }
         IUserService UserService { get; set; }
         IConverterService ConverterService { get; set; }
+        IHashService HashService { get; set; }
 
         public AccountController(IUserRepository userRepository, IClaimService claimService,
                                  IMapper mapper, IUserService userService,
-                                 IConverterService converterService)
+                                 IConverterService converterService, IHashService hashService)
         {
             UserRepository = userRepository;
             ClaimService = claimService;
             Mapper = mapper;
             UserService = userService;
+            HashService = hashService;
             ConverterService = converterService;
         }
 
@@ -48,6 +49,7 @@ namespace Books.WebAPI.Controllers
         {
             try
             {
+                user.Password = HashService.GetHashPassword(user.Password);
                 var result = await UserRepository.GetUser(Mapper.Map<User>(user));
                 if (result != null)
                 {

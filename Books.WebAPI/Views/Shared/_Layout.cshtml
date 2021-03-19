@@ -18,7 +18,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Книги</title>
+    <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
@@ -80,12 +80,9 @@
                                 <a class="nav-link text-dark dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@str</a>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="ChangeProfile">Профиль</a>
-                                    @if (role == "Читатель")
-                                    {
-                                        <a class="dropdown-item" asp-area="" asp-controller="User" asp-action="GetRent">Мои книги</a>
-                                        <a class="dropdown-item" asp-area="" asp-controller="User" asp-action="GetFavorite">Избранное</a>
-                                        <a class="dropdown-item" asp-area="" asp-controller="User" asp-action="GetReview">Отзывы</a>
-                                    }
+                                    <a class="dropdown-item" asp-area="" asp-controller="User" asp-action="GetRent">Мои книги</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="User" asp-action="GetFavorite">Избранное</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="User" asp-action="GetReview">Отзывы</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Out">Выйти</a>
                                 </div>

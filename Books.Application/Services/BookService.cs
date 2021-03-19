@@ -78,6 +78,8 @@ namespace Books.Application.Services
                 tags.Add(new BookToTag(book.Id, tagId));
 
             book.SetBookToTags(tags);
+            if (book.BookSeriesId == -1)
+                book.SetSeriesId(null);
 
             const byte draftStatus = 1;
             const byte pendingStatus = 2;

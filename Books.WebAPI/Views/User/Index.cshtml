@@ -37,19 +37,23 @@
                 {
                     <div class="bg-white container border box-shadow mb-3 rounded p-3">
                         <div class="row text-center align-items-center">
-                            <div class="col-sm p-2">
+                            <div class="col-sm-1 p-2">
+                                <img src="~/img/user.png" class="w-75" />
+                            </div>
+
+                            <div class="col-sm p-2 text-left">
                                 <h5 class="m-0">@user.Login</h5>
                             </div>
 
-                            <div class="col-sm p-2">
+                            <div class="col-sm-2 p-2 text-left">
                                 <p class="m-0">[@user.RoleDTO.RoleName]</p>
                             </div>
 
-                            <div class="col-sm">
+                            <div class="col-sm-2">
                                 <a href="User/Change/@user.Id" class="btn btn-outline-warning p-2 w-100">Статус</a>
                             </div>
 
-                            <div class="col-sm">
+                            <div class="col-sm-2">
                                 <a href="User/Delete/@user.Id" class="btn btn-outline-warning p-2 w-100">Удалить</a>
                             </div>
 

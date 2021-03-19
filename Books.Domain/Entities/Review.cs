@@ -45,5 +45,10 @@
         {
             UserId = id;
         }
+
+        public void SetUser(User user)
+        {
+            User = user;
+        }
     }
 }

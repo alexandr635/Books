@@ -162,10 +162,10 @@ namespace Books.DAL
 
             modelBuilder.Entity<User>().HasData(
                 new User[]{
-                    new User ( 1, "log1", "pass1", 1),
-                    new User ( 2, "log2", "pass2", 2),
-                    new User ( 3, "log3", "pass3", 3),
-                    new User ( 4, "log4", "pass4", 4)
+                    new User ( 1, "log1", "pyLGPbjshiWvbPccuMLZOQ==", 1),
+                    new User ( 2, "log2", "wVctBUJNDssqZexqgq6svw==", 2),
+                    new User ( 3, "log3", "Ovx5tZf4inJSjoZM+BhW0g==", 3),
+                    new User ( 4, "log4", "/Ckh2QV6xE5UnvrwBIslEg==", 4)
             });
         }
 

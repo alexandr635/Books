@@ -43,6 +43,7 @@ namespace Books.WebAPI
             services.AddScoped<IReviewService, ReviewService>();
             services.AddScoped<IConverterService, ConverterService>();
             services.AddScoped<IBookStatusService, BookStatusService>();
+            services.AddScoped<IHashService, HashService>();
 
             services.AddAutoMapper(typeof(Application.MapperProfile));
 

@@ -87,29 +87,6 @@ namespace Books.WebAPI.Controllers
             }
         }
 
-        [Authorize(Roles = "Администратор")]
-        [HttpGet("~/User/AddUser")]
-        public async Task<IActionResult> AddUser()
-        {
-            return View(await RoleRepository.GetRole());
-        }
-
-        [Authorize(Roles = "Администратор")]
-        [HttpPost("~/User/AddUser")]
-        public async Task<string> AddUser(UserDTO user)
-        {
-            var confirm = Request.Form["PasswordS"];
-            if (user.Password == confirm)
-            {
-                await UserRepository.AddUser(Mapper.Map<User>(user));
-                return "Пользователь добавлен";
-            }
-            else
-            {
-                return "Пароли не совпадают";
-            }
-        }
-
         [HttpGet("User/AddFavorite/{Id?}")]
         public async Task<bool> AddFavorite(int? id)
         {
