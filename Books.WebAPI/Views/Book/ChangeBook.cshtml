@@ -3,7 +3,7 @@
     ViewData["Title"] = "Изменение книги";
 }
 
-<form method="post" class="pt-2">
+<form method="post" class="pt-2" enctype="multipart/form-data">
     <div class="container-fluid" style="text-align: center">
         <h3 class="text-left">Книга</h3>
         <div class="d-sm-block bg-white border box-shadow mb-3 rounded p-3">
@@ -130,6 +130,24 @@
                             }
                         }
                     </select>
+                </div>
+            </div>
+
+            <div class="row mt-4 text-left">
+                <div class="col-sm-4">
+                    <h4>Обложка</h4>
+                </div>
+                <div class="col-sm">
+                    <input type="file" accept="image/*" class="form-control-file" name="newImage" />
+                </div>
+            </div>
+
+            <div class="row mt-4 text-left">
+                <div class="col-sm-4">
+                    <h4>Книга</h4>
+                </div>
+                <div class="col-sm">
+                    <input type="file" accept="application/docx" class="form-control-file" name="newFile" />
                 </div>
             </div>
 

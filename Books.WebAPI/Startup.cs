@@ -44,6 +44,7 @@ namespace Books.WebAPI
             services.AddScoped<IConverterService, ConverterService>();
             services.AddScoped<IBookStatusService, BookStatusService>();
             services.AddScoped<IHashService, HashService>();
+            services.AddScoped<IFileService, FileService>();
 
             services.AddAutoMapper(typeof(Application.MapperProfile));
 

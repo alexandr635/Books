@@ -1,4 +1,5 @@
-﻿using Books.Infrastructure.Interfaces;
+﻿using Aspose.Words;
+using Books.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Threading.Tasks;
@@ -17,6 +18,13 @@ namespace Books.Application.Services
             }
 
             return result;
+        }
+
+        public void WordToPDF(string path)
+        {
+            Document doc = new Document(path);
+            var index = path.LastIndexOf("\\");
+            doc.Save(path.Substring(index));
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Books.Application.DTO
         public string DescriptionShort { get; set; }
         public string DescriptionLong { get; set; }
         public double AverageRating { get; set; }
-        public byte[] Image { get; set; }
+        public string ImagePath { get; set; }
 
         public int AuthorId { get; set; }
         public int GenreId { get; set; }
@@ -17,6 +17,8 @@ namespace Books.Application.DTO
         public int? BookSeriesId { get; set; }
 
         public int ConfirmId { get; set; }
+        public string BookPath { get; set; }
+        public string ContentType { get; set; }
 
         public AuthorDTO AuthorDTO { get; set; }
         public GenreDTO GenreDTO { get; set; }

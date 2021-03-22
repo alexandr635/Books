@@ -9,9 +9,10 @@ namespace Books.Infrastructure.Interfaces
     {
         Task<List<Book>> GetBooksByRole(string role);
         Task<List<Book>> GetBooksByFilter(Book book, string role);
-        Task ChangeBook(Book book, int[] tagsId);
-        Task AddBookImage(int id, IFormFile file);
+        Task ChangeBook(Book book);
         Task ChangeBookStatus(Book book, string role);
-        Task AddBook(Book book, int[] tagsId);
+        Task AddBook(Book book);
+        Task<Book> SetBookData(Book book, int[] tagsId, IFormFileCollection files);
+        Task<byte[]> ReadBook(int id);
     }
 }

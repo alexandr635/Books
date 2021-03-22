@@ -4,6 +4,7 @@ using Books.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Linq;
+using System;
 
 namespace Books.DAL.Repositories
 {
@@ -53,6 +54,13 @@ namespace Books.DAL.Repositories
                 review.SetUser(await BookContext.Users.FirstOrDefaultAsync(u => u.Id == review.UserId));
 
             return res;
+        }
+
+        public async Task<Book> GetNoTrackingBook(int id)
+        {
+            return await BookContext.Books
+                .AsNoTracking()
+                .FirstOrDefaultAsync(b => b.Id == id);
         }
 
         public async Task<List<Book>> GetBook(Book book)
@@ -112,7 +120,6 @@ namespace Books.DAL.Repositories
         {
             BookContext.BookToTags.RemoveRange(BookContext.BookToTags.Where(bt => bt.BookId == book.Id));
             BookContext.Books.Update(book);
-            BookContext.Entry(book).Property(b => b.Image).IsModified = false;
             await BookContext.SaveChangesAsync();
         }
 
@@ -125,7 +132,7 @@ namespace Books.DAL.Repositories
 
         public async Task ChangeBookImage(Book book)
         {
-            BookContext.Entry(book).Property(b => b.Image).IsModified = true;
+            BookContext.Entry(book).Property(b => b.ImagePath).IsModified = true;
             await BookContext.SaveChangesAsync();
         }
 

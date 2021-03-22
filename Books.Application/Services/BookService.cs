@@ -5,17 +5,20 @@ using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
-namespace Books.Application.Services
+namespace Books.Application.Services 
 {
     public class BookService : IBookService
     {
         IBookRepository BookRepository { get; set; }
+        IFileService FileService { get; set; }
 
-        public BookService(IBookRepository bookRepository)
+        public BookService(IBookRepository bookRepository, IFileService fileService)
         {
             BookRepository = bookRepository;
+            FileService = fileService;
         }
 
         public async Task<List<Book>> GetBooksByRole(string role)
@@ -70,7 +73,7 @@ namespace Books.Application.Services
             return books;
         }
 
-        public async Task ChangeBook(Book book, int[] tagsId)
+        public async Task<Book> SetBookData(Book book, int[] tagsId, IFormFileCollection files)
         {
             List<BookToTag> tags = new List<BookToTag>();
 
@@ -78,9 +81,49 @@ namespace Books.Application.Services
                 tags.Add(new BookToTag(book.Id, tagId));
 
             book.SetBookToTags(tags);
+
             if (book.BookSeriesId == -1)
                 book.SetSeriesId(null);
 
+            var checkBook = await BookRepository.GetNoTrackingBook(book.Id);
+
+            if (files.Count() != 0)
+            {
+                foreach (var file in files)
+                {
+                    if (file.Name == "newImage" && file.ContentType.Contains("image/"))
+                        book.SetImagePath(await FileService.AddImageFile(file));
+
+                    else if (file.Name == "newFile" && file.ContentType.Contains("application/"))
+                    {
+                        book.SetBookPath(await FileService.AddBookFile(file));
+                        book.SetContentType(file.ContentType);
+                    }
+                }
+            }
+
+            if (book.BookPath == null)
+                book.SetBookPath(checkBook.BookPath);
+
+            if (book.ImagePath == null)
+                book.SetImagePath(checkBook.ImagePath);
+
+            return book;
+        }
+
+        async Task DeleteFiles(int id)
+        {
+            var checkBook = await BookRepository.GetNoTrackingBook(id);
+
+            if (checkBook.ImagePath != null && checkBook.ImagePath != "")
+                FileService.DeleteFile(checkBook.ImagePath);
+
+            if (checkBook.BookPath != null && checkBook.BookPath != "")
+                FileService.DeleteFile(checkBook.BookPath);
+        }
+
+        public async Task ChangeBook(Book book)
+        {
             const byte draftStatus = 1;
             const byte pendingStatus = 2;
             const byte publishedStatus = 3;
@@ -90,6 +133,7 @@ namespace Books.Application.Services
             {
                 case draftStatus:
                 case pendingStatus:
+                    await DeleteFiles(book.Id);
                     await BookRepository.ChangeBook(book);
                     break;
                 case publishedStatus:
@@ -99,6 +143,7 @@ namespace Books.Application.Services
                     await BookRepository.AddBook(book);
                     break;
                 case removePublicationStatus:
+                    await DeleteFiles(book.Id);
                     await BookRepository.DeleteBook(book);
                     book.SetId(0);
                     await BookRepository.AddBook(book);
@@ -106,38 +151,14 @@ namespace Books.Application.Services
             }            
         }
 
-        public async Task AddBook(Book book, int[] tagsId)
+        public async Task AddBook(Book book)
         {
-            List<BookToTag> tags = new List<BookToTag>();
-
-            foreach (int tagId in tagsId)
-                tags.Add(new BookToTag(book.Id, tagId));
-
-            book.SetBookToTags(tags);
-
-            if (book.BookSeriesId == -1)
-                book.SetSeriesId(null);
-
             await BookRepository.AddBook(book);
-        }
-
-
-        public async Task AddBookImage(int id, IFormFile file)
-        {
-            Book book = new Book(id);
-
-            using (var target = new MemoryStream())
-            {
-                await file.CopyToAsync(target);
-                book.SetImage(target.ToArray());
-            }
-            
-            await BookRepository.ChangeBookImage(book);
         }
 
         public async Task ChangeBookStatus(Book book, string role)
         {
-            if (book.ConfirmId != 0 && role == "Проверяющий")
+            if (book.ConfirmId != 0 && (role == "Проверяющий" || role == "Администратор"))
             {
                 var changeBook = await BookRepository.GetBook(book.ConfirmId);
                 var currentBook = await BookRepository.GetBook(book.Id);
@@ -153,11 +174,34 @@ namespace Books.Application.Services
                 changeBook.SetTitle(currentBook.Title);
                 changeBook.SetSeriesId(currentBook.BookSeriesId);
 
+                if (currentBook.ImagePath != null && currentBook.ImagePath != "")
+                {
+                    FileService.DeleteFile(changeBook.ImagePath);
+                    changeBook.SetImagePath(currentBook.ImagePath);
+                }
+                if (currentBook.BookPath != null && currentBook.BookPath != "")
+                {
+                    FileService.DeleteFile(changeBook.BookPath);
+                    changeBook.SetBookPath(currentBook.BookPath);
+                }
+
                 await BookRepository.ChangeBook(changeBook);
                 await BookRepository.DeleteBook(currentBook);
             }
             else 
                 await BookRepository.ChangeBookStatus(book);
+        }
+
+        public async Task<byte[]> ReadBook(int id)
+        {
+            var book = await BookRepository.GetBook(id);
+            string path = Directory.GetCurrentDirectory() + "/wwwroot/" + book.BookPath;
+            WebClient User = new WebClient();
+            byte[] buffer = null;
+            if (File.Exists(path))
+                buffer = User.DownloadData(path);
+
+            return buffer;
         }
     }
 }

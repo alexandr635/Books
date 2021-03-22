@@ -8,10 +8,9 @@
             <div class="bg-white container border box-shadow mb-3 rounded p-3">
                 <div class="row pl-2 pr-2">
                     <div class="col-sm-3">
-                        @if (Model.Image.Count() > 0 && Model.Image != null)
+                        @if (Model.ImagePath != null && Model.ImagePath != "")
                         {
-                            var img = Convert.ToBase64String(Model.Image);
-                            <img src="data:image/jpg;base64,@img" class="w-100" />
+                            <img src="~/@Model.ImagePath" class="w-100" />
                         }
                         else
                         {
@@ -28,6 +27,10 @@
                         }
                         <p>Автор - @author</p>
                         <p>@Model.DescriptionShort</p>
+                        @if (Model.BookPath != null && Model.BookPath != "")
+                        {
+                            <a href="~/Home/ReadBook/@Model.Id">Читать</a>
+                        }
                     </div>
                 </div>
                 <div class="row pl-2 pr-2 mt-2">

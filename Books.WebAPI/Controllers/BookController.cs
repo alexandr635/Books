@@ -25,10 +25,9 @@ namespace Books.WebAPI.Controllers
         ITagRepository TagRepository { get; set; }
         IBookStatusRepository BookStatusRepository { get; set; }
         IBookSeriesRepository BookSeriesRepository { get; set; }
-        IConverterService ConverterService { get; set; }
 
         public BookController(IBookService bookService, IMapper mapper, IBookRepository bookRepository,
-                              IAuthorRepository authorRepository, IConverterService converterService,
+                              IAuthorRepository authorRepository,
                               IGenreRepository genreRepository, IUserRepository userRepository,
                               IBookStatusService bookStatusService, ITagRepository tagRepository,
                               IBookStatusRepository bookStatusRepository, IBookSeriesRepository bookSeriesRepository)
@@ -43,7 +42,6 @@ namespace Books.WebAPI.Controllers
             TagRepository = tagRepository;
             BookStatusRepository = bookStatusRepository;
             BookSeriesRepository = bookSeriesRepository;
-            ConverterService = converterService;
         }
 
         public async Task<IActionResult> Index(string title = null, double rating = 0, int author = -1, int genre = -1, int page = 1)
@@ -144,9 +142,8 @@ namespace Books.WebAPI.Controllers
         {
             try
             {
-                if (Request.Form.Files.Count != 0)
-                    book.Image = await ConverterService.ImageToByte(Request.Form.Files[0]);
-                await BookService.AddBook(Mapper.Map<Book>(book), tagsId);
+                var currentBook = await BookService.SetBookData(Mapper.Map<Book>(book), tagsId, Request.Form.Files);
+                await BookService.AddBook(currentBook);
                 return RedirectToAction("Index", "Book");
             }
             catch
@@ -187,7 +184,8 @@ namespace Books.WebAPI.Controllers
         {
             try
             {
-                await BookService.ChangeBook(Mapper.Map<Book>(book), tagsId);
+                var currentBook = await BookService.SetBookData(Mapper.Map<Book>(book), tagsId, Request.Form.Files);
+                await BookService.ChangeBook(currentBook);
                 return RedirectToAction("Index");
             }
             catch
@@ -208,6 +206,9 @@ namespace Books.WebAPI.Controllers
         [Authorize(Roles = "Писатель, Администратор, Проверяющий")]
         public async Task<IActionResult> ChangeStatus(int? id)
         {
+            if (id == null)
+                RedirectToAction("Index", "Book");
+
             string role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType).Value;
 
             ListDTO list = new()
@@ -228,14 +229,23 @@ namespace Books.WebAPI.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpPost("Home/Book/{Id?}")]
-        [Authorize(Roles = "Администратор")]
-        public async Task<IActionResult> AddImage(int? id)
+        [HttpGet("Home/ReadBook/{Id?}")]
+        public async Task ReadBook(int? id)
         {
-            var file = Request.Form.Files[0];
-            await BookService.AddBookImage((int)id, file);
-
-            return RedirectToAction("Index");
+            if (id == null)
+                Response.StatusCode = 500;
+            else
+            {
+                var buffer = await BookService.ReadBook((int)id);
+                if (buffer != null)
+                {
+                    Response.ContentType = "application/pdf";
+                    Response.Headers.Add("content-length", buffer.Length.ToString());
+                    await Response.BodyWriter.WriteAsync(buffer);
+                }
+                else
+                    Response.StatusCode = 500;
+            }
         }
     }
 }

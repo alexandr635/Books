@@ -11,7 +11,7 @@ namespace Books.Domain.Entities
         public string DescriptionLong { get; protected set; }
         public DateTime PublishDate { get; protected set; }
         public double AverageRating { get; protected set; }
-        public byte[] Image { get; protected set; }
+        public string ImagePath { get; protected set; }
 
         public int AuthorId { get; protected set; }
         public int GenreId { get; protected set; }
@@ -19,6 +19,8 @@ namespace Books.Domain.Entities
         public int? BookSeriesId { get; protected set; }
 
         public int ConfirmId { get; protected set; }
+        public string BookPath { get; protected set; }
+        public string ContentType { get; protected set; }
 
         public Author Author { get; protected set; }
         public Genre Genre { get; protected set; }
@@ -29,7 +31,7 @@ namespace Books.Domain.Entities
         public List<UserToBook> UserToBooks { get; protected set; }
 
         public Book(int id, string title, string sDesc, string lDesc, DateTime publishDate, double averageRating,
-                    int author, int genre, int status, int? series)
+                    int author, int genre, int status, int? series, string iPath, string bPath, string cType)
         {
             Id = id;
             Title = title;
@@ -42,6 +44,10 @@ namespace Books.Domain.Entities
             GenreId = genre;
             BookStatusId = status;
             BookSeriesId = series;
+
+            ImagePath = iPath;
+            BookPath = bPath;
+            ContentType = cType;
 
             Reviews = new List<Review>();
             BookToTags = new List<BookToTag>();
@@ -121,9 +127,9 @@ namespace Books.Domain.Entities
             BookSeriesId = id;
         }
 
-        public void SetImage(byte[] img)
+        public void SetImagePath(string path)
         {
-            Image = img;
+            ImagePath = path;
         }
 
         public void SetBookToTags(List<BookToTag> list)
@@ -134,6 +140,16 @@ namespace Books.Domain.Entities
         public void SetConfirm(int id)
         {
             ConfirmId = id;
+        }
+
+        public void SetBookPath(string path)
+        {
+            BookPath = path;
+        }
+
+        public void SetContentType(string type)
+        {
+            ContentType = type;
         }
     }
 }

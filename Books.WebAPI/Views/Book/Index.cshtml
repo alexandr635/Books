@@ -60,78 +60,72 @@
                     }
                     @foreach (var book in Model.Books)
                     {
-                        <div class="bg-white container border box-shadow mb-3 rounded p-3">
-                            <div class="row">
-                                <div class="col-sm-2">
-                                    <img src="~/img/book.png" class="w-100" />
-                                </div>
+                <div class="bg-white container border box-shadow mb-3 rounded p-3">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <img src="~/img/book.png" class="w-100" />
+                        </div>
 
-                                <div class="col-sm">
-                                    @{
-                                        string author = book.AuthorDTO.LastName + " " + book.AuthorDTO.Name.Substring(0, 1) + ". ";
-                                        if (book.AuthorDTO.Patronymic != "")
-                                            author += book.AuthorDTO.Patronymic.Substring(0, 1) + ". ";
-                                    }
-                                    <h5>@author</h5>
-                                    <a href="~/Home/Book/@book.Id">@book.Title</a>
-                                    <p>@book.DescriptionShort</p>
-                                </div>
+                        <div class="col-sm">
+                            @{
+                                string author = book.AuthorDTO.LastName + " " + book.AuthorDTO.Name.Substring(0, 1) + ". ";
+                                if (book.AuthorDTO.Patronymic != "")
+                                    author += book.AuthorDTO.Patronymic.Substring(0, 1) + ". ";
+                            }
+                            <h5>@author</h5>
+                            <a href="~/Home/Book/@book.Id">@book.Title</a>
+                            <p>[@book.BookStatusDTO.StatusName]</p>
+                            <p>@book.DescriptionShort</p>
+                        </div>
 
-                                <div class="col-sm-3 d-flex align-items-center">
-                                    <div class="row w-100">
-                                        @if (name != "")
-                                        {
-                                            <div class="col mb-3">
-                                                @{
-                                                    string ident = "addRent" + book.Id;
-                                                }
-                                                @if (Model.User.BookRents.Any(b => b.BookId == book.Id))
-                                                {
-                                                    <input type="button" class="btn btn-outline-primary p-2 w-100" id="@ident" value="На прочтении!" />
-                                                }
-                                                else
-                                                {
-                                                    <input type="button" class="btn btn-outline-warning p-2 w-100" id="@ident" onclick="AddRent(@book.Id)" value="Добавить" />
-                                                }
-                                            </div>
-                                            <div class="col">
-                                                @{
-                                                    ident = "addFavorite" + book.Id;
-                                                }
-                                                @if (Model.User.UserToBooks.Any(b => b.BookId == book.Id))
-                                                {
-                                                    <input type="button" class="btn btn-outline-primary p-2 w-100" id="@ident" value="В избранном!" />
-                                                }
-                                                else
-                                                {
-                                                    <input type="button" class="btn btn-outline-warning p-2 w-100" id="@ident" onclick="AddFavorite(@book.Id)" value="В избранное" />
-                                                }
-                                            </div>
+                        <div class="col-sm-3 d-flex align-items-center">
+                            <div class="row w-100">
+                                @if (name != "")
+                                {
+                                    <div class="col mb-3">
+                                        @{
+                                            string ident = "addRent" + book.Id;
                                         }
-                                        else if (role == "Проверяющий" || role == "Писатель")
+                                        @if (Model.User.BookRents.Any(b => b.BookId == book.Id))
                                         {
-                                            <div class="col mb-3">
-                                                <div class="row">
-                                                    <p>[@book.BookStatusDTO.StatusName]</p>
-                                                </div>
-                                                <div class="row">
-                                                    <a href="Home/ChangeStatus/@book.Id" class="btn btn-outline-warning p-2 w-100">Статус</a>
-                                                </div>
-                                            </div>
+                                            <input type="button" class="btn btn-outline-primary p-2 w-100" id="@ident" value="На прочтении!" />
+                                        }
+                                        else
+                                        {
+                                            <input type="button" class="btn btn-outline-warning p-2 w-100" id="@ident" onclick="AddRent(@book.Id)" value="Добавить" />
                                         }
                                     </div>
-                                </div>
-                            </div>
-                            @if (role == "Администратор" || role == "Писатель")
-                            {
-                                <div class="row">
                                     <div class="col">
+                                        @{
+                                            ident = "addFavorite" + book.Id;
+                                        }
+                                        @if (Model.User.UserToBooks.Any(b => b.BookId == book.Id))
+                                        {
+                                            <input type="button" class="btn btn-outline-primary p-2 w-100" id="@ident" value="В избранном!" />
+                                        }
+                                        else
+                                        {
+                                            <input type="button" class="btn btn-outline-warning p-2 w-100" id="@ident" onclick="AddFavorite(@book.Id)" value="В избранное" />
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                        @if (role != "Читатель")
+                        {
+                            <div class="row">
+                                <div class="col">
+                                    @if (role == "Администратор" || role == "Писатель")
+                                    {
                                         <a href="~/Home/ChangeBook/@book.Id">Изменить</a>
                                         <a href="~/Home/DeleteBook/@book.Id" class="ml-2">Удалить</a>
-                                    </div>
+                                    }
+                                <a href="~/Home/ChangeStatus/@book.Id" class="ml-2">Статус</a>
                                 </div>
-                            }
-                        </div>
+                            </div>
+                        }
+                    </div>
                     }
                 </div>
                 <div class="col-sm-3 mr-n3">
