@@ -13,6 +13,5 @@ namespace Books.Infrastructure.Interfaces
         Task ChangeBookStatus(Book book, string role);
         Task AddBook(Book book);
         Task<Book> SetBookData(Book book, int[] tagsId, IFormFileCollection files);
-        Task<byte[]> ReadBook(int id);
     }
 }

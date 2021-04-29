@@ -3,9 +3,7 @@ using Books.Domain.Interfaces;
 using Books.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace Books.Application.Services 
@@ -86,19 +84,25 @@ namespace Books.Application.Services
                 book.SetSeriesId(null);
 
             var checkBook = await BookRepository.GetNoTrackingBook(book.Id);
+            var list = new List<string>()
+            {
+                "application/octet-stream",
+                "text/html",
+                "text/plain",
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                "application/msword",
+                "application/epub+zip"
+            };
 
             if (files.Count() != 0)
             {
                 foreach (var file in files)
                 {
                     if (file.Name == "newImage" && file.ContentType.Contains("image/"))
-                        book.SetImagePath(await FileService.AddImageFile(file));
+                        book.SetImagePath(await FileService.AddBookCover(file));
 
-                    else if (file.Name == "newFile" && file.ContentType.Contains("application/"))
-                    {
-                        book.SetBookPath(await FileService.AddBookFile(file));
-                        book.SetContentType(file.ContentType);
-                    }
+                    else if (file.Name == "newFile" && list.Contains(file.ContentType))
+                        book.SetBookPath(await FileService.AddBookDocument(file));
                 }
             }
 
@@ -116,10 +120,10 @@ namespace Books.Application.Services
             var checkBook = await BookRepository.GetNoTrackingBook(id);
 
             if (checkBook.ImagePath != null && checkBook.ImagePath != "")
-                FileService.DeleteFile(checkBook.ImagePath);
+                FileService.DeleteBookCover(checkBook.ImagePath);
 
             if (checkBook.BookPath != null && checkBook.BookPath != "")
-                FileService.DeleteFile(checkBook.BookPath);
+                FileService.DeleteBookDocument(checkBook.BookPath);
         }
 
         public async Task ChangeBook(Book book)
@@ -176,12 +180,12 @@ namespace Books.Application.Services
 
                 if (currentBook.ImagePath != null && currentBook.ImagePath != "")
                 {
-                    FileService.DeleteFile(changeBook.ImagePath);
+                    FileService.DeleteBookCover(changeBook.ImagePath);
                     changeBook.SetImagePath(currentBook.ImagePath);
                 }
                 if (currentBook.BookPath != null && currentBook.BookPath != "")
                 {
-                    FileService.DeleteFile(changeBook.BookPath);
+                    FileService.DeleteBookDocument(changeBook.BookPath);
                     changeBook.SetBookPath(currentBook.BookPath);
                 }
 
@@ -190,18 +194,6 @@ namespace Books.Application.Services
             }
             else 
                 await BookRepository.ChangeBookStatus(book);
-        }
-
-        public async Task<byte[]> ReadBook(int id)
-        {
-            var book = await BookRepository.GetBook(id);
-            string path = Directory.GetCurrentDirectory() + "/wwwroot/" + book.BookPath;
-            WebClient User = new WebClient();
-            byte[] buffer = null;
-            if (File.Exists(path))
-                buffer = User.DownloadData(path);
-
-            return buffer;
         }
     }
 }

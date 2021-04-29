@@ -9,13 +9,13 @@
                 <div class="col-sm">
                     @if (Model.BookRents.Count() == 0)
                     {
-                    <div class="bg-white container border box-shadow mb-3 rounded p-3">
-                        <div class="row">
-                            <div class="col-sm">
-                                У вас еще нет книг для прочтения!
+                        <div class="bg-white container border box-shadow mb-3 rounded p-3">
+                            <div class="row">
+                                <div class="col-sm">
+                                    У вас еще нет книг для прочтения!
+                                </div>
                             </div>
                         </div>
-                    </div>
                     }
 
                     @foreach (var rent in Model.BookRents)
@@ -23,7 +23,7 @@
                         <div class="bg-white container border box-shadow mb-3 rounded p-3">
                             <div class="row">
                                 <div class="col-sm">
-                                    <h5>@rent.Book.Title</h5>
+                                    <h6><a href="#">@rent.Book.Title</a></h6>
                                 </div>
                                 <div class="col-sm">
                                     <p>До @rent.EndDate.ToShortDateString()</p>

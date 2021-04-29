@@ -18,5 +18,6 @@ namespace Books.Domain.Interfaces
         Task ChangeBookStatus(Book book);
         Task ChangeBookImage(Book book);
         Task<Book> GetNoTrackingBook(int id);
+        Task<List<Book>> GetPopularBook();
     }
 }

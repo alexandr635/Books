@@ -25,9 +25,10 @@ namespace Books.WebAPI.Controllers
         ITagRepository TagRepository { get; set; }
         IBookStatusRepository BookStatusRepository { get; set; }
         IBookSeriesRepository BookSeriesRepository { get; set; }
+        IFileService FileService { get; set; }
 
         public BookController(IBookService bookService, IMapper mapper, IBookRepository bookRepository,
-                              IAuthorRepository authorRepository,
+                              IAuthorRepository authorRepository, IFileService fileService,
                               IGenreRepository genreRepository, IUserRepository userRepository,
                               IBookStatusService bookStatusService, ITagRepository tagRepository,
                               IBookStatusRepository bookStatusRepository, IBookSeriesRepository bookSeriesRepository)
@@ -42,6 +43,7 @@ namespace Books.WebAPI.Controllers
             TagRepository = tagRepository;
             BookStatusRepository = bookStatusRepository;
             BookSeriesRepository = bookSeriesRepository;
+            FileService = fileService;
         }
 
         public async Task<IActionResult> Index(string title = null, double rating = 0, int author = -1, int genre = -1, int page = 1)
@@ -109,7 +111,15 @@ namespace Books.WebAPI.Controllers
             }
             catch
             {
-                return StatusCode(500);
+                try
+                {
+                    ViewData["Name"] = User.FindFirst(u => u.Type == ClaimsIdentity.DefaultNameClaimType).Value;
+                    return RedirectToAction("Index", "Book");
+                }
+                catch
+                {
+                    return View(null);
+                }
             }
         }
 
@@ -229,14 +239,15 @@ namespace Books.WebAPI.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpGet("Home/ReadBook/{Id?}")]
-        public async Task ReadBook(int? id)
+        [HttpGet("Home/ReadBook/{BookName}")]
+        public async Task ReadBook(string bookName)
         {
-            if (id == null)
+            if (bookName == null)
                 Response.StatusCode = 500;
             else
             {
-                var buffer = await BookService.ReadBook((int)id);
+                //var buffer = BookService.ReadBook(bookName);
+                var buffer = FileService.GetBookDocument(bookName);
                 if (buffer != null)
                 {
                     Response.ContentType = "application/pdf";
@@ -246,6 +257,12 @@ namespace Books.WebAPI.Controllers
                 else
                     Response.StatusCode = 500;
             }
+        }
+
+        public async Task<IActionResult> PopularBook()
+        {
+            var book = await BookRepository.GetPopularBook();
+            return View(Mapper.Map<List<BookDTO>>(book));
         }
     }
 }

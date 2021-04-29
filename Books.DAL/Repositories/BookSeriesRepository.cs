@@ -18,9 +18,10 @@ namespace Books.DAL.Repositories
 
         public async Task<List<BookSeries>> GetSeries()
         {
-            return await Context.BookSeries
+            var res = await Context.BookSeries
                 .Include(s => s.Books)
                 .ToListAsync();
+            return res;
         }
 
         public async Task<BookSeries> GetSeries(int id)

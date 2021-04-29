@@ -34,6 +34,7 @@ namespace Books.Application
                 .ReverseMap();
 
             CreateMap<BookSeries, BookSeriesDTO>()
+                .ForMember(bs => bs.BooksDTO, opt => opt.MapFrom(src => src.Books))
                 .ReverseMap();
 
             CreateMap<BookStatus, BookStatusDTO>()

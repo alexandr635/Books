@@ -78,6 +78,14 @@ namespace Books.DAL.Repositories
             return books;
         }
 
+        public async Task<List<Book>> GetPopularBook()
+        {
+            return await BookContext.Books
+                .Include(b => b.Author)
+                .OrderBy(b => b.AverageRating)
+                .ToListAsync();
+        }
+
         public async Task<List<Book>> GetBook(Book book, string status)
         {
             List<Book> books;

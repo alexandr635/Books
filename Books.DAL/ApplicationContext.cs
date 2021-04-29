@@ -87,8 +87,8 @@ namespace Books.DAL
                         "Родителей годовалого Гарри Поттера убивает Волан-де-Морт, после чего исчезает при попытке убить самого Гарри. Поздно вечером директор школы волшебства Хогвартс Альбус Дамблдор и его заместитель Минерва МакГонагалл появляются возле дома Вернона и Петуньи Дурсль, единственных родственников Гарри.",
                         new DateTime(1997, 01, 01),
                         5, 4, 6, 3, 1,
-                        "Files/Covers/Harry_Potter_and_the_Philosopher's_Stone.jpg",
-                        "Files/Books/prepositions_suck_-_pak_venya.pdf", 
+                        "Harry_Potter_and_the_Philosopher's_Stone.jpg",
+                        "prepositions_suck_-_pak_venya.pdf", 
                         null),
                     new Book (
                         2,
@@ -97,8 +97,8 @@ namespace Books.DAL
                         "Книга рассказывает о втором учебном годе в школе чародейства и волшебства Хогвартс, на котором Гарри и его друзья — Рон Уизли и Гермиона Грейнджер — расследуют таинственные нападения на учеников школы, совершаемые неким «Наследником Слизерина». Объектами нападений являются ученики, среди родственников которых есть неволшебники.",
                         new DateTime(1998, 01, 01),
                         4.2, 4, 6, 4, 1,
-                        "Files/Covers/Harry_Potter_And_The_Chamber_of_secrets.jpg",
-                        "Files/Books/garri_potter_i_tajnaja_komnata.pdf",
+                        "Harry_Potter_And_The_Chamber_of_secrets.jpg",
+                        "garri_potter_i_tajnaja_komnata.pdf",
                         null),
                     new Book (
                         3,
@@ -107,8 +107,8 @@ namespace Books.DAL
                         "В этом рассказе Геральт встречается с человеком по имени Борх Три Галки и двумя его телохранительницами из далёкой Зеррикании. Они отправляются по дороге, но наталкиваются на оцепление. Находящийся здесь же Лютик даёт разъяснения. В Голополье повадился летать зелёный дракон, а местный сапожник Козоед придумал, как его отравить.",
                         new DateTime(1992, 01, 01),
                         4.2, 5, 6, 3, 2,
-                        "Files/Covers/witcher_sword_of_destination.jpg",
-                        "Files/Books/2-mech-prednaznacheniya.pdf",
+                        "witcher_sword_of_destination.jpg",
+                        "2-mech-prednaznacheniya.pdf",
                         null),
                     new Book (
                         4,
@@ -117,8 +117,8 @@ namespace Books.DAL
                         "Это первое произведение из цикла «Ведьмак» как по хронологии, так и по времени написания. От первого издания в виде книги «Ведьмак» «Последнее желание» отличается связующей серией интерлюдий «Глас рассудка» и наличием рассказов «Последнее желание» и «Край света».",
                         new DateTime(1993, 01, 01),
                         4.4, 5, 6, 3, 2,
-                        "Files/Covers/witcher_last_wish.jpg",
-                        "Files/Books/1-posledneye-zhelaniye.pdf",
+                        "witcher_last_wish.jpg",
+                        "1-posledneye-zhelaniye.pdf",
                         null),
                     new Book (
                         5,
@@ -127,8 +127,8 @@ namespace Books.DAL
                         "«Капитанская дочка» принадлежит к числу произведений, которыми русские писатели 1830-х откликнулись на успех переводных романов Вальтера Скотта. Первым из исторических романов на русскую тему увидел свет «Юрий Милославский» М. Н. Загоскина (1829) (встреча Гринёва с вожатым, по мнению пушкиноведов, восходит к аналогичной сцене в романе Загоскина)",
                         new DateTime(1836, 01, 01),
                         4.5, 1, 1, 2, null,
-                        "Files/Covers/Captain's_daughter.jpg",
-                        "Files/Books/Kapitanskaya_dochka.pdf",
+                        "Captain's_daughter.jpg",
+                        "Kapitanskaya_dochka.pdf",
                         null),
                     new Book (
                         6,
@@ -137,8 +137,8 @@ namespace Books.DAL
                         "В жанровом отношении повесть примыкает к таким (неоконченным) замыслам Пушкина, как «Египетские ночи», «Уединённый домик на Васильевском» и знаменитый отрывок «Гости съезжались на дачу…». Повесть неоднократно экранизирована.",
                         new DateTime(1834, 01, 01),
                         4.9, 1, 1, 2, null,
-                        "Files/Covers/The_Queen_of_Spades.jpg",
-                        "Files/Books/the_queen_of_spades.pdf",
+                        "The_Queen_of_Spades.jpg",
+                        "the_queen_of_spades.pdf",
                         null),
                     new Book (
                         7,
@@ -147,8 +147,8 @@ namespace Books.DAL
                         "Являлся одним из самых любимых произведений писателя, наиболее полно выразившим и нравственно-философскую позицию Достоевского, и его художественные принципы в 1860-х годах. Замысел романа обдумывался писателем во время пребывания за границей — в Германии и Швейцарии.",
                         new DateTime(1868, 01, 01),
                         3.8, 3, 1, 1, null,
-                        "Files/Covers/idiot.jpeg",
-                        "Files/Books/idiot_-_fiedor_mikhailovich_dostoievskii.pdf",
+                        "idiot.jpeg",
+                        "idiot_-_fiedor_mikhailovich_dostoievskii.pdf",
                         null),
                     new Book (
                         8,
@@ -157,8 +157,8 @@ namespace Books.DAL
                         "Роман был напечатан частями в журнале «Русский вестник». Достоевский задумывал роман как первую часть эпического романа «История Великого грешника». Произведение было окончено в ноябре 1880 года. Писатель умер через два месяца после публикации.",
                         new DateTime(1879, 01, 01),
                         3.6, 3, 1, 1, null,
-                        "Files/Covers/Brothers_Karamazov.jpg",
-                        "Files/Books/karamazov_brothers.a4.pdf",
+                        "Brothers_Karamazov.jpg",
+                        "karamazov_brothers.a4.pdf",
                         null),
                     new Book (
                         9,
@@ -167,8 +167,8 @@ namespace Books.DAL
                         "В обстановке «великих реформ» книга стала сенсацией и привлекла к себе всеобщее внимание, а образ главного героя Евгения Базарова был воспринят как воплощение нового, пореформенного поколения, став примером для подражания молодёжи 1860-х гг. Свойственные Базарову бескомпромиссность, отсутствие преклонения перед авторитетами и старыми истинами, приоритет полезного над прекрасным стали идеалами первого поколения пореформенной интеллигенции",
                         new DateTime(1862, 01, 01),
                         4.2, 2, 1, 4, null,
-                        "Files/Covers/Fathers_and_Sons.jpg",
-                        "Files/Books/ottsy_i_dieti_-_ivan_sierghieievich_turghieniev.pdf",
+                        "Fathers_and_Sons.jpg",
+                        "ottsy_i_dieti_-_ivan_sierghieievich_turghieniev.pdf",
                         null)
             });
 

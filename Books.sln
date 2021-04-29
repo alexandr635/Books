@@ -7,11 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Books.Domain", "Books.Domai
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Books.DAL", "Books.DAL\Books.DAL.csproj", "{21C695D1-F900-4154-B4CB-8820141D7977}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Books.Application", "Books.Application\Books.Application.csproj", "{FABE556B-40E9-4226-9991-A60073D7532B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Books.Application", "Books.Application\Books.Application.csproj", "{FABE556B-40E9-4226-9991-A60073D7532B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Books.WebAPI", "Books.WebAPI\Books.WebAPI.csproj", "{0FF6645C-8927-47BF-B044-55E5A04B47F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Books.WebAPI", "Books.WebAPI\Books.WebAPI.csproj", "{0FF6645C-8927-47BF-B044-55E5A04B47F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Books.Infrastructure", "Books.Infrastructure\Books.Infrastructure.csproj", "{DC076110-BCC4-4A33-8090-6B0E27BD120F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Books.Infrastructure", "Books.Infrastructure\Books.Infrastructure.csproj", "{DC076110-BCC4-4A33-8090-6B0E27BD120F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
