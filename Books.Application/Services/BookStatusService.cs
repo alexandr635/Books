@@ -16,7 +16,6 @@ namespace Books.Application.Services
             BookStatusRepository = bookStatusRepository;
         }
 
-
         public async Task<List<BookStatus>> GetStatusByRole(string role)
         {
             List<BookStatus> list = new List<BookStatus>();

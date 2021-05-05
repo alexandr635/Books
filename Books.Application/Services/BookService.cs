@@ -84,15 +84,6 @@ namespace Books.Application.Services
                 book.SetSeriesId(null);
 
             var checkBook = await BookRepository.GetNoTrackingBook(book.Id);
-            var list = new List<string>()
-            {
-                "application/octet-stream",
-                "text/html",
-                "text/plain",
-                "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                "application/msword",
-                "application/epub+zip"
-            };
 
             if (files.Count() != 0)
             {
@@ -101,7 +92,7 @@ namespace Books.Application.Services
                     if (file.Name == "newImage" && file.ContentType.Contains("image/"))
                         book.SetImagePath(await FileService.AddBookCover(file));
 
-                    else if (file.Name == "newFile" && list.Contains(file.ContentType))
+                    else if (file.Name == "newFile")
                         book.SetBookPath(await FileService.AddBookDocument(file));
                 }
             }
@@ -115,7 +106,7 @@ namespace Books.Application.Services
             return book;
         }
 
-        async Task DeleteFiles(int id)
+        async Task DeleteBookFiles(int id)
         {
             var checkBook = await BookRepository.GetNoTrackingBook(id);
 
@@ -137,7 +128,7 @@ namespace Books.Application.Services
             {
                 case draftStatus:
                 case pendingStatus:
-                    await DeleteFiles(book.Id);
+                    await DeleteBookFiles(book.Id);
                     await BookRepository.ChangeBook(book);
                     break;
                 case publishedStatus:
@@ -147,17 +138,12 @@ namespace Books.Application.Services
                     await BookRepository.AddBook(book);
                     break;
                 case removePublicationStatus:
-                    await DeleteFiles(book.Id);
+                    await DeleteBookFiles(book.Id);
                     await BookRepository.DeleteBook(book);
                     book.SetId(0);
                     await BookRepository.AddBook(book);
                     break;
             }            
-        }
-
-        public async Task AddBook(Book book)
-        {
-            await BookRepository.AddBook(book);
         }
 
         public async Task ChangeBookStatus(Book book, string role)

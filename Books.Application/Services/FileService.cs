@@ -1,5 +1,6 @@
 ﻿using Books.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading.Tasks;
@@ -8,9 +9,10 @@ namespace Books.Application.Services
 {
     public class FileService : IFileService
     {
-        IConverterService ConverterService { get; set; }
-        public const string bookFolder = "\\wwwroot\\Files\\Books\\";
+        const string bookFolder = "\\wwwroot\\Files\\Books\\";
         const string coverFolder = "/wwwroot/Files/Covers/";
+
+        IConverterService ConverterService { get; set; }
 
         public FileService(IConverterService converterService)
         {
@@ -20,8 +22,17 @@ namespace Books.Application.Services
         public async Task<string> AddBookDocument(IFormFile file)
         {
             string filePath = Directory.GetCurrentDirectory() + bookFolder + file.FileName;
+            var list = new List<string>()
+            {
+                "application/octet-stream",
+                "text/html",
+                "text/plain",
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                "application/msword",
+                "application/epub+zip"
+            };
 
-            if (!File.Exists(filePath))
+            if (!File.Exists(filePath) && list.Contains(file.ContentType))
             {
                 using (var fs = new FileStream(filePath, FileMode.Create))
                 {
@@ -51,15 +62,12 @@ namespace Books.Application.Services
                     case "text/plain":
                         filePath = await ConverterService.TxtToPdf(fullPath);
                         break;
-                    default:
-                        throw new System.Exception("Недопустимое расширение файла");
                 }
-
                 filePath = filePath[(filePath.LastIndexOf("\\") + 1)..];
 
                 return filePath;
             }
-            throw new System.Exception("Книга с таким названием уже есть в базе данных");
+            throw new System.Exception("Недопустимое расширение файла");
         }
 
         public async Task<string> AddBookCover(IFormFile file)

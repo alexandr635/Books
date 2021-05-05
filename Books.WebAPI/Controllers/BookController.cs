@@ -153,7 +153,7 @@ namespace Books.WebAPI.Controllers
             try
             {
                 var currentBook = await BookService.SetBookData(Mapper.Map<Book>(book), tagsId, Request.Form.Files);
-                await BookService.AddBook(currentBook);
+                await BookRepository.AddBook(currentBook);
                 return RedirectToAction("Index", "Book");
             }
             catch
@@ -198,9 +198,9 @@ namespace Books.WebAPI.Controllers
                 await BookService.ChangeBook(currentBook);
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception ex)
             {
-                return StatusCode(500);
+                return StatusCode(500, ex.Message);
             }
         }
 
@@ -246,7 +246,6 @@ namespace Books.WebAPI.Controllers
                 Response.StatusCode = 500;
             else
             {
-                //var buffer = BookService.ReadBook(bookName);
                 var buffer = FileService.GetBookDocument(bookName);
                 if (buffer != null)
                 {

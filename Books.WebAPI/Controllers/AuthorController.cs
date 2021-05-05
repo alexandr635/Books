@@ -38,7 +38,7 @@ namespace Books.WebAPI.Controllers
                     MaxYearOfBirth = await AuthorRepository.GetMaxYear(),
                     MinYearOfBirth = await AuthorRepository.GetMinYear(),
                     Authors = Mapper.Map<List<AuthorDTO>>(authors.Skip((page - 1) * pageSize).Take(pageSize)),
-                    PageCount = (int)Math.Ceiling((decimal)authors.Count() / pageSize),
+                    PageCount = (int)Math.Ceiling((decimal)authors.Count / pageSize),
                     Name = name,
                     DateOfBirth = birth,
                     DateOfDie = die,
