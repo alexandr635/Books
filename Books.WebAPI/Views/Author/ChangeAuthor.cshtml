@@ -50,14 +50,23 @@
                 <div class="col-sm">
                     @if (Model.DateOfDie != null)
                     {
-                        <input type="date" name="DateOfDie" value='@Model.DateOfDie.GetValueOrDefault().ToString("yyyy-MM-dd")' required class="w-100 form-control" />
+                        <input type="date" name="DateOfDie" value='@Model.DateOfDie.GetValueOrDefault().ToString("yyyy-MM-dd")' class="w-100 form-control" />
                     }
                     else
                     {
-                        <input type="date" name="DateOfDie" required class="w-100 form-control" />
+                        <input type="date" name="DateOfDie" class="w-100 form-control" />
                     }
                 </div>
             </div>
+
+            @if (ViewData["Error"] != null)
+            {
+                <div class="row mt-4 text-center">
+                    <div class="col-sm text-danger">
+                        <p>@ViewData["Error"]</p>
+                    </div>
+                </div>
+            }
 
             <div class="row mt-2 text-left">
                 <div class="col-sm-4">

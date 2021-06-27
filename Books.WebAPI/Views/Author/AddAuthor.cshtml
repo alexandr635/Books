@@ -1,4 +1,4 @@
-﻿@model List<Books.Application.DTO.AuthorDTO>
+﻿@model Books.Application.DTO.AuthorDTO
 @{
     ViewData["Title"] = "Добавление автора";
 }
@@ -12,7 +12,14 @@
                     <h4>Имя</h4>
                 </div>
                 <div class="col-sm">
-                    <input type="text" name="Name" required class="w-100 form-control" />
+                    @if (Model != null)
+                    {
+                        <input type="text" name="Name" required class="w-100 form-control" value="@Model.Name"/>
+                    }
+                    else
+                    {
+                        <input type="text" name="Name" required class="w-100 form-control" />
+                    }
                 </div>
             </div>
 
@@ -21,7 +28,14 @@
                     <h4>Фамилия</h4>
                 </div>
                 <div class="col-sm">
-                    <input type="text" name="LastName" required class="w-100 form-control" />
+                    @if (Model != null)
+                    {
+                        <input type="text" name="LastName" required class="w-100 form-control" value="@Model.LastName" />
+                    }
+                    else
+                    {
+                        <input type="text" name="LastName" required class="w-100 form-control" />
+                    }
                 </div>
             </div>
 
@@ -30,7 +44,14 @@
                     <h4>Отчество</h4>
                 </div>
                 <div class="col-sm">
-                    <input type="text" name="Patronymic" required class="w-100 form-control" />
+                    @if (Model != null)
+                    {
+                        <input type="text" name="Patronymic" required class="w-100 form-control" value="@Model.Patronymic"/>
+                    }
+                    else
+                    {
+                        <input type="text" name="Patronymic" required class="w-100 form-control" />
+                    }
                 </div>
             </div>
 
@@ -52,12 +73,28 @@
                 </div>
             </div>
 
+            @if (ViewData["Error"] != null)
+            {
+                <div class="row mt-4 text-center">
+                    <div class="col-sm text-danger">
+                        <p>@ViewData["Error"]</p>
+                    </div>
+                </div>
+            }
+
             <div class="row mt-4 text-left">
                 <div class="col-sm-4">
                     <h4>Место рождения</h4>
                 </div>
                 <div class="col-sm">
-                    <input type="text" name="PlaceOfBirth" required class="w-100 form-control" />
+                    @if (Model != null)
+                    {
+                        <input type="text" name="PlaceOfBirth" required class="w-100 form-control" value="@Model.PlaceOfBirth" />
+                    }
+                    else
+                    {
+                        <input type="text" name="PlaceOfBirth" required class="w-100 form-control" />
+                    }
                 </div>
             </div>
 
@@ -66,7 +103,14 @@
                     <h4>Биография</h4>
                 </div>
                 <div class="col-sm">
-                    <input type="text" name="Biography" required class="w-100 form-control" />
+                    @if (Model != null)
+                    {
+                        <input type="text" name="Biography" required class="w-100 form-control" value="@Model.Biography"/>
+                    }
+                    else
+                    {
+                        <input type="text" name="Biography" required class="w-100 form-control" />
+                    }
                 </div>
             </div>
 

@@ -47,22 +47,15 @@ namespace Books.WebAPI.Controllers
         [HttpPost("Account/Index")]
         public async Task<IActionResult> Index(UserDTO user)
         {
-            try
+            user.Password = HashService.GetHashPassword(user.Password);
+            var result = await UserRepository.GetUser(Mapper.Map<User>(user));
+            if (result != null)
             {
-                user.Password = HashService.GetHashPassword(user.Password);
-                var result = await UserRepository.GetUser(Mapper.Map<User>(user));
-                if (result != null)
-                {
-                    await Authenticate(result);
-                    return RedirectToAction("Index", "Book");
-                }
-                else
-                    return View((object)user.Login);
+                await Authenticate(result);
+                return RedirectToAction("Index", "Book");
             }
-            catch
-            {
-                return StatusCode(403);
-            }
+            else
+                return View((object)user.Login);
         }
 
         async Task Authenticate(User user)
@@ -91,12 +84,12 @@ namespace Books.WebAPI.Controllers
                     return RedirectToAction("Index", "Book");
                 }
                 else
-                    ViewData["Error"] = "Registration error: A user with this login already exists. Come up with a new login";
+                    ViewData["Error"] = "Ошибка регистрации. Пользователь с данным логином уже существует. Выберите другой логин";
             }
             else
-                ViewData["Error"] = "Registration error: Password mismatch. Enter your password again";
+                ViewData["Error"] = "Ошибка регистрации. Пароли не совпадают. Введите ваш пароль заново";
 
-            return View(dto.Login);
+            return View((object)dto.Login);
         }
 
         [HttpGet("Account/ChangeProfile")]

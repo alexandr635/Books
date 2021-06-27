@@ -62,7 +62,7 @@ namespace Books.DAL.Repositories
         {
             List<Author> authors = new List<Author>();
             if (author.Name != null)
-            {
+            {                
                 authors = await Context.Authors.
                     Where(a =>
                                (a.Name.Contains(author.Name) ||

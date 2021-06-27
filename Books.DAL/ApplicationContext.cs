@@ -8,8 +8,7 @@ namespace Books.DAL
     {
         public ApplicationContext(DbContextOptions<ApplicationContext> options)
             :base(options)
-        {
-        }
+        {}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -88,7 +87,7 @@ namespace Books.DAL
                         new DateTime(1997, 01, 01),
                         5, 4, 6, 3, 1,
                         "Harry_Potter_and_the_Philosopher's_Stone.jpg",
-                        "prepositions_suck_-_pak_venya.pdf", 
+                        "garri_potter_and_philosofer_stone.pdf", 
                         null),
                     new Book (
                         2,
@@ -169,6 +168,16 @@ namespace Books.DAL
                         4.2, 2, 1, 4, null,
                         "Fathers_and_Sons.jpg",
                         "ottsy_i_dieti_-_ivan_sierghieievich_turghieniev.pdf",
+                        null),
+                    new Book(
+                        10,
+                        "Муму",
+                        "Hассказ русского писателя Ивана Сергеевича Тургенева, написанный в 1852 году.",
+                        "В одном из московских домов на Остоженке живёт барыня, окружённая многочисленной челядью. Среди её слуг выделяется дворник Герасим — человек высокого роста и богатырского сложения, но глухонемой от рождения. Будучи привезённым из деревни, он долго тосковал по родным местам, но постепенно привык к городскому житью. Он усердный работник и во дворе у него всегда порядок.",
+                        new DateTime(1852, 01, 01),
+                        4.4, 2, 1, 3, null,
+                        "ivan_turgenev_mumu.jpg",
+                        "avidreaders_ru_mumu.pdf",
                         null)
             });
 

@@ -52,30 +52,17 @@ namespace Books.WebAPI.Controllers
         {
             if (id == null)
                 RedirectToAction();
-            try
-            {
-                var dto = Mapper.Map<BookSeriesDTO>(await BookSeriesRepository.GetSeries((int)id));
-                return View(dto);
-            }
-            catch
-            {
-                return StatusCode(403);
-            }
+
+            var dto = Mapper.Map<BookSeriesDTO>(await BookSeriesRepository.GetSeries((int)id));
+            return View(dto);
         }
 
         [Authorize(Roles = "Проверяющий")]
         [HttpPost("BookSeries/ChangeSeries/{Id?}")]
         public async Task<IActionResult> Change(BookSeriesDTO series)
         {
-            try
-            {
-                await BookSeriesRepository.ChangeSeries(Mapper.Map<BookSeries>(series));
-                return RedirectToAction("Index", "BookSeries");
-            }
-            catch
-            {
-                return StatusCode(403);
-            }
+            await BookSeriesRepository.ChangeSeries(Mapper.Map<BookSeries>(series));
+            return RedirectToAction("Index", "BookSeries");
         }
 
         [Authorize(Roles = "Проверяющий")]

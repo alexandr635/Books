@@ -39,15 +39,8 @@ namespace Books.WebAPI.Controllers
         [HttpPost("addGenre")]
         public async Task<IActionResult> AddGenre(GenreDTO genreDTO)
         {
-            try
-            {
-                await GenreRepository.AddGenre(Mapper.Map<Genre>(genreDTO));
-                return RedirectToAction("Index", "Genre");
-            }
-            catch
-            {
-                return StatusCode(403);
-            }
+            await GenreRepository.AddGenre(Mapper.Map<Genre>(genreDTO));
+            return RedirectToAction("Index", "Genre");
         }
 
         [Authorize(Roles = "Проверяющий")]
@@ -56,15 +49,9 @@ namespace Books.WebAPI.Controllers
         {
             if (id == null)
                 RedirectToAction();
-            try
-            {
-                var dto = Mapper.Map<GenreDTO>(await GenreRepository.GetGenre(id));
-                return View(dto);
-            }
-            catch
-            {
-                return StatusCode(403);
-            }
+            
+            var dto = Mapper.Map<GenreDTO>(await GenreRepository.GetGenre(id));
+            return View(dto);
 
         }
 
@@ -72,15 +59,8 @@ namespace Books.WebAPI.Controllers
         [HttpPost("Genre/Change/{Id?}")]
         public async Task<IActionResult> ChangeGenre(GenreDTO genreDTO)
         {
-            try
-            {
-                await GenreRepository.ChangeGenre(Mapper.Map<Genre>(genreDTO));
-                return RedirectToAction("Index", "Genre");
-            }
-            catch
-            {
-                return StatusCode(403);
-            }
+            await GenreRepository.ChangeGenre(Mapper.Map<Genre>(genreDTO));
+            return RedirectToAction("Index", "Genre");
         }
 
         [Authorize(Roles = "Проверяющий")]

@@ -97,16 +97,16 @@ namespace Books.Application.Services
                 }
             }
 
-            if (book.BookPath == null)
+            if (book.BookPath == null && checkBook != null)
                 book.SetBookPath(checkBook.BookPath);
 
-            if (book.ImagePath == null)
+            if (book.ImagePath == null && checkBook != null)
                 book.SetImagePath(checkBook.ImagePath);
 
             return book;
         }
 
-        async Task DeleteBookFiles(int id)
+        public async Task DeleteBookFiles(int id)
         {
             var checkBook = await BookRepository.GetNoTrackingBook(id);
 
@@ -175,8 +175,12 @@ namespace Books.Application.Services
                     changeBook.SetBookPath(currentBook.BookPath);
                 }
 
-                await BookRepository.ChangeBook(changeBook);
-                await BookRepository.DeleteBook(currentBook);
+                int publishedStatusId = 3;
+                if (book.BookStatusId == publishedStatusId)
+                {
+                    await BookRepository.ChangeBook(changeBook);
+                    await BookRepository.DeleteBook(currentBook);
+                }
             }
             else 
                 await BookRepository.ChangeBookStatus(book);

@@ -29,10 +29,14 @@ namespace Books.Application.Services
                 "text/plain",
                 "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
                 "application/msword",
-                "application/epub+zip"
+                "application/epub+zip",
+                "application/pdf"
             };
 
-            if (!File.Exists(filePath) && list.Contains(file.ContentType))
+            if (!list.Contains(file.ContentType))
+                throw new System.Exception("Недопустимое расширение файла. Выберите другой файл!");
+
+            if (!File.Exists(filePath))
             {
                 using (var fs = new FileStream(filePath, FileMode.Create))
                 {
@@ -67,7 +71,8 @@ namespace Books.Application.Services
 
                 return filePath;
             }
-            throw new System.Exception("Недопустимое расширение файла");
+            else
+                throw new System.Exception("При добавлении книги возникла ошибка: файл с таким именем уже существует. Измените название файла!");
         }
 
         public async Task<string> AddBookCover(IFormFile file)
@@ -82,7 +87,7 @@ namespace Books.Application.Services
                 }
             }
             else
-                throw new System.Exception("Ты втираешь мне какую-то дичь");
+                throw new System.Exception("Файл должен являться картинкой. Выберите картинку!");
 
             return file.FileName;
         }

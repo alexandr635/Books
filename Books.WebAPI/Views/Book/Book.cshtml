@@ -1,133 +1,128 @@
 ﻿@model Books.Application.DTO.BookDTO
-@if (Model != null)
-{
+@{
     ViewData["Title"] = Model.Title;
-    <div class="container">
-        <div class="row">
-            <div class="col-sm">
-                <div class="bg-white container border box-shadow mb-3 rounded p-3">
-                    <div class="row pl-2 pr-2">
-                        <div class="col-sm-3">
-                            @if (Model.ImagePath != null && Model.ImagePath != "")
-                            {
-                                <img src="~/Files/Covers/@Model.ImagePath" class="w-100" />
-                            }
-                            else
-                            {
-                                <img src="~/img/noPhoto.png" class="w-100" />
-                            }
-                        </div>
-                        <div class="col-sm">
-                            <h4>@Model.Title</h4>
-                            <p>Рейтинг - @Model.AverageRating</p>
-                            @{
-                                string author = Model.AuthorDTO.LastName + " " + Model.AuthorDTO.Name.Substring(0, 1) + ". ";
-                                if (Model.AuthorDTO.Patronymic != "")
-                                    author += Model.AuthorDTO.Patronymic.Substring(0, 1) + ". ";
-                            }
-                            <p>Автор - @author</p>
-                            <p>@Model.DescriptionShort</p>
-                            @if (Model.BookPath != null && Model.BookPath != "")
-                            {
-                                <a href="~/Home/ReadBook/@Model.BookPath">Читать</a>
-                            }
-                        </div>
+}
+<div class="container">
+    <div class="row">
+        <div class="col-sm">
+            <div class="bg-white container border box-shadow mb-3 rounded p-3">
+                <div class="row pl-2 pr-2">
+                    <div class="col-sm-3">
+                        @if (Model.ImagePath != null && Model.ImagePath != "")
+                        {
+                            <img src="~/Files/Covers/@Model.ImagePath" class="w-100" />
+                        }
+                        else
+                        {
+                            <img src="~/img/noPhoto.png" class="w-100" />
+                        }
                     </div>
-                    <div class="row pl-2 pr-2 mt-2">
-                        <div class="col-sm text-justify">
-                            <h5>Описание</h5>
-                            <p>@Model.DescriptionLong</p>
-                        </div>
+                    <div class="col-sm">
+                        <h4>@Model.Title</h4>
+                        <p>Рейтинг - @Model.AverageRating</p>
+                        @{
+                            string author = Model.AuthorDTO.LastName + " " + Model.AuthorDTO.Name.Substring(0, 1) + ". ";
+                            if (Model.AuthorDTO.Patronymic != "")
+                                author += Model.AuthorDTO.Patronymic.Substring(0, 1) + ". ";
+                        }
+                        <p>Автор - @author</p>
+                        <p>@Model.DescriptionShort</p>
+                        @if (Model.BookPath != null && Model.BookPath != "")
+                        {
+                            <a href="~/Home/ReadBook/@Model.BookPath">Читать</a>
+                        }
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm mb-3">
-                <div class="bg-white container border box-shadow mb-3 rounded p-3 h-100 bp-0">
-                    <div class="row pl-2 pr-2">
-                        <div class="col-sm-3 mb-3">
-                            <h5>Комментарии:</h5>
-                        </div>
-                    </div>
-                    <div class="row overflow-auto" style="height: 190px;">
-                        <div class="col-sm h-100">
-                            @if (Model.ReviewsDTO != null && Model.ReviewsDTO.Count == 0)
-                            {
-                                <div class="row pl-2 pr-2">
-                                    <div class="col-sm">
-                                        <p>У книги пока нет комментариев. Станьте первым комментатором!</p>
-                                    </div>
-                                </div>
-                            }
-                            else
-                            {
-                                @foreach (var comment in Model.ReviewsDTO)
-                                {
-                                    <div class="row pl-2 pr-2">
-                                        <div class="col-sm">
-                                            <p><strong>@comment.UserDTO.Login</strong> @comment.ReviewString</p>
-                                        </div>
-                                    </div>
-                                    <hr class="p-0 m-0 mb-3" />
-                                }
-                            }
-                        </div>
+                <div class="row pl-2 pr-2 mt-2">
+                    <div class="col-sm text-justify">
+                        <h5>Описание</h5>
+                        <p>@Model.DescriptionLong</p>
                     </div>
                 </div>
-            </div>
-            <div class="col-sm">
-                <form method="post" action="~/Home/AddReview">
-                    <div class="container-fluid p-0" style="text-align: center">
-                        <div class="d-sm-block bg-white border box-shadow mb-3 rounded p-3">
-                            <div class="row text-center mb-2">
-                                <div class="col-sm">
-                                    <h5>Отзыв</h5>
-                                </div>
-                            </div>
-                            <input type="hidden" name="BookId" value="@Model.Id" />
-                            <div class="row mt-2 text-left">
-                                <div class="col-sm-4 mt-2">
-                                    <h6>Псевдоним</h6>
-                                </div>
-                                <div class="col-sm">
-                                    <input type="text" disabled name="Pseudonim" required class="w-100 form-control" value='@ViewData["Name"]' />
-                                </div>
-                            </div>
-
-                            <div class="row mt-2 text-left">
-                                <div class="col-sm-4 mt-2">
-                                    <h6>Отзыв</h6>
-                                </div>
-                                <div class="col-sm">
-                                    <input type="text" name="ReviewString" required class="w-100 form-control" />
-                                </div>
-                            </div>
-
-                            <div class="row mt-2 text-left">
-                                <div class="col-sm-4 mt-2">
-                                    <h6>Рейтинг</h6>
-                                </div>
-                                <div class="col-sm">
-                                    <input type="number" min="0" max="5" step="0.1" name="Rating" required class="w-100 form-control" />
-                                </div>
-                            </div>
-
-                            <div class="row mt-2 text-left">
-                                <button class="m-3 p-2 col-sm btn btn-outline-warning">Добавить отзыв</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
-}
-else
-{
-    ViewData["Title"] = "Error. You need to authorize";
-    <h2>Сначала авторизуйтесь в системе</h2>
-}
+    <div class="row">
+        <div class="col-sm mb-3">
+            <div class="bg-white container border box-shadow mb-3 rounded p-3 h-100 bp-0">
+                <div class="row pl-2 pr-2">
+                    <div class="col-sm-3 mb-3">
+                        <h5>Комментарии:</h5>
+                    </div>
+                </div>
+                <div class="row overflow-auto" style="height: 190px;">
+                    <div class="col-sm h-100">
+                        @if (Model.ReviewsDTO != null && Model.ReviewsDTO.Count == 0)
+                        {
+                            <div class="row pl-2 pr-2">
+                                <div class="col-sm">
+                                    <p>У книги пока нет комментариев. Станьте первым комментатором!</p>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            @foreach (var comment in Model.ReviewsDTO)
+                            {
+                                <div class="row pl-2 pr-2">
+                                    <div class="col-sm">
+                                        <p><strong>@comment.UserDTO.Login</strong> @comment.ReviewString</p>
+                                    </div>
+                                </div>
+                                <hr class="p-0 m-0 mb-3" />
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm">
+            <form method="post" action="~/Home/AddReview">
+                <div class="container-fluid p-0" style="text-align: center">
+                    <div class="d-sm-block bg-white border box-shadow mb-3 rounded p-3">
+                        <div class="row text-center mb-2">
+                            <div class="col-sm">
+                                <h5>Отзыв</h5>
+                            </div>
+                        </div>
+                        <input type="hidden" name="BookId" value="@Model.Id" />
+                        <div class="row mt-2 text-left">
+                            <div class="col-sm-4 mt-2">
+                                <h6>Псевдоним</h6>
+                            </div>
+                            <div class="col-sm">
+                                <input type="text" disabled name="Pseudonim" required class="w-100 form-control" value='@ViewData["Name"]' />
+                            </div>
+                        </div>
+
+                        <div class="row mt-2 text-left">
+                            <div class="col-sm-4 mt-2">
+                                <h6>Отзыв</h6>
+                            </div>
+                            <div class="col-sm">
+                                <input type="text" name="ReviewString" required class="w-100 form-control" />
+                            </div>
+                        </div>
+
+                        <div class="row mt-2 text-left">
+                            <div class="col-sm-4 mt-2">
+                                <h6>Рейтинг</h6>
+                            </div>
+                            <div class="col-sm">
+                                <input type="number" min="0" max="5" step="0.1" name="Rating" required class="w-100 form-control" />
+                            </div>
+                        </div>
+
+                        <div class="row mt-2 text-left">
+                            <button class="m-3 p-2 col-sm btn btn-outline-warning">Добавить отзыв</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 
 
 

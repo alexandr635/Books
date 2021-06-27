@@ -120,11 +120,20 @@ namespace Books.DAL.Migrations
                     b.Property<double>("AverageRating")
                         .HasColumnType("float");
 
+                    b.Property<string>("BookPath")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("BookSeriesId")
                         .HasColumnType("int");
 
                     b.Property<int>("BookStatusId")
                         .HasColumnType("int");
+
+                    b.Property<int>("ConfirmId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ContentType")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DescriptionLong")
                         .HasColumnType("nvarchar(max)");
@@ -135,8 +144,8 @@ namespace Books.DAL.Migrations
                     b.Property<int>("GenreId")
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("Image")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("PublishDate")
                         .HasColumnType("datetime2");
@@ -162,11 +171,14 @@ namespace Books.DAL.Migrations
                             Id = 1,
                             AuthorId = 4,
                             AverageRating = 5.0,
+                            BookPath = "garri_potter_and_philosofer_stone.pdf",
                             BookSeriesId = 1,
-                            BookStatusId = 4,
+                            BookStatusId = 3,
+                            ConfirmId = 0,
                             DescriptionLong = "Родителей годовалого Гарри Поттера убивает Волан-де-Морт, после чего исчезает при попытке убить самого Гарри. Поздно вечером директор школы волшебства Хогвартс Альбус Дамблдор и его заместитель Минерва МакГонагалл появляются возле дома Вернона и Петуньи Дурсль, единственных родственников Гарри.",
                             DescriptionShort = "первый роман в серии книг про юного волшебника Гарри Поттера",
                             GenreId = 6,
+                            ImagePath = "Harry_Potter_and_the_Philosopher's_Stone.jpg",
                             PublishDate = new DateTime(1997, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Гарри Поттер и философский камень"
                         },
@@ -175,11 +187,14 @@ namespace Books.DAL.Migrations
                             Id = 2,
                             AuthorId = 4,
                             AverageRating = 4.2000000000000002,
+                            BookPath = "garri_potter_i_tajnaja_komnata.pdf",
                             BookSeriesId = 1,
                             BookStatusId = 4,
+                            ConfirmId = 0,
                             DescriptionLong = "Книга рассказывает о втором учебном годе в школе чародейства и волшебства Хогвартс, на котором Гарри и его друзья — Рон Уизли и Гермиона Грейнджер — расследуют таинственные нападения на учеников школы, совершаемые неким «Наследником Слизерина». Объектами нападений являются ученики, среди родственников которых есть неволшебники.",
                             DescriptionShort = "второй роман в серии книг про юного волшебника Гарри Поттера",
                             GenreId = 6,
+                            ImagePath = "Harry_Potter_And_The_Chamber_of_secrets.jpg",
                             PublishDate = new DateTime(1998, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Гарри Поттер и тайная комната"
                         },
@@ -188,11 +203,14 @@ namespace Books.DAL.Migrations
                             Id = 3,
                             AuthorId = 5,
                             AverageRating = 4.2000000000000002,
+                            BookPath = "2-mech-prednaznacheniya.pdf",
                             BookSeriesId = 2,
                             BookStatusId = 3,
+                            ConfirmId = 0,
                             DescriptionLong = "В этом рассказе Геральт встречается с человеком по имени Борх Три Галки и двумя его телохранительницами из далёкой Зеррикании. Они отправляются по дороге, но наталкиваются на оцепление. Находящийся здесь же Лютик даёт разъяснения. В Голополье повадился летать зелёный дракон, а местный сапожник Козоед придумал, как его отравить.",
                             DescriptionShort = "Это второе произведение из цикла «Ведьмак» как по хронологии, так и по времени написания. В этой части Геральт впервые встречает Цири и находит своё предназначение.",
                             GenreId = 6,
+                            ImagePath = "witcher_sword_of_destination.jpg",
                             PublishDate = new DateTime(1992, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Меч Предназначения"
                         },
@@ -201,11 +219,14 @@ namespace Books.DAL.Migrations
                             Id = 4,
                             AuthorId = 5,
                             AverageRating = 4.4000000000000004,
+                            BookPath = "1-posledneye-zhelaniye.pdf",
                             BookSeriesId = 2,
                             BookStatusId = 3,
+                            ConfirmId = 0,
                             DescriptionLong = "Это первое произведение из цикла «Ведьмак» как по хронологии, так и по времени написания. От первого издания в виде книги «Ведьмак» «Последнее желание» отличается связующей серией интерлюдий «Глас рассудка» и наличием рассказов «Последнее желание» и «Край света».",
                             DescriptionShort = "сборник рассказов писателя Анджея Сапковского в жанре фэнтези",
                             GenreId = 6,
+                            ImagePath = "witcher_last_wish.jpg",
                             PublishDate = new DateTime(1993, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Последнее желание"
                         },
@@ -214,10 +235,13 @@ namespace Books.DAL.Migrations
                             Id = 5,
                             AuthorId = 1,
                             AverageRating = 4.5,
+                            BookPath = "Kapitanskaya_dochka.pdf",
                             BookStatusId = 2,
+                            ConfirmId = 0,
                             DescriptionLong = "«Капитанская дочка» принадлежит к числу произведений, которыми русские писатели 1830-х откликнулись на успех переводных романов Вальтера Скотта. Первым из исторических романов на русскую тему увидел свет «Юрий Милославский» М. Н. Загоскина (1829) (встреча Гринёва с вожатым, по мнению пушкиноведов, восходит к аналогичной сцене в романе Загоскина)",
                             DescriptionShort = "исторический роман Александра Пушкина, действие которого происходит во время восстания Емельяна Пугачёва.",
                             GenreId = 1,
+                            ImagePath = "Captain's_daughter.jpg",
                             PublishDate = new DateTime(1836, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Капитанская дочка"
                         },
@@ -226,10 +250,13 @@ namespace Books.DAL.Migrations
                             Id = 6,
                             AuthorId = 1,
                             AverageRating = 4.9000000000000004,
+                            BookPath = "the_queen_of_spades.pdf",
                             BookStatusId = 2,
+                            ConfirmId = 0,
                             DescriptionLong = "В жанровом отношении повесть примыкает к таким (неоконченным) замыслам Пушкина, как «Египетские ночи», «Уединённый домик на Васильевском» и знаменитый отрывок «Гости съезжались на дачу…». Повесть неоднократно экранизирована.",
                             DescriptionShort = "повесть Александра Сергеевича Пушкина с мистическими элементами, послужившая источником сюжета одноимённой оперы П. И. Чайковского.",
                             GenreId = 1,
+                            ImagePath = "The_Queen_of_Spades.jpg",
                             PublishDate = new DateTime(1834, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Пиковая дама"
                         },
@@ -238,10 +265,13 @@ namespace Books.DAL.Migrations
                             Id = 7,
                             AuthorId = 3,
                             AverageRating = 3.7999999999999998,
+                            BookPath = "idiot_-_fiedor_mikhailovich_dostoievskii.pdf",
                             BookStatusId = 1,
+                            ConfirmId = 0,
                             DescriptionLong = "Являлся одним из самых любимых произведений писателя, наиболее полно выразившим и нравственно-философскую позицию Достоевского, и его художественные принципы в 1860-х годах. Замысел романа обдумывался писателем во время пребывания за границей — в Германии и Швейцарии.",
                             DescriptionShort = "роман Фёдора Михайловича Достоевского, впервые опубликованный в номерах журнала «Русский вестник» за 1868 год",
                             GenreId = 1,
+                            ImagePath = "idiot.jpeg",
                             PublishDate = new DateTime(1868, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Идиот"
                         },
@@ -250,10 +280,13 @@ namespace Books.DAL.Migrations
                             Id = 8,
                             AuthorId = 3,
                             AverageRating = 3.6000000000000001,
+                            BookPath = "karamazov_brothers.a4.pdf",
                             BookStatusId = 1,
+                            ConfirmId = 0,
                             DescriptionLong = "Роман был напечатан частями в журнале «Русский вестник». Достоевский задумывал роман как первую часть эпического романа «История Великого грешника». Произведение было окончено в ноябре 1880 года. Писатель умер через два месяца после публикации.",
                             DescriptionShort = "последний роман Ф. М. Достоевского, который автор писал два года.",
                             GenreId = 1,
+                            ImagePath = "Brothers_Karamazov.jpg",
                             PublishDate = new DateTime(1879, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Братья Карамазовы"
                         },
@@ -262,12 +295,30 @@ namespace Books.DAL.Migrations
                             Id = 9,
                             AuthorId = 2,
                             AverageRating = 4.2000000000000002,
+                            BookPath = "ottsy_i_dieti_-_ivan_sierghieievich_turghieniev.pdf",
                             BookStatusId = 4,
+                            ConfirmId = 0,
                             DescriptionLong = "В обстановке «великих реформ» книга стала сенсацией и привлекла к себе всеобщее внимание, а образ главного героя Евгения Базарова был воспринят как воплощение нового, пореформенного поколения, став примером для подражания молодёжи 1860-х гг. Свойственные Базарову бескомпромиссность, отсутствие преклонения перед авторитетами и старыми истинами, приоритет полезного над прекрасным стали идеалами первого поколения пореформенной интеллигенции",
                             DescriptionShort = "роман И. С. Тургенева, написанный в 1860—1861 годах и опубликованный в 1862 году в журнале «Русский вестник»",
                             GenreId = 1,
+                            ImagePath = "Fathers_and_Sons.jpg",
                             PublishDate = new DateTime(1862, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Title = "Отцы и дети"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            AuthorId = 2,
+                            AverageRating = 4.4000000000000004,
+                            BookPath = "avidreaders_ru_mumu.pdf",
+                            BookStatusId = 3,
+                            ConfirmId = 0,
+                            DescriptionLong = "В одном из московских домов на Остоженке живёт барыня, окружённая многочисленной челядью. Среди её слуг выделяется дворник Герасим — человек высокого роста и богатырского сложения, но глухонемой от рождения. Будучи привезённым из деревни, он долго тосковал по родным местам, но постепенно привык к городскому житью. Он усердный работник и во дворе у него всегда порядок.",
+                            DescriptionShort = "Hассказ русского писателя Ивана Сергеевича Тургенева, написанный в 1852 году.",
+                            GenreId = 1,
+                            ImagePath = "ivan_turgenev_mumu.jpg",
+                            PublishDate = new DateTime(1852, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Title = "Муму"
                         });
                 });
 
@@ -443,7 +494,7 @@ namespace Books.DAL.Migrations
                         new
                         {
                             Id = 2,
-                            BookId = 2,
+                            BookId = 1,
                             Rating = 2.5,
                             ReviewString = "Не очень",
                             UserId = 1
@@ -451,7 +502,7 @@ namespace Books.DAL.Migrations
                         new
                         {
                             Id = 3,
-                            BookId = 2,
+                            BookId = 1,
                             Rating = 4.0,
                             ReviewString = "Прикольно",
                             UserId = 4
@@ -534,6 +585,9 @@ namespace Books.DAL.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<byte[]>("Image")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("Login")
                         .HasColumnType("nvarchar(max)");
 
@@ -554,28 +608,28 @@ namespace Books.DAL.Migrations
                         {
                             Id = 1,
                             Login = "log1",
-                            Password = "pass1",
+                            Password = "pyLGPbjshiWvbPccuMLZOQ==",
                             RoleId = 1
                         },
                         new
                         {
                             Id = 2,
                             Login = "log2",
-                            Password = "pass2",
+                            Password = "wVctBUJNDssqZexqgq6svw==",
                             RoleId = 2
                         },
                         new
                         {
                             Id = 3,
                             Login = "log3",
-                            Password = "pass3",
+                            Password = "Ovx5tZf4inJSjoZM+BhW0g==",
                             RoleId = 3
                         },
                         new
                         {
                             Id = 4,
                             Login = "log4",
-                            Password = "pass4",
+                            Password = "/Ckh2QV6xE5UnvrwBIslEg==",
                             RoleId = 4
                         });
                 });

@@ -82,7 +82,7 @@
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <a href="~/Author/Change/@author.Id">Изменить</a>
+                                    <a href="~/Author/Change/@author.Id" class="mr-3">Изменить</a>
                                     <a href="~/Author/Delete/@author.Id">Удалить</a>
                                 </div>
                             </div>
@@ -136,7 +136,7 @@
                             <div class="col-sm">
                                 <select name="die" class="form-control">
                                     @{
-                                        date = new DateTime(Model.MaxYearOfBirth, 01, 01);
+                                        date = new DateTime(Model.MaxYearOfBirth, 12, 31);
                                     }
                                     <option selected value="@date">Выберите дату</option>
                                     @for (int i = Model.MinYearOfBirth + 1; i <= Model.MaxYearOfBirth; i++)

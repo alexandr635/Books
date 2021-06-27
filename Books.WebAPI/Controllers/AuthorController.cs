@@ -2,6 +2,7 @@
 using Books.Application.DTO;
 using Books.Domain.Entities;
 using Books.Domain.Interfaces;
+using Books.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -25,32 +26,25 @@ namespace Books.WebAPI.Controllers
         [Authorize(Roles = "Проверяющий")]
         public async Task<IActionResult> Index(DateTime birth, DateTime die, string name = null, int page = 1)
         {
-            try
-            {
-                const int pageSize = 2;
-                if (die == new DateTime(1, 1, 1))
-                    die = DateTime.Now;
-                var author = new Author(name, birth, die);
-                var authors = await AuthorRepository.GetAuthor(author);
+            const int pageSize = 2;
+            if (die == new DateTime(1, 1, 1))
+                die = DateTime.Now;
+            var author = new Author(name, birth, die);
+            var authors = await AuthorRepository.GetAuthor(author);
 
-                var filter = new FilterAuthorDTO()
-                {
-                    MaxYearOfBirth = await AuthorRepository.GetMaxYear(),
-                    MinYearOfBirth = await AuthorRepository.GetMinYear(),
-                    Authors = Mapper.Map<List<AuthorDTO>>(authors.Skip((page - 1) * pageSize).Take(pageSize)),
-                    PageCount = (int)Math.Ceiling((decimal)authors.Count / pageSize),
-                    Name = name,
-                    DateOfBirth = birth,
-                    DateOfDie = die,
-                    Page = page
-                };
-                
-                return View(filter);
-            }
-            catch
+            var filter = new FilterAuthorDTO()
             {
-                return StatusCode(500);
-            }
+                MaxYearOfBirth = await AuthorRepository.GetMaxYear(),
+                MinYearOfBirth = await AuthorRepository.GetMinYear(),
+                Authors = Mapper.Map<List<AuthorDTO>>(authors.Skip((page - 1) * pageSize).Take(pageSize)),
+                PageCount = (int)Math.Ceiling((decimal)authors.Count / pageSize),
+                Name = name,
+                DateOfBirth = birth,
+                DateOfDie = die,
+                Page = page
+            };
+                
+            return View(filter);
         }
 
         [Authorize(Roles = "Проверяющий")]
@@ -59,29 +53,24 @@ namespace Books.WebAPI.Controllers
         {
             if (id == null)
                 return RedirectToAction();
-            try
-            {
-                var dto = Mapper.Map<AuthorDTO>(await AuthorRepository.GetAuthor(id));
-                return View(dto);
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
+
+            var dto = Mapper.Map<AuthorDTO>(await AuthorRepository.GetAuthor(id));
+            return View(dto);
         }
 
         [Authorize(Roles = "Проверяющий")]
         [HttpPost("Author/Change/{Id?}")]
         public async Task<IActionResult> ChangeAuthor(AuthorDTO authorDTO)
         {
-            try
+            if (authorDTO.DateOfBirth < authorDTO.DateOfDie)
             {
                 await AuthorRepository.ChangeAuthor(Mapper.Map<Author>(authorDTO));
                 return RedirectToAction("Index", "Author");
             }
-            catch
+            else
             {
-                return StatusCode(403);
+                ViewData["Error"] = "Дата смерти автора не может быть раньше, чем дата его рождения. Измените дату!";
+                return View(authorDTO);
             }
         }
 
@@ -89,22 +78,30 @@ namespace Books.WebAPI.Controllers
         [HttpGet("AddAuthor")]
         public IActionResult AddAuthor()
         {
-            return View();
+            return View(null);
         }
 
         [Authorize(Roles = "Проверяющий")]
         [HttpPost("AddAuthor")]
         public async Task<IActionResult> AddAuthor(AuthorDTO authorDTO)
         {
-            try
+            if (authorDTO.DateOfBirth.Year == 1)
+            {
+                ViewData["Error"] = "Укажите дату рождения";
+                return View(authorDTO);
+            }    
+
+            if (authorDTO.DateOfBirth < authorDTO.DateOfDie || authorDTO.DateOfDie == null)
             {
                 await AuthorRepository.AddAuthor(Mapper.Map<Author>(authorDTO));
                 return RedirectToAction("Index", "Author");
             }
-            catch
+            else
             {
-                return StatusCode(403);
+                ViewData["Error"] = "Дата смерти автора не может быть раньше, чем дата его рождения.Измените дату!";
+                return View(authorDTO);
             }
+            
         }
 
         [Authorize(Roles = "Проверяющий")]

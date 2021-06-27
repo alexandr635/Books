@@ -46,16 +46,9 @@ namespace Books.WebAPI.Controllers
         [Authorize(Roles = "Читатель, Администратор")]
         public async Task<IActionResult> AddReview(ReviewDTO reviewDTO)
         {
-            try
-            {
-                string name = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultNameClaimType).Value;
-                await ReviewService.AddReview(name, Mapper.Map<Review>(reviewDTO));
-                return RedirectToAction("Book", "Book", new { Id = reviewDTO.BookId});
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
+            string name = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultNameClaimType).Value;
+            await ReviewService.AddReview(name, Mapper.Map<Review>(reviewDTO));
+            return RedirectToAction("Book", "Book", new { Id = reviewDTO.BookId});
         }
     }
 }

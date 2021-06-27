@@ -38,15 +38,8 @@ namespace Books.WebAPI.Controllers
         [Authorize(Roles = "Проверяющий")]
         public async Task<IActionResult> AddTag(TagDTO tagDTO)
         {
-            try
-            {
-                await TagRepository.AddTag(Mapper.Map<Tag>(tagDTO));
-                return RedirectToAction("Index", "Tag");
-            }
-            catch
-            {
-                return StatusCode(403);
-            }
+            await TagRepository.AddTag(Mapper.Map<Tag>(tagDTO));
+            return RedirectToAction("Index", "Tag");
         }
 
         [HttpGet("Tag/ChangeTag/{Id?}")]
@@ -68,15 +61,8 @@ namespace Books.WebAPI.Controllers
         [Authorize(Roles = "Проверяющий")]
         public async Task<IActionResult> ChangeTag(TagDTO tagDTO)
         {
-            try
-            {
-                await TagRepository.ChangeTag(Mapper.Map<Tag>(tagDTO));
-                return RedirectToAction("Index", "Tag");
-            }
-            catch
-            {
-                return StatusCode(403);
-            }
+            await TagRepository.ChangeTag(Mapper.Map<Tag>(tagDTO));
+            return RedirectToAction("Index", "Tag");
         }
 
         [HttpGet("Tag/DeleteTag/{Id?}")]

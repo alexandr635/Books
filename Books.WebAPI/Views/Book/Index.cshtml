@@ -20,7 +20,7 @@
         <div class="col-sm">
             <h3>Книги</h3>
         </div>
-        @if (role != "Читатель")
+        @if (role != "Читатель" && role != "Проверяющий")
         {
             <div class="col-sm-3">
                 <form method="get" class="col-sm" action="~/AddBook">

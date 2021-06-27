@@ -3,7 +3,9 @@ using Books.Application.DTO;
 using Books.Domain.Entities;
 using Books.Domain.Interfaces;
 using Books.Infrastructure.Interfaces;
+using Books.WebAPI.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -118,36 +120,35 @@ namespace Books.WebAPI.Controllers
                 }
                 catch
                 {
-                    return View(null);
+                    return RedirectToAction("Index", "Account");
                 }
             }
+        }
+
+        async Task<ListDTO> GetListBookData()
+        {
+            string role = User.FindFirst(x => x.Type == ClaimsIdentity.DefaultRoleClaimType).Value;
+            ListDTO list = new()
+            {
+                GenreDTO = Mapper.Map<List<GenreDTO>>(await GenreRepository.GetGenre()),
+                AuthorDTO = Mapper.Map<List<AuthorDTO>>(await AuthorRepository.GetAuthor()),
+                BookStatusDTO = Mapper.Map<List<BookStatusDTO>>(await BookStatusService.GetStatusByRole(role)),
+                BookSeriesDTO = Mapper.Map<List<BookSeriesDTO>>(await BookSeriesRepository.GetSeries()),
+                TagDTO = Mapper.Map<List<TagDTO>>(await TagRepository.GetTag())
+            };
+
+            return list;
         }
 
         [HttpGet("AddBook")]
         [Authorize(Roles = "Писатель, Администратор")]
         public async Task<IActionResult> AddBook()
         {
-            try
-            {
-                ListDTO list = new()
-                {
-                    GenreDTO = Mapper.Map<List<GenreDTO>>(await GenreRepository.GetGenre()),
-                    AuthorDTO = Mapper.Map<List<AuthorDTO>>(await AuthorRepository.GetAuthor()),
-                    BookStatusDTO = Mapper.Map<List<BookStatusDTO>>(await BookStatusRepository.GetStatus()),
-                    BookSeriesDTO = Mapper.Map<List<BookSeriesDTO>>(await BookSeriesRepository.GetSeries()),
-                    TagDTO = Mapper.Map<List<TagDTO>>(await TagRepository.GetTag())
-                };
-
-                return View(list);
-            }
-            catch
-            {
-                return StatusCode(500);
-            }
+            return View(await GetListBookData());
         }
 
         [HttpPost("AddBook")]
-        [Authorize(Roles = "Администратор")]
+        [Authorize(Roles = "Писатель, Администратор")]
         public async Task<IActionResult> AddBook(BookDTO book, int[] tagsId)
         {
             try
@@ -156,9 +157,12 @@ namespace Books.WebAPI.Controllers
                 await BookRepository.AddBook(currentBook);
                 return RedirectToAction("Index", "Book");
             }
-            catch
+            catch (Exception ex)
             {
-                return StatusCode(500);
+                ViewData["Error"] = ex.Message;
+                var list = await GetListBookData();
+                list.BookDTO = book;
+                return View(list);
             }
         }
 
@@ -168,46 +172,34 @@ namespace Books.WebAPI.Controllers
         {
             if (id == null)
                 return RedirectToAction("Index");
-            try
-            {
-                ListDTO list = new()
-                {
-                    GenreDTO = Mapper.Map<List<GenreDTO>>(await GenreRepository.GetGenre()),
-                    AuthorDTO = Mapper.Map<List<AuthorDTO>>(await AuthorRepository.GetAuthor()),
-                    BookStatusDTO = Mapper.Map<List<BookStatusDTO>>(await BookStatusRepository.GetStatus()),
-                    BookSeriesDTO = Mapper.Map<List<BookSeriesDTO>>(await BookSeriesRepository.GetSeries()),
-                    TagDTO = Mapper.Map<List<TagDTO>>(await TagRepository.GetTag()),
-                    BookDTO = Mapper.Map<BookDTO>(await BookRepository.GetBook(id))
-                };
 
-                return View(list);
-            }
-            catch
+            ListDTO list = new()
             {
-                return StatusCode(500);
-            }
+                GenreDTO = Mapper.Map<List<GenreDTO>>(await GenreRepository.GetGenre()),
+                AuthorDTO = Mapper.Map<List<AuthorDTO>>(await AuthorRepository.GetAuthor()),
+                BookStatusDTO = Mapper.Map<List<BookStatusDTO>>(await BookStatusRepository.GetStatus()),
+                BookSeriesDTO = Mapper.Map<List<BookSeriesDTO>>(await BookSeriesRepository.GetSeries()),
+                TagDTO = Mapper.Map<List<TagDTO>>(await TagRepository.GetTag()),
+                BookDTO = Mapper.Map<BookDTO>(await BookRepository.GetBook(id))
+            };
+
+            return View(list);
         }
 
         [HttpPost("Home/ChangeBook/{Id?}")]
         [Authorize(Roles = "Писатель, Администратор")]
         public async Task<IActionResult> Change(BookDTO book, int[] tagsId)
         {
-            try
-            {
-                var currentBook = await BookService.SetBookData(Mapper.Map<Book>(book), tagsId, Request.Form.Files);
-                await BookService.ChangeBook(currentBook);
-                return RedirectToAction("Index");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, ex.Message);
-            }
+            var currentBook = await BookService.SetBookData(Mapper.Map<Book>(book), tagsId, Request.Form.Files);
+            await BookService.ChangeBook(currentBook);
+            return RedirectToAction("Index");
         }
 
         [HttpGet("Home/DeleteBook/{Id?}")]
         [Authorize(Roles = "Писатель, Администратор")]
         public async Task<IActionResult> DeleteBook(BookDTO bookDTO)
         {
+            await BookService.DeleteBookFiles(bookDTO.Id);
             await BookRepository.DeleteBook(Mapper.Map<Book>(bookDTO));
             return RedirectToAction("Index", "Book");
         }
@@ -254,7 +246,7 @@ namespace Books.WebAPI.Controllers
                     await Response.BodyWriter.WriteAsync(buffer);
                 }
                 else
-                    Response.StatusCode = 500;
+                    throw new Exception("Книга не найдена");
             }
         }
 
@@ -262,6 +254,11 @@ namespace Books.WebAPI.Controllers
         {
             var book = await BookRepository.GetPopularBook();
             return View(Mapper.Map<List<BookDTO>>(book));
+        }
+
+        public IActionResult Error()
+        {
+            return View("~/Views/Shared/Error.cshtml");
         }
     }
 }
